@@ -68,6 +68,8 @@
     <a href="<%= request.getContextPath() %>/listUsers">list etudiant</a>
     <a href="addInscription.jsp">Ajouter une inscription</a>
     <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Lister les inscriptions</a>
+    <a href="AddResultat.jsp">Ajouter un Resultat</a>
+    <a href="<%= request.getContextPath() %>/listResultats">Lister les Resultats</a>
 </nav>
 
 <h1>Gestion des utilisateurs et des inscriptions</h1>
