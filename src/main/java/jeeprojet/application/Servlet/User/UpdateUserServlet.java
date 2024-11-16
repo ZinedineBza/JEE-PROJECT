@@ -58,6 +58,6 @@ public class UpdateUserServlet extends HttpServlet {
         String email = request.getParameter("email");
         Utilisateur existingUser = utilisateurDAO.findById(email);
         request.setAttribute("user", existingUser);
-        request.getRequestDispatcher("User/updateUser.jsp").forward(request, response);
+        request.getRequestDispatcher("updateUser.jsp").forward(request, response);
     }
 }

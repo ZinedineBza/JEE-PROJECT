@@ -88,7 +88,7 @@ public class CreateUserServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("User/createUser.jsp").forward(request, response);
+        request.getRequestDispatcher("createUser.jsp").forward(request, response);
     }
 
 
