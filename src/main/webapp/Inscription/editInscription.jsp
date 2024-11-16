@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>Modifier une Inscription</h1>
-<form action="InscriptionServlet" method="post">
+<form action="EditInscriptionServlet" method="post">
     <input type="hidden" name="id" value="${inscription.id}">
 
     <label for="etudiantEmail">Email de l'Etudiant :</label>

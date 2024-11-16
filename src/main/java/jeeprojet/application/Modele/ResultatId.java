@@ -58,4 +58,12 @@ public class ResultatId implements java.io.Serializable {
         return Objects.hash(date, cours, etudiant);
     }
 
+    @Override
+    public String toString() {
+        return "ResultatId{" +
+                "etudiant='" + etudiant + '\'' +
+                ", cours='" + cours + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }

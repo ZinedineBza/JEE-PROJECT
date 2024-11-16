@@ -9,12 +9,12 @@ public class Resultat {
     private ResultatId id;
 
     @MapsId("etudiant")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "etudiant", nullable = false)
     private Utilisateur etudiant;
 
     @MapsId("cours")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "cours", nullable = false)
     private Matiere cours;
 
@@ -63,6 +63,17 @@ public class Resultat {
 
     public void setCommentaire(String commentaire) {
         this.commentaire = commentaire;
+    }
+
+    @Override
+    public String toString() {
+        return "Resultat{" +
+                "id=" + id +  // Affiche l'ID composite
+                ", etudiant=" + (etudiant != null ? etudiant.getNom() : "Non spécifié") +  // Affiche le nom de l'étudiant
+                ", cours=" + (cours != null ? cours.getNom() : "Non spécifié") +  // Affiche le nom du cours
+                ", note=" + note +
+                ", commentaire='" + commentaire + '\'' +
+                '}';
     }
 
 }

@@ -40,7 +40,7 @@ public class AddResultatServlet extends HttpServlet {
             return;
         }
 
-        try {
+
             // Convertir la note en Float
             Float note = Float.parseFloat(noteStr);
             System.out.println("note: " + note);
@@ -77,25 +77,15 @@ public class AddResultatServlet extends HttpServlet {
             resultat.setEtudiant(etudiant); // Assigner l'étudiant
             resultat.setCours(cours); // Assigner le cours
             resultat.setNote(note); // Assigner la note
-            resultat.setCommentaire(commentaire); // Assigner le commentaire
+        resultat.setCommentaire(commentaire); // Assigner le commentaire
 
             // Affichage de l'objet Resultat pour débogage
-            System.out.println("Objet Resultat créé: " + resultat);
-
+        System.out.println("Objet Resultat créé: " + resultat);
             // Sauvegarder l'objet Resultat dans la base de données
-            ResultatDAO resultatDAO = new ResultatDAO();
-            resultatDAO.save(resultat);
+        ResultatDAO resultatDAO = new ResultatDAO();
+        resultatDAO.save(resultat);
+        response.sendRedirect("listResultats");
 
-            // Réponse de succès
-            response.getWriter().write("Résultat ajouté avec succès.");
-        } catch (NumberFormatException e) {
-            // Gérer l'erreur de conversion de la note
-            response.getWriter().write("Erreur : La note n'est pas valide.");
-            System.out.println("Erreur de conversion de la note: " + noteStr);
-        } catch (Exception e) {
-            // Gérer toute autre erreur
-            e.printStackTrace();
-            response.getWriter().write("Erreur : Un problème est survenu lors de l'ajout du résultat.");
-        }
+
     }
 }

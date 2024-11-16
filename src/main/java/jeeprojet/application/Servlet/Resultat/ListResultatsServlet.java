@@ -19,8 +19,12 @@ public class ListResultatsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ResultatDAO resultatDAO = new ResultatDAO();
         List<Resultat> resultats = resultatDAO.getAll();
+
+        // Debugging : afficher la taille de la liste pour vérifier
+        System.out.println("Nombre de résultats récupérés: " + resultats.size());
+
         request.setAttribute("resultats", resultats);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("listResultats.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("Resultat/ResultatList.jsp").forward(request, response);
     }
 }
+

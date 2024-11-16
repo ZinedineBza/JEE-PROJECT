@@ -28,6 +28,6 @@
     </c:forEach>
     </tbody>
 </table>
-<a href="addInscription.jsp">Ajouter une Inscription</a>
+<a href="Inscription/addInscription.jsp">Ajouter une Inscription</a>
 </body>
 </html>

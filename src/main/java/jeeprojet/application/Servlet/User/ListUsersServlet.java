@@ -32,6 +32,6 @@ public class ListUsersServlet extends HttpServlet {
             LOGGER.warning("No users found");
         }
         request.setAttribute("listUsers", listUsers);
-        request.getRequestDispatcher("listUsers.jsp").forward(request, response);
+        request.getRequestDispatcher("User/listUsers.jsp").forward(request, response);
     }
 }

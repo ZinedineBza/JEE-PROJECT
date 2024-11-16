@@ -88,8 +88,10 @@ public class CreateUserServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("createUser.jsp").forward(request, response);
+        request.getRequestDispatcher("User/createUser.jsp").forward(request, response);
     }
+
+
 private boolean isPasswordSecure(String password) {
     if (password == null || password.length() < 8) {
         return false;
