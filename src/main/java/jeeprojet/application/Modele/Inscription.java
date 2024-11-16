@@ -15,7 +15,7 @@ public class Inscription {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cours")
-    private Matiere cours;
+        private Matiere cours;
 
     public InscriptionId getId() {
         return id;
@@ -37,8 +37,18 @@ public class Inscription {
         return cours;
     }
 
+
     public void setCours(Matiere cours) {
         this.cours = cours;
     }
+    @Override
+    public String toString() {
+        return "Inscription{" +
+                "id=" + id +
+                ", etudiant=" + (etudiant != null ? etudiant.getNom() + " " + etudiant.getPrenom() : "N/A") +
+                ", cours=" + (cours != null ? cours.getNom() : "N/A") +
+                '}';
+    }
+
 
 }
