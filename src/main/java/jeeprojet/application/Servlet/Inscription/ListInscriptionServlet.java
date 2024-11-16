@@ -28,6 +28,6 @@ public class ListInscriptionServlet extends HttpServlet {
         List<Inscription> inscriptions = inscriptionDAO.findAll();
         System.out.println(inscriptions);
         request.setAttribute("inscriptions", inscriptions);
-        request.getRequestDispatcher("listInscription.jsp").forward(request, response);
+        request.getRequestDispatcher("Inscription/listInscription.jsp").forward(request, response);
     }
 }

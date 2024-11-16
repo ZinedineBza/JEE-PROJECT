@@ -17,7 +17,7 @@ public class ResultatId implements java.io.Serializable {
     private String cours;
 
     @Column(name = "date", nullable = false)
-    private LocalDate date;
+    private String date;
 
     public String getEtudiant() {
         return etudiant;
@@ -35,11 +35,11 @@ public class ResultatId implements java.io.Serializable {
         this.cours = cours;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -58,4 +58,12 @@ public class ResultatId implements java.io.Serializable {
         return Objects.hash(date, cours, etudiant);
     }
 
+    @Override
+    public String toString() {
+        return "ResultatId{" +
+                "etudiant='" + etudiant + '\'' +
+                ", cours='" + cours + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }

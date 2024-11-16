@@ -34,6 +34,6 @@
     </tr>
   </c:forEach>
 </table>
-<a href="createUser">Créer un nouvel utilisateur</a>
+<a href="User/createUser">Créer un nouvel utilisateur</a>
 </body>
 </html>

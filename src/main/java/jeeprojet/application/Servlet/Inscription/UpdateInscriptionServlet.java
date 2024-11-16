@@ -40,7 +40,7 @@ public class UpdateInscriptionServlet extends HttpServlet {
             response.sendRedirect("ListInscriptionServlet");
         } else {
             request.setAttribute("error", "Impossible de mettre à jour l'inscription.");
-            request.getRequestDispatcher("editInscription.jsp").forward(request, response);
+            request.getRequestDispatcher("Inscription/editInscription.jsp").forward(request, response);
         }
     }
 }

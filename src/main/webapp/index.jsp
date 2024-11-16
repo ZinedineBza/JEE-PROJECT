@@ -64,10 +64,12 @@
 </header>
 
 <nav>
-    <a href="createUser.jsp">Créer un étudiant</a>
-    <a href="listUsers.jsp">Lister les étudiants</a>
-    <a href="addInscription.jsp">Ajouter une inscription</a>
+    <a href="User/createUser.jsp">Créer un étudiant</a>
+    <a href="<%= request.getContextPath() %>/listUsers">list etudiant</a>
+    <a href="Inscription/addInscription.jsp">Ajouter une inscription</a>
     <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Lister les inscriptions</a>
+    <a href="Resultat/AddResultat.jsp">Ajouter un Resultat</a>
+    <a href="<%= request.getContextPath() %>/listResultats">Lister les Resultats</a>
 </nav>
 
 <h1>Gestion des utilisateurs et des inscriptions</h1>
