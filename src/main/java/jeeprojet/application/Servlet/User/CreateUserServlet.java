@@ -1,4 +1,4 @@
-package jeeprojet.application.Servlet.Etudiants;
+package jeeprojet.application.Servlet.User;
 
 
 import jakarta.servlet.ServletException;
