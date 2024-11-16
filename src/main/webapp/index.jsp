@@ -9,6 +9,6 @@
 </h1>
 <br/>
 <a href="createUser.jsp">creer etudiant</a>
-<a href="listUsers.jsp">list etudiant</a>
+<a href="<%= request.getContextPath() %>/listUsers">list etudiant</a>
 </body>
 </html>
