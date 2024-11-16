@@ -11,16 +11,16 @@ import java.util.Objects;
 public class InscriptionId implements java.io.Serializable {
     private static final long serialVersionUID = 5145270597091717023L;
     @Column(name = "dateInscription", nullable = false)
-    private LocalDate dateInscription;
+    private String dateInscription;
 
     @Column(name = "etudiant", nullable = false, length = 50)
     private String etudiant;
 
-    public LocalDate getDateInscription() {
+    public String getDateInscription() {
         return dateInscription;
     }
 
-    public void setDateInscription(LocalDate dateInscription) {
+    public void setDateInscription(String dateInscription) {
         this.dateInscription = dateInscription;
     }
 
