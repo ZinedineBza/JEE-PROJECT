@@ -1,11 +1,8 @@
 package jeeprojet.application.Servlet.Inscription;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
+import jeeprojet.application.Modele.*;
 import jeeprojet.application.Modele.DAO.InscriptionDAO;
-import jeeprojet.application.Modele.Inscription;
-import jeeprojet.application.Modele.Cour; // Vérifiez le nom exact de votre classe Cour
-import jeeprojet.application.Modele.Matiere;
-import jeeprojet.application.Modele.Utilisateur;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -25,7 +22,7 @@ public class EditInscriptionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        InscriptionId id = Integer.parseInt(request.getParameter("id"));
         Inscription inscription = inscriptionDAO.findById(id);
 
         if (inscription != null) {
