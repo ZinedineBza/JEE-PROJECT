@@ -7,11 +7,18 @@ import jeeprojet.application.Modele.Inscription;
 import jeeprojet.application.Util.HibernateUtil;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
 public class InscriptionDAO {
+    private SessionFactory sessionFactory;
+
+    public InscriptionDAO() {
+        sessionFactory = new Configuration().configure().buildSessionFactory();
+    }
 
     public Utilisateur findUtilisateurByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -31,14 +38,10 @@ public class InscriptionDAO {
 
     public void save(Inscription inscription) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(inscription);
             transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            throw e; // Propager l'exception pour qu'elle soit gérée ailleurs
-        }
     }
 
 
