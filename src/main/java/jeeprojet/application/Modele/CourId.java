@@ -12,27 +12,27 @@ import java.util.Objects;
 public class CourId implements java.io.Serializable {
     private static final long serialVersionUID = -3751021465129577899L;
     @Column(name = "date", nullable = false)
-    private LocalDate date;
+    private String date;
 
     @Column(name = "horaire", nullable = false)
-    private LocalTime horaire;
+    private String horaire;
 
     @Column(name = "enseignant", nullable = false, length = 50)
     private String enseignant;
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public LocalTime getHoraire() {
+    public String getHoraire() {
         return horaire;
     }
 
-    public void setHoraire(LocalTime horaire) {
+    public void setHoraire(String horaire) {
         this.horaire = horaire;
     }
 
