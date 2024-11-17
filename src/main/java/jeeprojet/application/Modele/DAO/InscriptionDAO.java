@@ -36,6 +36,7 @@ public class InscriptionDAO {
     }
 
 
+
     public void save(Inscription inscription) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
