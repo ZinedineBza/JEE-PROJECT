@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import jeeprojet.application.Modele.InscriptionId;
 
 @WebServlet("/UpdateInscriptionServlet")
 public class UpdateInscriptionServlet extends HttpServlet {
@@ -25,9 +26,14 @@ public class UpdateInscriptionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        String date = request.getParameter("date");
         String etudiantEmail = request.getParameter("etudiantEmail");
         String coursId = request.getParameter("coursId");
+
+        InscriptionId id = new InscriptionId();
+        id.setDateInscription(date);
+        id.setEtudiant(etudiantEmail);
+
 
         Inscription inscription = inscriptionDAO.findById(id);
         Utilisateur etudiant = inscriptionDAO.findUtilisateurByEmail(etudiantEmail);
@@ -40,7 +46,7 @@ public class UpdateInscriptionServlet extends HttpServlet {
             response.sendRedirect("ListInscriptionServlet");
         } else {
             request.setAttribute("error", "Impossible de mettre à jour l'inscription.");
-            request.getRequestDispatcher("Inscription/editInscription.jsp").forward(request, response);
+            request.getRequestDispatcher("editInscription.jsp").forward(request, response);
         }
     }
 }

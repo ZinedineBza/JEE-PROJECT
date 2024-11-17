@@ -9,17 +9,19 @@
 <table border="1">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Etudiant</th>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Email</th>
         <th>Cours</th>
-        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <c:forEach var="inscription" items="${inscriptions}">
         <tr>
-            <td>${inscription.id}</td>
+            <td>${inscription.etudiant.nom}</td>
+            <td>${inscription.etudiant.prenom}</td>
             <td>${inscription.etudiant.email}</td>
+
             <td>${inscription.cours.nom}</td>
             <td>
                 <a href="InscriptionServlet?action=edit&id=${inscription.id}">Modifier</a> |

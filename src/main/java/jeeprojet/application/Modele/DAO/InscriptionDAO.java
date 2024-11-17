@@ -1,22 +1,21 @@
 package jeeprojet.application.Modele.DAO;
 
-import jeeprojet.application.Modele.Matiere;
-import jeeprojet.application.Modele.Utilisateur;
-import jeeprojet.application.Modele.Cour;
-import jeeprojet.application.Modele.Inscription;
+import jeeprojet.application.Modele.*;
 import jeeprojet.application.Util.HibernateUtil;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InscriptionDAO {
     private SessionFactory sessionFactory;
 
-    public InscriptionDAO() {
+        public InscriptionDAO() {
         sessionFactory = new Configuration().configure().buildSessionFactory();
     }
 
@@ -29,6 +28,7 @@ public class InscriptionDAO {
     }
 
 
+
     public Matiere findCoursById(String id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.get(Matiere.class, id);
@@ -36,52 +36,53 @@ public class InscriptionDAO {
     }
 
 
+
     public void save(Inscription inscription) {
-        Transaction transaction = null;
         Session session = sessionFactory.openSession();
-            transaction = session.beginTransaction();
-            session.save(inscription);
-            transaction.commit();
-    }
+        Transaction transaction = session.beginTransaction();
+        session.save(inscription);
+        transaction.commit();
+        session.close();
+        }
+
+
+
+
 
 
     public List<Inscription> findAll() {
+        List<Inscription> users = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Inscription", Inscription.class).list();
+            Query<Inscription> query = session.createQuery("FROM Inscription ", Inscription.class);
+            users = query.getResultList();
+            System.out.println(users);
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
         }
+        return users;
     }
 
-    public Inscription findById(int id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Inscription.class, id);
-        }
+    public Inscription findById(InscriptionId id) {
+        Session session = sessionFactory.openSession();
+        Inscription inscription = session.get(Inscription.class, id);
+        session.close();
+        return inscription;
     }
 
     public void update(Inscription inscription) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.update(inscription);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            e.printStackTrace();
-        }
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(inscription);
+        transaction.commit();
+        session.close();
     }
 
     public void delete(int id) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            Inscription inscription = session.get(Inscription.class, id);
-            if (inscription != null) {
-                session.delete(inscription);
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            e.printStackTrace();
-        }
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(id);
+        transaction.commit();
+        session.close();
     }
 
 
