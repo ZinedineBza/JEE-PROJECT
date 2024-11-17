@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Modifier une Inscription</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <h1>Modifier une Inscription</h1>

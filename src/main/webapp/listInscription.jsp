@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>Liste des Inscriptions</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <h1>Liste des Inscriptions</h1>
@@ -11,7 +12,7 @@
     <tr>
         <th>Nom</th>
         <th>Prenom</th>
-        <th>Email</th>
+        <th>email</th>
         <th>Cours</th>
     </tr>
     </thead>

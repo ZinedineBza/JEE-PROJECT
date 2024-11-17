@@ -4,6 +4,7 @@
 <html>
 <head>
     <title>Confirmer la Suppression</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <h1>Êtes-vous sûr de vouloir supprimer ce Cours ?</h1>

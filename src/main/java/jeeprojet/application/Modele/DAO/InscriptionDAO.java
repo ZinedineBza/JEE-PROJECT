@@ -15,7 +15,7 @@ import java.util.List;
 public class InscriptionDAO {
     private SessionFactory sessionFactory;
 
-        public InscriptionDAO() {
+    public InscriptionDAO() {
         sessionFactory = new Configuration().configure().buildSessionFactory();
     }
 
@@ -43,7 +43,7 @@ public class InscriptionDAO {
         session.save(inscription);
         transaction.commit();
         session.close();
-        }
+    }
 
 
 
@@ -55,9 +55,8 @@ public class InscriptionDAO {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Inscription> query = session.createQuery("FROM Inscription ", Inscription.class);
             users = query.getResultList();
-            System.out.println(users);
         } catch (Exception e) {
-            e.printStackTrace(); // Pour le débogage
+            e.printStackTrace(); // Pour le dÃ©bogage
         }
         return users;
     }

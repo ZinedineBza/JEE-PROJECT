@@ -4,6 +4,7 @@
 <html>
 <head>
   <title>Modifier le Cours</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <h1>Modifier le Cours</h1>

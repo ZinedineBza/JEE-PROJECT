@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>Liste des Résultats</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <h1>Liste des Résultats</h1>

@@ -5,6 +5,7 @@
 <html>
 <head>
   <title>Liste des Cours</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <h1>Liste des Cours</h1>
@@ -27,7 +28,7 @@
       <td>${cours.nom.nom}</td> <!-- Affichage du nom de la matière -->
       <td>${cours.enseignant.nom}</td> <!-- Affichage du nom de l'enseignant -->
       <td>${cours.salle}</td>
-      <td><fmt:formatDate value="${cours.date}" pattern="yyyy-MM-dd" /></td> <!-- Utilisation de cours.date -->
+      <td>${cours.id.date}</td> <!-- Utilisation de cours.date -->
 
       <td>
         <a href="updateCourse?id=${cours.id}">Modifier</a> |
