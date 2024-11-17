@@ -4,21 +4,20 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Objects;
 
 @Embeddable
 public class CourId implements java.io.Serializable {
     private static final long serialVersionUID = -3751021465129577899L;
+
     @Column(name = "date", nullable = false)
-    private String date;
+    private String date;  // Garder String pour la date (par exemple "2024-11-16")
 
     @Column(name = "horaire", nullable = false)
-    private String horaire;
+    private String horaire;  // Garder String pour l'horaire (par exemple "14:30")
 
     @Column(name = "enseignant", nullable = false, length = 50)
-    private String enseignant;
+    private String enseignant;  // Garder String pour l'enseignant (nom ou autre identifiant)
 
     public String getDate() {
         return date;
@@ -58,5 +57,4 @@ public class CourId implements java.io.Serializable {
     public int hashCode() {
         return Objects.hash(date, horaire, enseignant);
     }
-
 }

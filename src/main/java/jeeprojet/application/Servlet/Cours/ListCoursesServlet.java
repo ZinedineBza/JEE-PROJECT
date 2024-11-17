@@ -16,10 +16,12 @@ public class ListCoursesServlet extends HttpServlet {
 
     private CoursDAO coursDAO;
 
+    @Override
     public void init() {
         coursDAO = new CoursDAO();
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupération de la liste des cours depuis la base de données
         List<Cour> listCourses = coursDAO.findAll();

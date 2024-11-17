@@ -1,66 +1,76 @@
 package jeeprojet.application.Modele.DAO;
-import jeeprojet.application.Modele.Cour;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import jeeprojet.application.Modele.Cour;
 import jeeprojet.application.Modele.CourId;
+import jeeprojet.application.Util.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import java.util.List;
 
 public class CoursDAO {
-
-    private EntityManager entityManager;
-
-    public CoursDAO() {
-        this.entityManager = Persistence.createEntityManagerFactory("jeeprojet").createEntityManager();
-    }
-
+    // Sauvegarde d'un cours
     public void save(Cour cours) {
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            transaction.begin();
-            entityManager.persist(cours);
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.save(cours);
             transaction.commit();
         } catch (Exception e) {
-            transaction.rollback();
+            if (transaction != null) transaction.rollback();
             e.printStackTrace();
         }
     }
 
+    // Recherche d'un cours par ID
     public Cour findById(CourId id) {
-        return entityManager.find(Cour.class, id);
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(Cour.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
+    // Mise à jour d'un cours
     public void update(Cour cours) {
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            transaction.begin();
-            entityManager.merge(cours);
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.update(cours);
             transaction.commit();
         } catch (Exception e) {
-            transaction.rollback();
+            if (transaction != null) transaction.rollback();
             e.printStackTrace();
         }
     }
 
+    // Suppression d'un cours
     public void delete(Cour cours) {
-        EntityTransaction transaction = entityManager.getTransaction();
-        try {
-            transaction.begin();
-            entityManager.remove(cours);
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.delete(cours);
             transaction.commit();
         } catch (Exception e) {
-            transaction.rollback();
+            if (transaction != null) transaction.rollback();
             e.printStackTrace();
         }
     }
 
     public List<Cour> findAll() {
-        return entityManager.createQuery("SELECT c FROM Cour c", Cour.class).getResultList();
+        List<Cour> cours = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // Utilisation de JOIN FETCH pour éviter LazyInitializationException
+            Query<Cour> query = session.createQuery("FROM Cour c " +
+                    "JOIN FETCH c.nom " + // Matiere
+                    "JOIN FETCH c.enseignant", Cour.class); // Utilisateur (enseignant)
+            cours = query.getResultList();
+            System.out.println(cours);
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return cours;
     }
 }

@@ -43,11 +43,18 @@ public class UtilisateurDAO {
     }
 
     public Utilisateur findById(String email) {
-        Session session = sessionFactory.openSession();
-        Utilisateur utilisateur = session.get(Utilisateur.class, email);
-        session.close();
-        return utilisateur;
+        Utilisateur user = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE email = :email", Utilisateur.class);
+            query.setParameter("email", email);
+            user = query.uniqueResult();
+            System.out.println(user);
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return user;
     }
+
 
     public List<Utilisateur> findAll() {
         List<Utilisateur> users = new ArrayList<>();
