@@ -29,7 +29,7 @@ public class CreateCourseServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupération des paramètres du formulaire
-        String enseignantPseudo = request.getParameter("enseignant");
+        String enseignantMail = request.getParameter("emailProf");
         String nomMatiere = request.getParameter("nom");
         String salle = request.getParameter("salle");
         String date = request.getParameter("date");
@@ -39,14 +39,14 @@ public class CreateCourseServlet extends HttpServlet {
         CourId coursId = new CourId();
         coursId.setDate(date);
         coursId.setHoraire(horaire);
-        coursId.setEnseignant(enseignantPseudo);
+        coursId.setEnseignant(enseignantMail);
 
         // Création de l'objet Cour
         UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
-        Utilisateur enseignant = utilisateurDAO.findById(enseignantPseudo);
+        Utilisateur enseignant = utilisateurDAO.findById(enseignantMail);
 
         if (enseignant == null) {
-            throw new ServletException("Enseignant introuvable avec le pseudo : " + enseignantPseudo);
+            throw new ServletException("Enseignant introuvable avec le mail : " + enseignantMail);
         }
 
         Matiere matiere = new Matiere();  // Il faudra également charger la Matière en fonction du nom depuis la base.

@@ -8,17 +8,20 @@
 <body>
 <h1>Ajouter un nouveau Cours</h1>
 <form action="createCourse" method="post">
-    <label for="nom">Nom du Cours:</label>
+    <label for="emailProf">Email du Professeur:</label>
+    <input type="email" name="emailProf" id="emailProf" required/><br/><br/>
+
+    <label for="nom">Nom de la Matière:</label>
     <input type="text" name="nom" id="nom" required/><br/><br/>
 
-    <label for="description">Description:</label>
-    <textarea name="description" id="description" required></textarea><br/><br/>
+    <label for="salle">Salle:</label>
+    <input type="text" name="salle" id="salle" required/><br/><br/>
 
-    <label for="dateDebut">Date de Début:</label>
-    <input type="date" name="dateDebut" id="dateDebut" required/><br/><br/>
+    <label for="date">Date:</label>
+    <input type="date" name="date" id="date" required/><br/><br/>
 
-    <label for="dateFin">Date de Fin:</label>
-    <input type="date" name="dateFin" id="dateFin" required/><br/><br/>
+    <label for="horaire">Horaire:</label>
+    <input type="time" name="horaire" id="horaire" required/><br/><br/>
 
     <button type="submit">Ajouter le Cours</button>
 </form>
