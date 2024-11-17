@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <title>Liste des Utilisateurs</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <h1>Liste des Utilisateurs</h1>
 <table border="1">
   <tr>
-    <th>Pseudo</th>
     <th>Mot de Passe</th>
     <th>Role</th>
     <th>Nom</th>
     <th>Prenom</th>
     <th>Date de Naissance</th>
     <th>Email</th>
-    <th>Actions</th>
+    <th>Modification</th>
+    <th>Suppression</th>
   </tr>
   <c:forEach var="user" items="${listUsers}">
     <tr>
-      <td>${user.pseudo}</td>
       <td>${user.motDePasse}</td>
       <td>${user.role}</td>
       <td>${user.nom}</td>
@@ -29,6 +29,8 @@
       <td>${user.email}</td>
       <td>
         <a href="updateUser?email=${user.email}">Modifier</a>
+      </td>
+      <td>
         <a href="deleteUser?email=${user.email}">Supprimer</a>
       </td>
     </tr>

@@ -12,9 +12,6 @@ public class Utilisateur {
     @Column(name = "email", nullable = false, length = 50)
     private String email;
 
-    @Column(name = "pseudo", nullable = false, length = 50)
-    private String pseudo;
-
     @Column(name = "motDePasse", nullable = false, length = 100)
     private String motDePasse;
 
@@ -48,14 +45,6 @@ public class Utilisateur {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPseudo() {
-        return pseudo;
-    }
-
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
     }
 
     public String getMotDePasse() {
@@ -133,7 +122,6 @@ public class Utilisateur {
     @Override
     public String toString() {
         return "Utilisateur{" +
-                "pseudo='" + pseudo + '\'' +
                 ", motDePasse='" + motDePasse + '\'' +
                 ", role='" + role + '\'' +
                 ", nom='" + nom + '\'' +

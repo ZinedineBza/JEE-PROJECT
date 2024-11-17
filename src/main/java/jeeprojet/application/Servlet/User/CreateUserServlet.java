@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jeeprojet.application.Modele.DAO.UtilisateurDAO;
 import jeeprojet.application.Modele.Utilisateur;
-import org.hibernate.resource.beans.container.spi.BeanLifecycleStrategy;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -27,7 +26,6 @@ public class CreateUserServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String pseudo = request.getParameter("pseudo");
         String motDePasse = request.getParameter("motDePasse");
         String role = request.getParameter("role");
         String nom = request.getParameter("nom");
@@ -38,9 +36,6 @@ public class CreateUserServlet extends HttpServlet {
         Map<String, String> errors = new HashMap<>();
 
         // Validation des données
-        if (pseudo == null || pseudo.trim().isEmpty()) {
-            errors.put("pseudo", "Le pseudo est obligatoire.");
-        }
         if (motDePasse == null || motDePasse.trim().isEmpty()) {
             errors.put("motDePasse", "Le mot de passe est obligatoire.");
         } else if (!isPasswordSecure(motDePasse)){
@@ -55,9 +50,10 @@ public class CreateUserServlet extends HttpServlet {
         if (prenom == null || prenom.trim().isEmpty()) {
             errors.put("prenom","Le prenom est obligatoire.");
         }
-
         if (email == null || email.trim().isEmpty()) {
             errors.put("email", "L'email est obligatoire.");
+        }else if (utilisateurDAO.emailExists(email)) {
+            errors.put("email", "Cet email est déjà utilisé.");
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateNaissance = null;
@@ -69,12 +65,11 @@ public class CreateUserServlet extends HttpServlet {
 
         if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);
-            request.getRequestDispatcher("createUser.jsp").forward(request, response);
+            request.getRequestDispatcher("createEtudiant.jsp").forward(request, response);
             return;
         }
 
         Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setPseudo(pseudo);
         utilisateur.setMotDePasse(motDePasse);
         utilisateur.setRole(role);
         utilisateur.setNom(nom);
@@ -88,7 +83,7 @@ public class CreateUserServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("createUser.jsp").forward(request, response);
+        request.getRequestDispatcher("createEtudiant.jsp").forward(request, response);
     }
 
 

@@ -3,7 +3,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jeeprojet.application.Modele.DAO.InscriptionDAO;
 import jeeprojet.application.Modele.Inscription;
-import jeeprojet.application.Modele.Cour; // Vérifiez le nom exact de votre classe Cour
+import jeeprojet.application.Modele.Cour;
 import jeeprojet.application.Modele.Matiere;
 import jeeprojet.application.Modele.Utilisateur;
 import jakarta.servlet.ServletException;
@@ -26,8 +26,7 @@ public class ListInscriptionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Inscription> inscriptions = inscriptionDAO.findAll();
-        System.out.println(inscriptions);
         request.setAttribute("inscriptions", inscriptions);
-        request.getRequestDispatcher("Inscription/listInscription.jsp").forward(request, response);
+        request.getRequestDispatcher("listInscription.jsp").forward(request, response);
     }
 }

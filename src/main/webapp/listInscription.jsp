@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Liste des Inscriptions</title>
@@ -28,6 +29,6 @@
     </c:forEach>
     </tbody>
 </table>
-<a href="Inscription/addInscription.jsp">Ajouter une Inscription</a>
+<a href="addInscription.jsp">Ajouter une Inscription</a>
 </body>
 </html>
