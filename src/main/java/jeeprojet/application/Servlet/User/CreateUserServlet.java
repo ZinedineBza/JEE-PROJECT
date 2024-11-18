@@ -1,6 +1,5 @@
 package jeeprojet.application.Servlet.User;
 
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -8,12 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jeeprojet.application.Modele.DAO.UtilisateurDAO;
 import jeeprojet.application.Modele.Utilisateur;
-import org.hibernate.resource.beans.container.spi.BeanLifecycleStrategy;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,14 +17,16 @@ import java.util.Map;
 public class CreateUserServlet extends HttpServlet {
 
     private UtilisateurDAO utilisateurDAO;
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final String SPECIAL_CHARACTERS = "!@#$%^&*()_-+=<>?/{}~|";
+    private static final int PSEUDO_LENGTH = 8;
+    private static final int PASSWORD_LENGTH = 12;
 
     public void init() {
         utilisateurDAO = new UtilisateurDAO();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String pseudo = request.getParameter("pseudo");
-        String motDePasse = request.getParameter("motDePasse");
         String role = request.getParameter("role");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
@@ -38,40 +36,32 @@ public class CreateUserServlet extends HttpServlet {
         Map<String, String> errors = new HashMap<>();
 
         // Validation des données
-        if (pseudo == null || pseudo.trim().isEmpty()) {
-            errors.put("pseudo", "Le pseudo est obligatoire.");
-        }
-        if (motDePasse == null || motDePasse.trim().isEmpty()) {
-            errors.put("motDePasse", "Le mot de passe est obligatoire.");
-        } else if (!isPasswordSecure(motDePasse)){
-            errors.put("motDePasee", "Le mot de passe est pas assez sécurisé.");
-        }
         if (role == null || role.trim().isEmpty()) {
-            errors.put("role", "Le role est obligatoire.");
+            errors.put("role", "Le rôle est obligatoire.");
         }
         if (nom == null || nom.trim().isEmpty()) {
             errors.put("nom", "Le nom est obligatoire.");
         }
         if (prenom == null || prenom.trim().isEmpty()) {
-            errors.put("prenom","Le prenom est obligatoire.");
+            errors.put("prenom", "Le prénom est obligatoire.");
         }
-
         if (email == null || email.trim().isEmpty()) {
             errors.put("email", "L'email est obligatoire.");
+        } else if (utilisateurDAO.emailExists(email)) {
+            errors.put("email", "Cet email est déjà utilisé.");
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateNaissance = null;
-        try {
-            dateNaissance = dateFormat.parse(dateNaissanceStr);
-        } catch (ParseException e) {
+        if (dateNaissanceStr == null || dateNaissanceStr.trim().isEmpty()) {
             errors.put("dateNaissance", "La date de naissance n'est pas valide.");
         }
 
         if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);
-            request.getRequestDispatcher("createUser.jsp").forward(request, response);
+            request.getRequestDispatcher("Admin/createEtudiant.jsp").forward(request, response);
             return;
         }
+
+        String pseudo = generatePseudo(prenom,nom);
+        String motDePasse = generateSecurePassword();
 
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setPseudo(pseudo);
@@ -79,7 +69,7 @@ public class CreateUserServlet extends HttpServlet {
         utilisateur.setRole(role);
         utilisateur.setNom(nom);
         utilisateur.setPrenom(prenom);
-        utilisateur.setDateNaissance(dateNaissance);
+        utilisateur.setDateNaissance(dateNaissanceStr);
         utilisateur.setEmail(email);
 
         utilisateurDAO.save(utilisateur);
@@ -88,31 +78,35 @@ public class CreateUserServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("createUser.jsp").forward(request, response);
-    }
-private boolean isPasswordSecure(String password) {
-    if (password == null || password.length() < 8) {
-        return false;
+        request.getRequestDispatcher("Admin/createEtudiant.jsp").forward(request, response);
     }
 
-    boolean hasUppercase = false;
-    boolean hasLowercase = false;
-    boolean hasDigit = false;
-    boolean hasSpecialChar = false;
-    String specialChars = "!@#$%^&*()_-+=<>?/{}~|";
+    private String generatePseudo(String prenom, String nom) {
+        String basePseudo = prenom.substring(0, 1) + nom.substring(0, Math.min(5, nom.length())).toLowerCase();
+        String pseudo = basePseudo;
+        int count = 1;
 
-    for (char c : password.toCharArray()) {
-        if (Character.isUpperCase(c)) {
-            hasUppercase = true;
-        } else if (Character.isLowerCase(c)) {
-            hasLowercase = true;
-        } else if (Character.isDigit(c)) {
-            hasDigit = true;
-        } else if (specialChars.indexOf(c) >= 0) {
-            hasSpecialChar = true;
+        while (utilisateurDAO.pseudoExists(pseudo)) {
+            pseudo = basePseudo + count;
+            count++;
         }
+
+        return pseudo;
     }
 
-    return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
-}
+    private String generateSecurePassword() {
+        String password = generateRandomString(PASSWORD_LENGTH - 2);
+        password += SPECIAL_CHARACTERS.charAt(new SecureRandom().nextInt(SPECIAL_CHARACTERS.length()));
+        password += SPECIAL_CHARACTERS.charAt(new SecureRandom().nextInt(SPECIAL_CHARACTERS.length()));
+        return password;
+    }
+
+    private String generateRandomString(int length) {
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+        }
+        return sb.toString();
+    }
 }

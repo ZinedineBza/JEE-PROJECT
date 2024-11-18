@@ -26,28 +26,18 @@ public class UpdateUserServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
-        String pseudo = request.getParameter("pseudo");
         String motDePasse = request.getParameter("motDePasse");
         String role = request.getParameter("role");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String dateNaissanceStr = request.getParameter("dateNaissance");
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateNaissance = null;
-        try {
-            dateNaissance = dateFormat.parse(dateNaissanceStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
         Utilisateur utilisateur = utilisateurDAO.findById(email);
-        utilisateur.setPseudo(pseudo);
         utilisateur.setMotDePasse(motDePasse);
         utilisateur.setRole(role);
         utilisateur.setNom(nom);
         utilisateur.setPrenom(prenom);
-        utilisateur.setDateNaissance(dateNaissance);
+        utilisateur.setDateNaissance(dateNaissanceStr);
 
         utilisateurDAO.update(utilisateur);
 
