@@ -24,7 +24,8 @@ public class ListUsersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Utilisateur> listUsers = utilisateurDAO.findAll();
         request.setAttribute("listUsers", listUsers);
-        request.getRequestDispatcher("listUsers.jsp").forward(request, response);
+        request.getRequestDispatcher("Admin/listUsers.jsp").forward(request, response);
+
     }
 }
 

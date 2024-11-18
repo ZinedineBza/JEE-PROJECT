@@ -2,11 +2,11 @@
 <html>
 <head>
     <title>Modifier une Inscription</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
 </head>
 <body>
 <h1>Modifier une Inscription</h1>
-<form action="EditInscriptionServlet" method="post">
+<form action="<%= request.getContextPath() %>/EditInscriptionServlet" method="post">
     <input type="hidden" name="id" value="${inscription.id}">
 
     <label for="etudiantEmail">Email de l'Etudiant :</label>

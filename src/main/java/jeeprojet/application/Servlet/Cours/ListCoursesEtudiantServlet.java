@@ -11,8 +11,8 @@ import jeeprojet.application.Modele.Cour;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/listCourses")
-public class ListCoursesServlet extends HttpServlet {
+@WebServlet("/listCoursEtudiant")
+public class ListCoursesEtudiantServlet extends HttpServlet {
 
     private CoursDAO coursDAO;
 
@@ -30,6 +30,6 @@ public class ListCoursesServlet extends HttpServlet {
         request.setAttribute("listCourses", listCourses);
 
         // Redirection vers la page JSP pour afficher les cours
-        request.getRequestDispatcher("Admin/listCourses.jsp").forward(request, response);
+        request.getRequestDispatcher("Etudiant/index.jsp").forward(request, response);
     }
 }

@@ -27,6 +27,6 @@ public class ListInscriptionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Inscription> inscriptions = inscriptionDAO.findAll();
         request.setAttribute("inscriptions", inscriptions);
-        request.getRequestDispatcher("listInscription.jsp").forward(request, response);
+        request.getRequestDispatcher("Admin/listInscription.jsp").forward(request, response);
     }
 }

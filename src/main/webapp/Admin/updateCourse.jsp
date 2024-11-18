@@ -4,11 +4,11 @@
 <html>
 <head>
   <title>Modifier le Cours</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="../css/styles.css">
 </head>
 <body>
 <h1>Modifier le Cours</h1>
-<form action="updateCourse" method="post">
+<form action="<%= request.getContextPath() %>/updateCourse" method="post">
   <input type="hidden" name="id" value="${course.id}"/>
 
   <label for="nom">Nom du Cours:</label>

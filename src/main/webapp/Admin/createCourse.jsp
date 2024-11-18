@@ -4,11 +4,11 @@
 <html>
 <head>
     <title>Créer un Cours</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
 </head>
 <body>
 <h1>Ajouter un nouveau Cours</h1>
-<form action="createCourse" method="post">
+<form action="<%= request.getContextPath() %>/createCourse" method="post">
     <label for="emailProf">Email du Professeur:</label>
     <input type="email" name="emailProf" id="emailProf" required/><br/><br/>
 

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Créer Enseignant</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
 </head>
 <body>
 
@@ -22,7 +22,7 @@
         </div>
     </c:if>
 
-    <form action="createUser" method="post">
+    <form action="<%= request.getContextPath() %>/createUser" method="post">
         <input type="hidden" name="role" id="role" value="enseignant" required>
 
         <div class="form-group">

@@ -56,7 +56,7 @@ public class CreateUserServlet extends HttpServlet {
 
         if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);
-            request.getRequestDispatcher("createEtudiant.jsp").forward(request, response);
+            request.getRequestDispatcher("Admin/createEtudiant.jsp").forward(request, response);
             return;
         }
 
@@ -78,7 +78,7 @@ public class CreateUserServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("createEtudiant.jsp").forward(request, response);
+        request.getRequestDispatcher("Admin/createEtudiant.jsp").forward(request, response);
     }
 
     private String generatePseudo(String prenom, String nom) {

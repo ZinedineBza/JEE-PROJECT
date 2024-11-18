@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier Etudiant</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
     <script>
         // Fonction pour alterner la visibilité du mot de passe
         function togglePassword() {
@@ -44,7 +44,7 @@
         </div>
     </c:if>
 
-    <form action="updateUser" method="post">
+    <form action="<%= request.getContextPath() %>/updateUser" method="post">
         <div class="form-group">
             <label for="motDePasse">Mot de Passe:</label>
             <input type="password" name="motDePasse" id="motDePasse" value="${user.motDePasse}" required>
@@ -78,7 +78,7 @@
         </div>
     </form>
 
-    <h1><a href="listUsers">Retour à la liste des utilisateurs</a></h1>
+    <h1><a href="<%= request.getContextPath() %>/listUsers">Retour à la liste des utilisateurs</a></h1>
 </div>
 </body>
 </html>

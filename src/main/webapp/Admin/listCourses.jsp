@@ -5,7 +5,7 @@
 <html>
 <head>
   <title>Liste des Cours</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1>Liste des Cours</h1>
@@ -25,20 +25,20 @@
   <c:forEach var="cours" items="${listCourses}">
     <tr>
       <td>${cours.id}</td>
-      <td>${cours.nom.nom}</td> <!-- Affichage du nom de la matière -->
-      <td>${cours.enseignant.nom}</td> <!-- Affichage du nom de l'enseignant -->
+      <td>${cours.nom.nom}</td>
+      <td>${cours.enseignant.nom}</td>
       <td>${cours.salle}</td>
-      <td>${cours.id.date}</td> <!-- Utilisation de cours.date -->
+      <td>${cours.id.date}</td>
 
       <td>
-        <a href="updateCourse?id=${cours.id}">Modifier</a> |
-        <a href="deleteCourse?id=${cours.id}">Supprimer</a>
+        <a href="<%= request.getContextPath() %>/updateCourse?id=${cours.id}">Modifier</a> |
+        <a href="<%= request.getContextPath() %>/deleteCourse?id=${cours.id}">Supprimer</a>
       </td>
     </tr>
   </c:forEach>
   </tbody>
 </table>
 <br/>
-<a href="createCourse">Ajouter un nouveau Cours</a>
+<a href="<%= request.getContextPath() %>/createCourse">Ajouter un nouveau Cours</a>
 </body>
 </html>

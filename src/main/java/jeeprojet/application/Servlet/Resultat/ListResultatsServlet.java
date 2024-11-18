@@ -24,7 +24,7 @@ public class ListResultatsServlet extends HttpServlet {
         System.out.println("Nombre de résultats récupérés: " + resultats.size());
 
         request.setAttribute("resultats", resultats);
-        request.getRequestDispatcher("Resultat/ResultatList.jsp").forward(request, response);
+        request.getRequestDispatcher("Admin/ResultatList.jsp").forward(request, response);
     }
 }
 

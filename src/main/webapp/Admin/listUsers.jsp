@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Liste des Utilisateurs</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1>Liste des Utilisateurs</h1>
@@ -30,10 +30,10 @@
       <td>${user.dateNaissance}</td>
       <td>${user.email}</td>
       <td>
-        <a href="updateUser?email=${user.email}">Modifier</a>
+        <a href="<%= request.getContextPath() %>/updateUser?email=${user.email}">Modifier</a>
       </td>
       <td>
-        <a href="deleteUser?email=${user.email}">Supprimer</a>
+        <a href="<%= request.getContextPath() %>/deleteUser?email=${user.email}">Supprimer</a>
       </td>
     </tr>
   </c:forEach>

@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Liste des Inscriptions</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1>Liste des Inscriptions</h1>
