@@ -32,26 +32,12 @@ public class UpdateUserServlet extends HttpServlet {
         String prenom = request.getParameter("prenom");
         String dateNaissanceStr = request.getParameter("dateNaissance");
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Date dateNaissance = null;
-        try {
-            dateNaissance = dateFormat.parse(dateNaissanceStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        // Convertir la date au format YYYY-MM-DD
-        String formattedDate = dateFormat.format(dateNaissance);
-
-        // Passer la date formatée à la JSP
-        request.setAttribute("formattedDate", formattedDate);
-
         Utilisateur utilisateur = utilisateurDAO.findById(email);
         utilisateur.setMotDePasse(motDePasse);
         utilisateur.setRole(role);
         utilisateur.setNom(nom);
         utilisateur.setPrenom(prenom);
-        utilisateur.setDateNaissance(dateNaissance);
+        utilisateur.setDateNaissance(dateNaissanceStr);
 
         utilisateurDAO.update(utilisateur);
 

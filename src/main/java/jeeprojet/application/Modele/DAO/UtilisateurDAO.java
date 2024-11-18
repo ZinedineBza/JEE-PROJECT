@@ -82,4 +82,19 @@ public class UtilisateurDAO {
         }
         return exists;
     }
+    public boolean pseudoExists(String pseudo) {
+        boolean exists = false;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Long> query = session.createQuery("SELECT COUNT(u) FROM Utilisateur u WHERE u.pseudo = :pseudo", Long.class);
+            query.setParameter("pseudo", pseudo);
+            Long count = query.uniqueResult();
+            if (count != null && count > 0) {
+                exists = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return exists;
+    }
+
 }

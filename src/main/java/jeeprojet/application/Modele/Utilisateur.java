@@ -1,6 +1,7 @@
 package jeeprojet.application.Modele;
 
 import javax.persistence.*;
+import java.sql.PseudoColumnUsage;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -8,6 +9,8 @@ import java.util.Set;
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur {
+    @Column(name = "pseudo", nullable = false, length = 20)
+    private String pseudo;
     @Id
     @Column(name = "email", nullable = false, length = 50)
     private String email;
@@ -25,7 +28,7 @@ public class Utilisateur {
     private String prenom;
 
     @Column(name = "dateNaissance")
-    private Date dateNaissance;
+    private String dateNaissance;
 
     @OneToMany(mappedBy = "enseignant")
     private Set<Cour> cours = new LinkedHashSet<>();
@@ -39,6 +42,13 @@ public class Utilisateur {
     @OneToMany(mappedBy = "etudiant")
     private Set<Resultat> resultats = new LinkedHashSet<>();
 
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
     public String getEmail() {
         return email;
     }
@@ -79,11 +89,11 @@ public class Utilisateur {
         this.prenom = prenom;
     }
 
-    public Date getDateNaissance() {
+    public String getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setDateNaissance(Date dateNaissance) {
+    public void setDateNaissance(String dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
 

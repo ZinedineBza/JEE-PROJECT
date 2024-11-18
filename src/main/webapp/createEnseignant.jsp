@@ -23,11 +23,6 @@
     </c:if>
 
     <form action="createUser" method="post">
-        <div class="form-group">
-            <label for="motDePasse">Mot de Passe:</label>
-            <input type="password" name="motDePasse" id="motDePasse" required>
-        </div>
-
         <input type="hidden" name="role" id="role" value="enseignant" required>
 
         <div class="form-group">

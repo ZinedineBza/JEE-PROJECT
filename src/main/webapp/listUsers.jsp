@@ -10,6 +10,7 @@
 <h1>Liste des Utilisateurs</h1>
 <table border="1">
   <tr>
+    <th>Pseudo</th>
     <th>Mot de Passe</th>
     <th>Role</th>
     <th>Nom</th>
@@ -21,6 +22,7 @@
   </tr>
   <c:forEach var="user" items="${listUsers}">
     <tr>
+      <td>${user.pseudo}</td>
       <td>${user.motDePasse}</td>
       <td>${user.role}</td>
       <td>${user.nom}</td>
@@ -36,6 +38,6 @@
     </tr>
   </c:forEach>
 </table>
-<a href="User/createUser">Créer un nouvel utilisateur</a>
+<a href="createUser">Créer un nouvel utilisateur</a>
 </body>
 </html>

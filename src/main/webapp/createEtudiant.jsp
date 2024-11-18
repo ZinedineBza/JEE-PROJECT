@@ -21,26 +21,21 @@
 </c:if>
 
 <form action="createUser" method="post">
-    <div class="form-group">
-        <label for="motDePasse">Mot de Passe:</label>
-        <input type="password" name="motDePasse" id="motDePasse" required>
-    </div>
-
-    <input type="hidden" name="role" id="role" value="enseignant" required>
+    <input type="hidden" name="role" id="role" value="etudiant" required>
 
     <div class="form-group">
         <label for="nom">Nom:</label>
-        <input type="text" name="nom" id="nom" value="${param.nom}">
+        <input type="text" name="nom" id="nom" value="${param.nom}" required>
     </div>
 
     <div class="form-group">
         <label for="prenom">Prenom:</label>
-        <input type="text" name="prenom" id="prenom" value="${param.prenom}">
+        <input type="text" name="prenom" id="prenom" value="${param.prenom}" required>
     </div>
 
     <div class="form-group">
         <label for="dateNaissance">Date de Naissance:</label>
-        <input type="date" name="dateNaissance" id="dateNaissance" value="${param.dateNaissance}">
+        <input type="date" name="dateNaissance" id="dateNaissance" value="${param.dateNaissance}" required>
     </div>
 
     <div class="form-group">
