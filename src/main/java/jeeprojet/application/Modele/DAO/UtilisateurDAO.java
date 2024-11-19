@@ -97,4 +97,18 @@ public class UtilisateurDAO {
         return exists;
     }
 
+    public Utilisateur findByPseudo(String pseudo) {
+        Utilisateur user = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // Requête HQL pour rechercher un utilisateur par pseudo
+            Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE pseudo = :pseudo", Utilisateur.class);
+            query.setParameter("pseudo", pseudo);
+            user = query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return user;
+    }
+
+
 }
