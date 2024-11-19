@@ -26,6 +26,7 @@ public class ListCoursesServlet extends HttpServlet {
         // Récupération de la liste des cours depuis la base de données
         List<Cour> listCourses = coursDAO.findAll();
 
+
         // Ajout de la liste des cours comme attribut de la requête
         request.setAttribute("listCourses", listCourses);
 

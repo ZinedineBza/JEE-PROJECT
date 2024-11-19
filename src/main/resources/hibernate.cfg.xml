@@ -16,8 +16,8 @@
 
         <!-- Configuration de la session -->
         <property name="hibernate.hbm2ddl.auto">update</property>
-        <property name="hibernate.show_sql">true</property>
-        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">false</property>
 
         <!-- Mapping des classes -->
         <mapping class="jeeprojet.application.Modele.Utilisateur"/>

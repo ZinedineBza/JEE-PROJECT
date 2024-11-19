@@ -9,6 +9,8 @@ import jeeprojet.application.Modele.DAO.CoursDAO;
 import jeeprojet.application.Modele.Cour;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet("/listCoursEtudiant")
@@ -26,10 +28,10 @@ public class ListCoursesEtudiantServlet extends HttpServlet {
         // Récupération de la liste des cours depuis la base de données
         List<Cour> listCourses = coursDAO.findAll();
 
-        // Ajout de la liste des cours comme attribut de la requête
         request.setAttribute("listCourses", listCourses);
 
-        // Redirection vers la page JSP pour afficher les cours
         request.getRequestDispatcher("Etudiant/index.jsp").forward(request, response);
     }
+
+
 }

@@ -57,4 +57,13 @@ public class CourId implements java.io.Serializable {
     public int hashCode() {
         return Objects.hash(date, horaire, enseignant);
     }
+
+    @Override
+    public String toString() {
+        return "CourId{" +
+                "date='" + date + '\'' +
+                ", horaire='" + horaire + '\'' +
+                ", enseignant='" + enseignant + '\'' +
+                '}';
+    }
 }

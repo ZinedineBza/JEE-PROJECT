@@ -67,7 +67,6 @@ public class CoursDAO {
                     "JOIN FETCH c.nom " + // Matiere
                     "JOIN FETCH c.enseignant", Cour.class); // Utilisateur (enseignant)
             cours = query.getResultList();
-            System.out.println(cours);
         } catch (Exception e) {
             e.printStackTrace(); // Pour le débogage
         }
