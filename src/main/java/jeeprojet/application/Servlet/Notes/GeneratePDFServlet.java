@@ -27,7 +27,7 @@ import jeeprojet.application.Modele.Utilisateur;
 public class GeneratePDFServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String etudiantEmail = request.getParameter("etudiantEmail");
 
         // Initialisation des DAO
@@ -107,7 +107,7 @@ public class GeneratePDFServlet extends HttpServlet {
             // Ajouter la ligne pour la moyenne générale
             table.addCell("Moyenne Générale");
             table.addCell(String.format("%.2f", moyenneGenerale));
-            table.addCell(""); // Colonne vide pour les notes
+            table.addCell("");
 
             document.add(table);
 

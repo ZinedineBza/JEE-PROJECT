@@ -28,4 +28,17 @@ public class SelectStudentServlet extends HttpServlet {
         // Rediriger vers la page JSP
         request.getRequestDispatcher("/Etudiant/selectStudent.jsp").forward(request, response);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String etudiantEmail = request.getParameter("etudiantEmail");
+
+        // Stocker l'email dans la session
+        request.getSession().setAttribute("etudiantEmail", etudiantEmail);
+
+        // Rediriger vers la page des résultats
+        response.sendRedirect(request.getContextPath() + "/Etudiant/studentResults");
+    }
+
+
 }

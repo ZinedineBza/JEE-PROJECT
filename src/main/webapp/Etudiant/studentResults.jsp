@@ -41,10 +41,12 @@
     </table>
 
     <!-- Bouton pour générer un PDF -->
-    <form action="${pageContext.request.contextPath}/generatePDF" method="get">
+    <form action="${pageContext.request.contextPath}/generatePDF" method="post">
         <input type="hidden" name="etudiantEmail" value="${etudiant.email}" />
         <button type="submit">Générer PDF</button>
     </form>
+    
+    
 
     <a href="${pageContext.request.contextPath}/selectStudent">Retour</a>
 </body>

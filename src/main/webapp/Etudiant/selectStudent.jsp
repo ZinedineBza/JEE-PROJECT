@@ -25,7 +25,10 @@
                     <td>${etudiant.prenom}</td>
                     <td>${etudiant.email}</td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/studentResults?etudiantEmail=${etudiant.email}">Voir le Bulletin</a>
+                        <form action="${pageContext.request.contextPath}/studentResults" method="post">
+                            <input type="hidden" name="etudiantEmail" value="${etudiant.email}" />
+                            <button type="submit">Voir le Bulletin</button>
+                        </form>                        
                     </td>
                 </tr>
             </c:forEach>

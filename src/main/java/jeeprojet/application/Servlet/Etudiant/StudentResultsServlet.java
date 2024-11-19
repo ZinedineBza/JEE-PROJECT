@@ -21,8 +21,14 @@ public class StudentResultsServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Rediriger le traitement POST vers GET
+        doGet(request, response);
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Récupérer l'email de l'étudiant depuis les paramètres de la requête
+        // Votre logique existante pour la méthode GET
         String etudiantEmail = request.getParameter("etudiantEmail");
 
         // Initialisation des DAO
