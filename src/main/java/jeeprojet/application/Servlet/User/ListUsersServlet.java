@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet("/listUsers")
 public class ListUsersServlet extends HttpServlet {
@@ -22,9 +23,13 @@ public class ListUsersServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Utilisateur> listUsers = utilisateurDAO.findAll();
-        request.setAttribute("listUsers", listUsers);
-        request.getRequestDispatcher("Admin/listUsers.jsp").forward(request, response);
+        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+        if (Objects.equals(utilisateur.getRole(), "admin")) {
+
+            List<Utilisateur> listUsers = utilisateurDAO.findAll();
+            request.setAttribute("listUsers", listUsers);
+            request.getRequestDispatcher("Admin/listUsers.jsp").forward(request, response);
+        }
 
     }
 }

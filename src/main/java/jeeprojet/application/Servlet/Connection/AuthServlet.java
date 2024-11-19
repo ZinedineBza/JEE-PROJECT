@@ -35,7 +35,7 @@ public class AuthServlet extends HttpServlet {
         if (utilisateur != null && utilisateur.getMotDePasse().equals(password)) {
             // Connexion réussie : redirection vers la page etudiant.jsp
             request.getSession().setAttribute("user", utilisateur);
-            response.sendRedirect("listCoursEtudiant");
+            response.sendRedirect("redirectionServlet");
         } else {
             // Identifiants incorrects : redirection avec erreur
             response.sendRedirect("connection.jsp?error=invalid");

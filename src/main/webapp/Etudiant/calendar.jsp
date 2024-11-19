@@ -33,6 +33,11 @@
                         </c:if>
                     </c:forEach>
                 </td>
+                <td>${listCourses.id}</td>
+                <td>${listCourses.nom.nom}</td>
+                <td>${listCourses.enseignant.nom}</td>
+                <td>${listCourses.salle}</td>
+                <td>${cours.id.date}</td>
             </c:forEach>
         </tr>
     </c:forEach>

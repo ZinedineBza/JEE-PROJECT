@@ -34,7 +34,7 @@
 </header>
 
 <div class="main-content">
-    <h1>Bienvenue sur votre Espace Étudiant</h1>
+    <h1>Bienvenue sur votre Espace ${user.role}</h1>
 
     <section class="emploi-du-temps">
         <h2>Votre Emploi du Temps</h2>
@@ -65,6 +65,7 @@
         console.log("${course.id.date}");  // Affiche uniquement l'heure de début de chaque cours
         console.log("${course.id.horaire}");
         </c:forEach>
+
 
 
         $('#calendar').fullCalendar({

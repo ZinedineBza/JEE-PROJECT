@@ -8,10 +8,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jeeprojet.application.Modele.DAO.CoursDAO;
 import jeeprojet.application.Modele.Cour;
 import jeeprojet.application.Modele.CourId;
+import jeeprojet.application.Modele.Utilisateur;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 @WebServlet("/deleteCourse")
 public class DeleteCourseServlet extends HttpServlet {
@@ -27,22 +29,24 @@ public class DeleteCourseServlet extends HttpServlet {
         String enseignantEmail = request.getParameter("enseignantEmail");
         String date = (request.getParameter("date"));
         String horaire = (request.getParameter("horaire"));
+        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 
         // Création de l'ID composite pour identifier le cours
         CourId courId = new CourId();
         courId.setEnseignant(enseignantEmail);
         courId.setDate(date);
         courId.setHoraire(horaire);
+        if (Objects.equals(utilisateur.getRole(), "admin")) {
+            // Recherche du cours avec l'ID composite
+            Cour cours = coursDAO.findById(courId);
 
-        // Recherche du cours avec l'ID composite
-        Cour cours = coursDAO.findById(courId);
+            if (cours != null) {
+                // Si le cours est trouvé, on le supprime
+                coursDAO.delete(cours);
+            }
 
-        if (cours != null) {
-            // Si le cours est trouvé, on le supprime
-            coursDAO.delete(cours);
+            // Redirection vers la liste des cours après suppression
+            response.sendRedirect("listCourses");
         }
-
-        // Redirection vers la liste des cours après suppression
-        response.sendRedirect("listCourses");
     }
 }

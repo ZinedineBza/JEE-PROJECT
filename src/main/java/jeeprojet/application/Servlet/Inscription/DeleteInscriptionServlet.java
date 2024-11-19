@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet("/DeleteInscriptionServlet")
 public class DeleteInscriptionServlet extends HttpServlet {
@@ -26,8 +27,12 @@ public class DeleteInscriptionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        inscriptionDAO.delete(id);
-        response.sendRedirect("ListInscriptionServlet");
+        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+
+        if (Objects.equals(utilisateur.getRole(), "admin")) {
+            inscriptionDAO.delete(id);
+            response.sendRedirect("ListInscriptionServlet");
+        }
     }
 }
 

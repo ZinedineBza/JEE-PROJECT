@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.Objects;
 
 @WebServlet("/createCourse")
 public class CreateCourseServlet extends HttpServlet {
@@ -34,6 +35,7 @@ public class CreateCourseServlet extends HttpServlet {
         String salle = request.getParameter("salle");
         String date = request.getParameter("date");
         String horaire = request.getParameter("horaire");
+        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 
         // Création de l'ID composite pour le cours
         CourId coursId = new CourId();
@@ -58,11 +60,10 @@ public class CreateCourseServlet extends HttpServlet {
         cours.setNom(matiere);
         cours.setSalle(salle);
 
-        // Sauvegarde du cours dans la base de données
-        coursDAO.save(cours);
-
-        // Redirection vers la page de liste des cours
-        response.sendRedirect("listCourses");
+        if (Objects.equals(utilisateur.getRole(), "admin")) {
+            coursDAO.save(cours);
+            response.sendRedirect("listCourses");
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

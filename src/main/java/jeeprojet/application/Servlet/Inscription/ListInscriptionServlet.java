@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet("/ListInscriptionServlet")
 public class ListInscriptionServlet extends HttpServlet {
@@ -25,8 +26,12 @@ public class ListInscriptionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Inscription> inscriptions = inscriptionDAO.findAll();
-        request.setAttribute("inscriptions", inscriptions);
-        request.getRequestDispatcher("Admin/listInscription.jsp").forward(request, response);
+        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+
+        if (Objects.equals(utilisateur.getRole(), "admin")) {
+            List<Inscription> inscriptions = inscriptionDAO.findAll();
+            request.setAttribute("inscriptions", inscriptions);
+            request.getRequestDispatcher("Admin/listInscription.jsp").forward(request, response);
+        }
     }
 }
