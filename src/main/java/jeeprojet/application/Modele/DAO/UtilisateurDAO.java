@@ -82,6 +82,7 @@ public class UtilisateurDAO {
         }
         return exists;
     }
+
     public boolean pseudoExists(String pseudo) {
         boolean exists = false;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -110,5 +111,16 @@ public class UtilisateurDAO {
         return user;
     }
 
-
+    public List<Utilisateur> findByRole(String role) {
+        List<Utilisateur> users = new ArrayList<>();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Utilisateur> query = session.createQuery("FROM Utilisateur where role = :role", Utilisateur.class);
+            query.setParameter("role", role);
+            users = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
 }
+

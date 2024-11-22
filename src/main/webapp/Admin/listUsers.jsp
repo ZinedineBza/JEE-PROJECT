@@ -11,8 +11,6 @@
 <table border="1">
   <tr>
     <th>Pseudo</th>
-    <th>Mot de Passe</th>
-    <th>Role</th>
     <th>Nom</th>
     <th>Prenom</th>
     <th>Date de Naissance</th>
@@ -23,8 +21,6 @@
   <c:forEach var="user" items="${listUsers}">
     <tr>
       <td>${user.pseudo}</td>
-      <td>${user.motDePasse}</td>
-      <td>${user.role}</td>
       <td>${user.nom}</td>
       <td>${user.prenom}</td>
       <td>${user.dateNaissance}</td>

@@ -32,6 +32,7 @@ public class AddInscriptionServlet extends HttpServlet {
         InscriptionId id = new InscriptionId();
         id.setEtudiant(etudiantEmail);
         id.setDateInscription(dateInscription);
+
         System.out.println("Etudiant Email: " + etudiantEmail);
         System.out.println("Cours ID: " + coursId);
         System.out.println("Date Inscription: " + dateInscription);
@@ -48,10 +49,9 @@ public class AddInscriptionServlet extends HttpServlet {
                 request.getRequestDispatcher("addInscription.jsp").forward(request, response);
                 return;
             }
-
+            id.setMatiere(cours.getNom());
             Inscription inscription = new Inscription();
             inscription.setEtudiant(etudiant);
-            inscription.setCours(cours);
             inscription.setId(id);
 
             inscriptionDAO.save(inscription);

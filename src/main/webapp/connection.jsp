@@ -2,16 +2,17 @@
 <html>
 <head>
     <title>Connexion</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
-<h2>Connexion</h2>
+<h1>Connexion</h1>
 
 <%
     String errorMessage = request.getParameter("error");
     if (errorMessage != null) {
         if (errorMessage.equals("invalid")) {
 %>
-<p style="color:red;">Identifiants invalides. Veuillez réessayer.</p>
+<div class="error"><p style="color:red;">Identifiants invalides. Veuillez réessayer.</p>
 <%
 } else if (errorMessage.equals("empty")) {
 %>
@@ -20,17 +21,21 @@
         }
     }
 %>
-
+</div>
 <form action="auth" method="post">
+    <div class="form-group">
     <label for="username">Pseudo :</label>
-    <input type="text" id="username" name="username" required><br>
+    <input type="text" id="username" name="username" required>
+    </div>
 
+    <div class="form-group">
     <label for="password">Mot de passe :</label>
-    <input type="password" id="password" name="password" required><br>
+    <input type="password" id="password" name="password" required>
+    </div>
 
+    <div class="form-group">
     <button type="submit">Se connecter</button>
+    </div>
 </form>
-
-<a href="auth/register.jsp">S'inscrire</a>
 </body>
 </html>

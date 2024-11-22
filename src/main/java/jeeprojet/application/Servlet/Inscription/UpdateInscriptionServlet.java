@@ -3,19 +3,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jeeprojet.application.Modele.DAO.InscriptionDAO;
 import jeeprojet.application.Modele.Inscription;
-import jeeprojet.application.Modele.Cour; // Vérifiez le nom exact de votre classe Cour
+import jeeprojet.application.Modele.InscriptionId;
 import jeeprojet.application.Modele.Matiere;
 import jeeprojet.application.Modele.Utilisateur;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
-
-import jeeprojet.application.Modele.InscriptionId;
 
 @WebServlet("/UpdateInscriptionServlet")
 public class UpdateInscriptionServlet extends HttpServlet {
@@ -38,14 +33,16 @@ public class UpdateInscriptionServlet extends HttpServlet {
         id.setEtudiant(etudiantEmail);
 
 
+
         if (Objects.equals(utilisateur.getRole(), "admin")) {
             Inscription inscription = inscriptionDAO.findById(id);
             Utilisateur etudiant = inscriptionDAO.findUtilisateurByEmail(etudiantEmail);
             Matiere cours = inscriptionDAO.findCoursById(coursId);
+            id.setMatiere(cours.getNom());
 
             if (inscription != null && etudiant != null && cours != null) {
                 inscription.setEtudiant(etudiant);
-                inscription.setCours(cours);
+
                 inscriptionDAO.update(inscription);
                 response.sendRedirect("ListInscriptionServlet");
             } else {

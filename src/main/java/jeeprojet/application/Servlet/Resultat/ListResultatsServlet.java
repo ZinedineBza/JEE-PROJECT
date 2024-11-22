@@ -8,9 +8,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jeeprojet.application.Modele.DAO.ResultatDAO;
 import jeeprojet.application.Modele.Resultat;
+import jeeprojet.application.Modele.Utilisateur;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet("/listResultats")
 public class ListResultatsServlet extends HttpServlet {
@@ -18,11 +21,13 @@ public class ListResultatsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ResultatDAO resultatDAO = new ResultatDAO();
-        List<Resultat> resultats = resultatDAO.getAll();
-
-        // Debugging : afficher la taille de la liste pour vérifier
-        System.out.println("Nombre de résultats récupérés: " + resultats.size());
-
+        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+        List<Resultat> resultats = new ArrayList<>();
+        if (Objects.equals(utilisateur.getRole(), "admin")) {
+            resultats = resultatDAO.getAll();
+        }else {
+            resultats = resultatDAO.findByUser(utilisateur);
+        }
         request.setAttribute("resultats", resultats);
         request.getRequestDispatcher("Admin/ResultatList.jsp").forward(request, response);
     }

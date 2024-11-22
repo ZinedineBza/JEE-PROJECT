@@ -23,7 +23,7 @@ public class RedirectionServlet extends HttpServlet {
         coursDAO = new CoursDAO();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 

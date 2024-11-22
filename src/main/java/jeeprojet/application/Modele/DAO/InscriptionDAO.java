@@ -27,15 +27,11 @@ public class InscriptionDAO {
         }
     }
 
-
-
     public Matiere findCoursById(String id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.get(Matiere.class, id);
         }
     }
-
-
 
     public void save(Inscription inscription) {
         Session session = sessionFactory.openSession();
@@ -44,11 +40,6 @@ public class InscriptionDAO {
         transaction.commit();
         session.close();
     }
-
-
-
-
-
 
     public List<Inscription> findAll() {
         List<Inscription> users = new ArrayList<>();
@@ -82,6 +73,18 @@ public class InscriptionDAO {
         session.delete(id);
         transaction.commit();
         session.close();
+    }
+
+    public List<Inscription> findCoursUtilisateur(String email) {
+        List<Inscription> inscriptions = new ArrayList<>();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Inscription> query = session.createQuery("FROM Inscription WHERE etudiant.email = :email", Inscription.class);
+            query.setParameter("email", email);
+            inscriptions = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return inscriptions;
     }
 
 

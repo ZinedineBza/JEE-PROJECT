@@ -17,6 +17,12 @@ h1 {
     color: #007bff;
 }
 
+.error {
+    text-align: center;
+    margin-bottom: 20px;
+    color: red;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -98,11 +104,6 @@ nav a:hover {
     background-color: #0056b3;
 }
 
-h1 {
-    text-align: center;
-    margin-top: 20px;
-}
-
 footer {
     text-align: center;
     margin-top: 50px;
@@ -174,4 +175,12 @@ form .form-row {
 
 form .form-row .form-group {
     flex: 1;
+}
+
+/* Aligning all input fields */
+form .form-group input,
+form .form-group select,
+form .form-group textarea {
+    flex: 1;
+    width: calc(100% - 22px); /* 100% width minus padding and border */
 }

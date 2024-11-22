@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,10 +24,12 @@ public class ListUsersServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String paramValue = request.getParameter("recherche");
+        System.out.println(paramValue);
+        List<Utilisateur> listUsers = new ArrayList<>();
         Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
         if (Objects.equals(utilisateur.getRole(), "admin")) {
-
-            List<Utilisateur> listUsers = utilisateurDAO.findAll();
+            listUsers = utilisateurDAO.findByRole(paramValue);
             request.setAttribute("listUsers", listUsers);
             request.getRequestDispatcher("Admin/listUsers.jsp").forward(request, response);
         }

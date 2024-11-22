@@ -9,13 +9,14 @@ public class Inscription {
     private InscriptionId id;
 
     @MapsId("etudiant")
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "etudiant", nullable = false)
     private Utilisateur etudiant;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cours")
-    private Matiere cours;
+    @MapsId("matiere")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "matiere", nullable = false)
+    private Matiere matiere;
 
     public InscriptionId getId() {
         return id;
@@ -33,19 +34,12 @@ public class Inscription {
         this.etudiant = etudiant;
     }
 
-    public Matiere getCours() {
-        return cours;
+    public Matiere getMatiere() {
+        return matiere;
     }
 
-    public void setCours(Matiere cours) {
-        this.cours = cours;
+    public void setMatiere(Matiere matiere) {
+        this.matiere = matiere;
     }
 
-    public String toString() {
-        return "Inscription{" +
-                "id=" + id +
-                ", etudiant=" + (etudiant != null ? etudiant.getNom() + " " + etudiant.getPrenom() : "N/A") +
-                ", cours=" + (cours != null ? cours.getNom() : "N/A") +
-                '}';
-    }
 }
