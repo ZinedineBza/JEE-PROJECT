@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>Liste des Résultats</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1>Liste des Résultats</h1>
@@ -31,7 +32,7 @@
             <td>${resultat.commentaire}</td>
             <td>
                 <!-- Formulaire de modification -->
-                <form action="updateResultat" method="post">
+                <form action="<%= request.getContextPath() %>/updateResultat" method="post">
                     <input type="hidden" name="etudiant" value="${resultat.id.etudiant}"/>
                     <input type="hidden" name="cours" value="${resultat.id.cours}"/>
                     <input type="hidden" name="date" value="${resultat.id.date}"/>
@@ -42,7 +43,7 @@
             </td>
             <td>
                 <!-- Formulaire de suppression -->
-                <form action="deleteResultat" method="post">
+                <form action="<%= request.getContextPath() %>/deleteResultat" method="post">
                     <input type="hidden" name="etudiant" value="${resultat.id.etudiant}"/>
                     <input type="hidden" name="cours" value="${resultat.id.cours}"/>
                     <input type="hidden" name="date" value="${resultat.id.date}"/>
@@ -54,7 +55,7 @@
 </table>
 
 <!-- Lien pour ajouter un nouveau résultat -->
-<a href="Resultat/addResultat.jsp">Ajouter un Résultat</a>
+<a href="<%= request.getContextPath() %>/addResultat.jsp">Ajouter un Résultat</a>
 
 </body>
 </html>

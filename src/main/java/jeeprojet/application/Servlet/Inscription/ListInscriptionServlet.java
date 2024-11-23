@@ -3,16 +3,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jeeprojet.application.Modele.DAO.InscriptionDAO;
 import jeeprojet.application.Modele.Inscription;
-import jeeprojet.application.Modele.Cour; // Vérifiez le nom exact de votre classe Cour
-import jeeprojet.application.Modele.Matiere;
 import jeeprojet.application.Modele.Utilisateur;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet("/ListInscriptionServlet")
 public class ListInscriptionServlet extends HttpServlet {
@@ -25,9 +23,15 @@ public class ListInscriptionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Inscription> inscriptions = inscriptionDAO.findAll();
-        System.out.println("feur" + inscriptions);
+        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+        List<Inscription> inscriptions = new ArrayList<>();
+        if (Objects.equals(utilisateur.getRole(), "admin")) {
+            inscriptions = inscriptionDAO.findAll();
+
+        }else{
+            inscriptions = inscriptionDAO.findCoursUtilisateur(utilisateur.getEmail());
+        }
         request.setAttribute("inscriptions", inscriptions);
-        request.getRequestDispatcher("listInscription.jsp").forward(request, response);
+        request.getRequestDispatcher("Admin/listInscription.jsp").forward(request, response);
     }
 }

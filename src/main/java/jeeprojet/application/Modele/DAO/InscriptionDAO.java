@@ -15,7 +15,7 @@ import java.util.List;
 public class InscriptionDAO {
     private SessionFactory sessionFactory;
 
-        public InscriptionDAO() {
+    public InscriptionDAO() {
         sessionFactory = new Configuration().configure().buildSessionFactory();
     }
 
@@ -27,15 +27,11 @@ public class InscriptionDAO {
         }
     }
 
-
-
     public Matiere findCoursById(String id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.get(Matiere.class, id);
         }
     }
-
-
 
     public void save(Inscription inscription) {
         Session session = sessionFactory.openSession();
@@ -43,21 +39,15 @@ public class InscriptionDAO {
         session.save(inscription);
         transaction.commit();
         session.close();
-        }
-
-
-
-
-
+    }
 
     public List<Inscription> findAll() {
         List<Inscription> users = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Inscription> query = session.createQuery("FROM Inscription ", Inscription.class);
             users = query.getResultList();
-            System.out.println(users);
         } catch (Exception e) {
-            e.printStackTrace(); // Pour le débogage
+            e.printStackTrace(); // Pour le dÃ©bogage
         }
         return users;
     }
@@ -83,6 +73,18 @@ public class InscriptionDAO {
         session.delete(id);
         transaction.commit();
         session.close();
+    }
+
+    public List<Inscription> findCoursUtilisateur(String email) {
+        List<Inscription> inscriptions = new ArrayList<>();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Inscription> query = session.createQuery("FROM Inscription WHERE etudiant.email = :email", Inscription.class);
+            query.setParameter("email", email);
+            inscriptions = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return inscriptions;
     }
 
 

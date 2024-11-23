@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @WebServlet("/deleteUser")
 public class DeleteUserServlet extends HttpServlet {
@@ -20,12 +21,16 @@ public class DeleteUserServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
+        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+        if (Objects.equals(utilisateur.getRole(), "admin")) {
 
-        Utilisateur utilisateur = utilisateurDAO.findById(email);
-        utilisateurDAO.delete(utilisateur);
+            String email = request.getParameter("email");
 
-        response.sendRedirect("listUsers");
+            utilisateur = utilisateurDAO.findById(email);
+            utilisateurDAO.delete(utilisateur);
+
+            response.sendRedirect("listUsers");
+        }
     }
 }
 

@@ -43,11 +43,18 @@ public class UtilisateurDAO {
     }
 
     public Utilisateur findById(String email) {
-        Session session = sessionFactory.openSession();
-        Utilisateur utilisateur = session.get(Utilisateur.class, email);
-        session.close();
-        return utilisateur;
+        Utilisateur user = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE email = :email", Utilisateur.class);
+            query.setParameter("email", email);
+            user = query.uniqueResult();
+            System.out.println(user);
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return user;
     }
+
 
     public List<Utilisateur> findAll() {
         List<Utilisateur> users = new ArrayList<>();
@@ -60,4 +67,60 @@ public class UtilisateurDAO {
         }
         return users;
     }
+
+    public boolean emailExists(String email) {
+        boolean exists = false;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Long> query = session.createQuery("SELECT COUNT(u) FROM Utilisateur u WHERE u.email = :email", Long.class);
+            query.setParameter("email", email);
+            Long count = query.uniqueResult();
+            if (count != null && count > 0) {
+                exists = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return exists;
+    }
+
+    public boolean pseudoExists(String pseudo) {
+        boolean exists = false;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Long> query = session.createQuery("SELECT COUNT(u) FROM Utilisateur u WHERE u.pseudo = :pseudo", Long.class);
+            query.setParameter("pseudo", pseudo);
+            Long count = query.uniqueResult();
+            if (count != null && count > 0) {
+                exists = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return exists;
+    }
+
+    public Utilisateur findByPseudo(String pseudo) {
+        Utilisateur user = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // Requête HQL pour rechercher un utilisateur par pseudo
+            Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE pseudo = :pseudo", Utilisateur.class);
+            query.setParameter("pseudo", pseudo);
+            user = query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return user;
+    }
+
+    public List<Utilisateur> findByRole(String role) {
+        List<Utilisateur> users = new ArrayList<>();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Utilisateur> query = session.createQuery("FROM Utilisateur where role = :role", Utilisateur.class);
+            query.setParameter("role", role);
+            users = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
 }
+

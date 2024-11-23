@@ -1,6 +1,7 @@
 package jeeprojet.application.Modele;
 
 import javax.persistence.*;
+import java.sql.PseudoColumnUsage;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -8,12 +9,11 @@ import java.util.Set;
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur {
+    @Column(name = "pseudo", nullable = false, length = 20)
+    private String pseudo;
     @Id
     @Column(name = "email", nullable = false, length = 50)
     private String email;
-
-    @Column(name = "pseudo", nullable = false, length = 50)
-    private String pseudo;
 
     @Column(name = "motDePasse", nullable = false, length = 100)
     private String motDePasse;
@@ -28,7 +28,7 @@ public class Utilisateur {
     private String prenom;
 
     @Column(name = "dateNaissance")
-    private Date dateNaissance;
+    private String dateNaissance;
 
     @OneToMany(mappedBy = "enseignant")
     private Set<Cour> cours = new LinkedHashSet<>();
@@ -42,20 +42,19 @@ public class Utilisateur {
     @OneToMany(mappedBy = "etudiant")
     private Set<Resultat> resultats = new LinkedHashSet<>();
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPseudo() {
         return pseudo;
     }
 
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getMotDePasse() {
@@ -90,11 +89,11 @@ public class Utilisateur {
         this.prenom = prenom;
     }
 
-    public Date getDateNaissance() {
+    public String getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setDateNaissance(Date dateNaissance) {
+    public void setDateNaissance(String dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
 
@@ -133,7 +132,6 @@ public class Utilisateur {
     @Override
     public String toString() {
         return "Utilisateur{" +
-                "pseudo='" + pseudo + '\'' +
                 ", motDePasse='" + motDePasse + '\'' +
                 ", role='" + role + '\'' +
                 ", nom='" + nom + '\'' +

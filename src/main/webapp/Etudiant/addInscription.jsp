@@ -2,10 +2,11 @@
 <html>
 <head>
     <title>Ajouter une Inscription</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1>Ajouter une Inscription</h1>
-<form action="AddInscriptionServlet" method="post">
+<form action="<%= request.getContextPath() %>/AddInscriptionServlet" method="post">
     <label for="etudiantEmail">Email de l'Etudiant :</label>
     <input type="email" name="etudiantEmail" id="etudiantEmail" required><br>
 

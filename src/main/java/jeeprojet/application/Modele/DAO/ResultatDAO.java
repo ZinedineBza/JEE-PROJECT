@@ -1,7 +1,9 @@
 package jeeprojet.application.Modele.DAO;
 
+import jeeprojet.application.Modele.Matiere;
 import jeeprojet.application.Modele.Resultat;
 import jeeprojet.application.Modele.ResultatId;
+import jeeprojet.application.Modele.Utilisateur;
 import jeeprojet.application.Util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -61,6 +63,52 @@ public class ResultatDAO {
         session.delete(resultat);
         transaction.commit();
         session.close();
+    }
+
+    public List<Resultat> findByUser(Utilisateur user) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Resultat> resultats = null;
+
+        try {
+            transaction = session.beginTransaction();
+            resultats = session.createQuery("FROM Resultat WHERE etudiant = :user", Resultat.class)
+                    .setParameter("user", user)
+                    .getResultList();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return resultats;
+    }
+
+    public List<Resultat> findByMatiere(Matiere matiere) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Resultat> resultats = null;
+
+        try {
+            transaction = session.beginTransaction();
+            resultats = session.createQuery("FROM Resultat WHERE cours = :matiere", Resultat.class)
+                    .setParameter("matiere", matiere)
+                    .getResultList();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return resultats;
     }
 }
 

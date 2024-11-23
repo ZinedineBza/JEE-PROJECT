@@ -52,4 +52,14 @@ public class Cour {
         this.salle = salle;
     }
 
+    @Override
+    public String toString() {
+        return "Cour{" +
+                "id=" + id +
+                ", enseignant=" + (enseignant != null ? enseignant.getNom() + " " + enseignant.getPrenom() : "null") +
+                ", nom=" + (nom != null ? nom.getNom() : "null") +
+                ", salle='" + salle + '\'' +
+                '}';
+    }
+
 }
