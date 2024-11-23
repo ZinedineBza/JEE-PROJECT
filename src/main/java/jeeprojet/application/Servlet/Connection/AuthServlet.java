@@ -21,7 +21,7 @@ public class AuthServlet extends HttpServlet {
         // Vérification si les champs sont remplis
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             // Redirection en cas de champs vides
-            response.sendRedirect("connection.jsp?error=empty");
+            response.sendRedirect("index.jsp?error=empty");
             return;
         }
 
@@ -38,13 +38,13 @@ public class AuthServlet extends HttpServlet {
             response.sendRedirect("redirectionServlet");
         } else {
             // Identifiants incorrects : redirection avec erreur
-            response.sendRedirect("connection.jsp?error=invalid");
+            response.sendRedirect("index.jsp?error=invalid");
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Afficher la page de connexion en GET
-        request.getRequestDispatcher("connection.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 }
 

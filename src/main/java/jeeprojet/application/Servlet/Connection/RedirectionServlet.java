@@ -28,12 +28,12 @@ public class RedirectionServlet extends HttpServlet {
         Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 
         if (Objects.equals(utilisateur.getRole(), "admin")) {
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("Admin/Main.jsp").forward(request, response);
     }
         else {
         List<Cour> listCourses = coursDAO.findByUtilisateur(utilisateur.getEmail());
         request.setAttribute("listCourses", listCourses);
-        request.getRequestDispatcher("Etudiant/index.jsp").forward(request, response);
+        request.getRequestDispatcher("Etudiant/Main.jsp").forward(request, response);
     }
 }
 }
