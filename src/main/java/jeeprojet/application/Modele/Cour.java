@@ -9,18 +9,16 @@ public class Cour {
     private CourId id;
 
     @MapsId("enseignant")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "enseignant", nullable = false)
     private Utilisateur enseignant;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "nom", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "matiere", nullable = false)
     private Matiere matiere;
 
     @Column(name = "salle", length = 5)
     private String salle;
-
-    // Getters et setters...
 
     @Override
     public String toString() {

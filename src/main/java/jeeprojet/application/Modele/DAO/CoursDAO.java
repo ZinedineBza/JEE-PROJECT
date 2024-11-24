@@ -64,7 +64,7 @@ public class CoursDAO {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             // Utilisation de JOIN FETCH pour éviter LazyInitializationException
             Query<Cour> query = session.createQuery("FROM Cour c " +
-                    "JOIN FETCH c.nom " + // Matiere
+                    "JOIN FETCH c.matiere " + // Matiere
                     "JOIN FETCH c.enseignant", Cour.class); // Utilisateur (enseignant)
             cours = query.getResultList();
         } catch (Exception e) {
@@ -78,9 +78,9 @@ public class CoursDAO {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             // Utilisation de JOIN FETCH pour éviter LazyInitializationException
             Query<Cour> query = session.createQuery("FROM Cour c " +
-                    "JOIN FETCH c.nom " + // Matiere
+                    "JOIN FETCH c.matiere " + // Matiere
                     "JOIN FETCH c.enseignant " + // Utilisateur (enseignant)
-                    "WHERE c.enseignant.email = :email OR c.nom IN (SELECT i.cours FROM Inscription i WHERE i.etudiant = :email)", Cour.class);
+                    "WHERE c.enseignant.email = :email OR c.matiere IN (SELECT i.matiere FROM Inscription i WHERE i.etudiant = :email)", Cour.class);
 
             // Passer l'email de l'utilisateur en paramètre pour enseignant ou étudiant
             query.setParameter("email", utilisateurEmail);

@@ -19,7 +19,6 @@ public class CourId implements java.io.Serializable {
     @Column(name = "enseignant", nullable = false, length = 50)
     private String enseignant;
 
-    // Getters et setters...
 
     @Override
     public boolean equals(Object o) {

@@ -18,8 +18,6 @@ public class Inscription {
     @JoinColumn(name = "matiere", nullable = false)
     private Matiere matiere;
 
-
-
     public InscriptionId getId() {
         return id;
     }
@@ -43,6 +41,7 @@ public class Inscription {
     public void setMatiere(Matiere matiere) {
         this.matiere = matiere;
     }
+
     @Override
     public String toString() {
         return "Inscription{" +
