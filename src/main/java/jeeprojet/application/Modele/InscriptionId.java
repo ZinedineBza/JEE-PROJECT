@@ -10,6 +10,7 @@ import java.util.Objects;
 @Embeddable
 public class InscriptionId implements java.io.Serializable {
     private static final long serialVersionUID = -2222710418421490932L;
+
     @Column(name = "dateInscription", nullable = false)
     private String dateInscription;
 

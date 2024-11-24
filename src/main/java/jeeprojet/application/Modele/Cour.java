@@ -15,10 +15,23 @@ public class Cour {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "nom", nullable = false)
-    private Matiere nom;
+    private Matiere matiere;
 
     @Column(name = "salle", length = 5)
     private String salle;
+
+    // Getters et setters...
+
+    @Override
+    public String toString() {
+        return "Cour{" +
+                "id=" + id +
+                ", enseignant=" + (enseignant != null ? enseignant.getNom() + " " + enseignant.getPrenom() : "null") +
+                ", nom=" + (matiere != null ? matiere.getNom() : "null") +
+                ", salle='" + salle + '\'' +
+                '}';
+    }
+
 
     public CourId getId() {
         return id;
@@ -37,11 +50,11 @@ public class Cour {
     }
 
     public Matiere getNom() {
-        return nom;
+        return matiere;
     }
 
     public void setNom(Matiere nom) {
-        this.nom = nom;
+        this.matiere = nom;
     }
 
     public String getSalle() {
@@ -52,14 +65,5 @@ public class Cour {
         this.salle = salle;
     }
 
-    @Override
-    public String toString() {
-        return "Cour{" +
-                "id=" + id +
-                ", enseignant=" + (enseignant != null ? enseignant.getNom() + " " + enseignant.getPrenom() : "null") +
-                ", nom=" + (nom != null ? nom.getNom() : "null") +
-                ", salle='" + salle + '\'' +
-                '}';
-    }
 
 }

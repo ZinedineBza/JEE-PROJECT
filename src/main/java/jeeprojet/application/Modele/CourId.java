@@ -11,13 +11,31 @@ public class CourId implements java.io.Serializable {
     private static final long serialVersionUID = -3751021465129577899L;
 
     @Column(name = "date", nullable = false)
-    private String date;  // Garder String pour la date (par exemple "2024-11-16")
+    private String date;
 
     @Column(name = "horaire", nullable = false)
-    private String horaire;  // Garder String pour l'horaire (par exemple "14:30")
+    private String horaire;
 
     @Column(name = "enseignant", nullable = false, length = 50)
-    private String enseignant;  // Garder String pour l'enseignant (nom ou autre identifiant)
+    private String enseignant;
+
+    // Getters et setters...
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        CourId entity = (CourId) o;
+        return Objects.equals(this.date, entity.date) &&
+                Objects.equals(this.horaire, entity.horaire) &&
+                Objects.equals(this.enseignant, entity.enseignant);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, horaire, enseignant);
+    }
+
 
     public String getDate() {
         return date;
@@ -41,21 +59,6 @@ public class CourId implements java.io.Serializable {
 
     public void setEnseignant(String enseignant) {
         this.enseignant = enseignant;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        CourId entity = (CourId) o;
-        return Objects.equals(this.date, entity.date) &&
-                Objects.equals(this.horaire, entity.horaire) &&
-                Objects.equals(this.enseignant, entity.enseignant);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(date, horaire, enseignant);
     }
 
     @Override

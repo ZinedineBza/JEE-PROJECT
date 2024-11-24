@@ -18,6 +18,8 @@ public class Inscription {
     @JoinColumn(name = "matiere", nullable = false)
     private Matiere matiere;
 
+
+
     public InscriptionId getId() {
         return id;
     }

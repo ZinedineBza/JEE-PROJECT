@@ -10,6 +10,7 @@ import java.util.Objects;
 @Embeddable
 public class ResultatId implements java.io.Serializable {
     private static final long serialVersionUID = 2818281635601720783L;
+
     @Column(name = "etudiant", nullable = false, length = 50)
     private String etudiant;
 

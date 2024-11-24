@@ -16,7 +16,7 @@ public class Resultat {
     @MapsId("cours")
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "cours", nullable = false)
-    private Matiere cours;
+    private Matiere matiere;
 
     @Column(name = "note")
     private Float note;
@@ -42,11 +42,11 @@ public class Resultat {
     }
 
     public Matiere getCours() {
-        return cours;
+        return matiere;
     }
 
     public void setCours(Matiere cours) {
-        this.cours = cours;
+        this.matiere = cours;
     }
 
     public Float getNote() {
@@ -70,7 +70,7 @@ public class Resultat {
         return "Resultat{" +
                 "id=" + id +  // Affiche l'ID composite
                 ", etudiant=" + (etudiant != null ? etudiant.getNom() : "Non spécifié") +  // Affiche le nom de l'étudiant
-                ", cours=" + (cours != null ? cours.getNom() : "Non spécifié") +  // Affiche le nom du cours
+                ", cours=" + (matiere != null ? matiere.getNom() : "Non spécifié") +  // Affiche le nom du cours
                 ", note=" + note +
                 ", commentaire='" + commentaire + '\'' +
                 '}';

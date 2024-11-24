@@ -33,7 +33,7 @@ public class RedirectionServlet extends HttpServlet {
         else {
         List<Cour> listCourses = coursDAO.findByUtilisateur(utilisateur.getEmail());
         request.setAttribute("listCourses", listCourses);
-        request.getRequestDispatcher("Etudiant/Main.jsp").forward(request, response);
+        request.getRequestDispatcher("Etudiant/index.jsp").forward(request, response);
     }
 }
 }
