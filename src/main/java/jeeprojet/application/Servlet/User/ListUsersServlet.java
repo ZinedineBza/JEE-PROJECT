@@ -24,7 +24,6 @@ public class ListUsersServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String paramValue = request.getParameter("recherche");
-        System.out.println(paramValue);
         List<Utilisateur> listUsers = new ArrayList<>();
         Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
         if (Objects.equals(utilisateur.getRole(), "admin")) {

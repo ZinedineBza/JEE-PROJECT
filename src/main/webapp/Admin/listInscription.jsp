@@ -43,6 +43,18 @@
             </c:if>
         </tr>
     </c:forEach>
+    <c:if test="${user.role == 'etudiant'}">
+        <form action="${pageContext.request.contextPath}/AddInscriptionServlet" method="post">
+            <label for="coursId">Choisissez une matière :</label>
+            <select id="coursId" name="coursId">
+                <c:forEach var="matiere" items="${matieres}">
+                    <option value="${matiere.nom}">${matiere.nom}</option>
+                </c:forEach>
+            </select>
+            <input type="hidden" name="etudiantEmail" value="${user.email}" />
+            <button type="submit">Ajouter</button>
+        </form>
+    </c:if>
     </tbody>
 </table>
 

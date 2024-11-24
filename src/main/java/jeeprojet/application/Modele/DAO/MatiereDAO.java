@@ -11,6 +11,8 @@ import org.hibernate.query.Query;
 import jeeprojet.application.Modele.Matiere;
 import jeeprojet.application.Util.HibernateUtil;
 
+import java.util.List;
+
 public class MatiereDAO {
 
     private SessionFactory sessionFactory;

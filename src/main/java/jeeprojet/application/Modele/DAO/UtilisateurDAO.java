@@ -35,12 +35,20 @@ public class UtilisateurDAO {
         session.close();
     }
 
-    public void delete(Utilisateur utilisateur) {
+    public void supprimer(Utilisateur utilisateur) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.delete(utilisateur);
-        transaction.commit();
-        session.close();
+
+        try {
+            session.delete(utilisateur);
+            System.out.println("supprimer de " + utilisateur.getNom());
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
     public Utilisateur findById(String email) {

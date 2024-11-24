@@ -12,22 +12,23 @@
 <table border="1">
   <thead>
   <tr>
-    <th>ID</th>
-    <th>Nom</th>
+    <th>Matiere</th>
     <th>Enseignant</th>
     <th>Salle</th>
     <th>Date de Début</th>
+    <th>Horaire</th>
     <th>Actions</th>
   </tr>
   </thead>
   <tbody>
   <c:forEach var="cours" items="${listCourses}">
     <tr>
-      <td>${cours.id}</td>
       <td>${cours.nom.nom}</td>
+
       <td>${cours.enseignant.nom}</td>
       <td>${cours.salle}</td>
       <td>${cours.id.date}</td>
+      <td>${cours.id.horaire}</td>
 
       <td>
         <a href="<%= request.getContextPath() %>/updateCourse?id=${cours.id}">Modifier</a> |

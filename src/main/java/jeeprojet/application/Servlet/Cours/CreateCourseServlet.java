@@ -12,6 +12,7 @@ import jeeprojet.application.Modele.Matiere;
 import jeeprojet.application.Modele.Utilisateur;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -61,12 +62,13 @@ public class CreateCourseServlet extends HttpServlet {
         cours.setSalle(salle);
 
         if (Objects.equals(utilisateur.getRole(), "admin")) {
+            System.out.println(" Cours : " +  cours);
             coursDAO.save(cours);
             response.sendRedirect("listCourses");
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("createCourse.jsp").forward(request, response);
+        request.getRequestDispatcher("/Admin/createCourse.jsp").forward(request, response);
     }
 }

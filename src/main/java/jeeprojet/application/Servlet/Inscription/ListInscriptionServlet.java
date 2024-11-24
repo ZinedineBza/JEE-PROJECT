@@ -10,7 +10,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jeeprojet.application.Modele.DAO.InscriptionDAO;
+import jeeprojet.application.Modele.DAO.MatiereDAO;
 import jeeprojet.application.Modele.Inscription;
+import jeeprojet.application.Modele.Matiere;
 import jeeprojet.application.Modele.Utilisateur;
 
 @WebServlet("/Inscription/ListInscriptionServlet")
@@ -28,7 +30,7 @@ public class ListInscriptionServlet extends HttpServlet {
         Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
 
         if (utilisateur == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("index.jsp");
             return;
         }
 
@@ -40,8 +42,10 @@ public class ListInscriptionServlet extends HttpServlet {
             System.out.println("AAAAAA" + inscriptions);
         } else if (Objects.equals(utilisateur.getRole(), "etudiant")) {
             inscriptions = inscriptionDAO.findCoursUtilisateur(utilisateur.getEmail());
-            System.out.println("AAAAAA" + inscriptions);
-        } else {
+            MatiereDAO matiereDAO = new MatiereDAO();
+            List<Matiere> matieres = matiereDAO.findAll();
+            request.setAttribute("matieres", matieres);
+        }  else {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Accès non autorisé");
             return;
         }

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Utilisateurs et Inscriptions</title>
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <header>
@@ -13,7 +13,7 @@
 </header>
 
 <nav>
-    <a href="${pageContext.request.contextPath}/Admin/createEtudiant.jsp">Créer un étudiant</a>
+    <a href="${pageContext.request.contextPath}/FormUser">Créer un étudiant</a>
     <a href="${pageContext.request.contextPath}/Admin/createEnseignant.jsp">Créer un enseignant</a>
     <a href="<%= request.getContextPath() %>/listUsers?recherche=etudiant">liste les etudiants</a>
     <a href="<%= request.getContextPath() %>/listUsers?recherche=enseignant">liste les enseignants</a>

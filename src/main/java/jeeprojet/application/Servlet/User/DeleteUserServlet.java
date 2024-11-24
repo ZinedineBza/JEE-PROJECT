@@ -26,10 +26,11 @@ public class DeleteUserServlet extends HttpServlet {
 
             String email = request.getParameter("email");
 
-            utilisateur = utilisateurDAO.findById(email);
-            utilisateurDAO.delete(utilisateur);
+            Utilisateur user = utilisateurDAO.findById(email);
+            System.out.println(user);
+            utilisateurDAO.supprimer(user);
 
-            response.sendRedirect("listUsers");
+            response.sendRedirect("Admin/Main.jsp");
         }
     }
 }
