@@ -17,7 +17,7 @@ public class Matiere {
     @OneToMany(mappedBy = "matiere")
     private Set<Cour> cours = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "matiere")
+    @OneToMany(mappedBy = "cours")
     private Set<Resultat> resultats = new LinkedHashSet<>();
 
     // Getters et setters

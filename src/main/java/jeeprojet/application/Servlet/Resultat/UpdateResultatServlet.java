@@ -1,5 +1,7 @@
 package jeeprojet.application.Servlet.Resultat;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -8,8 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jeeprojet.application.Modele.DAO.ResultatDAO;
 import jeeprojet.application.Modele.Resultat;
 import jeeprojet.application.Modele.ResultatId;
-
-import java.io.IOException;
 
 @WebServlet("/updateResultat")
 public class UpdateResultatServlet extends HttpServlet {

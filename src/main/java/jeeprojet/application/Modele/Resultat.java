@@ -1,6 +1,14 @@
 package jeeprojet.application.Modele;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "resultat")
@@ -13,11 +21,11 @@ public class Resultat {
     @JoinColumn(name = "etudiant", nullable = false)
     private Utilisateur etudiant;
 
-    @MapsId("cours")
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "cours", nullable = false)
-    private Matiere matiere;
-
+    @MapsId("matiere")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "matiere", referencedColumnName = "nom", nullable = false)
+    private Matiere cours;
+    
     @Column(name = "note")
     private Float note;
 
@@ -42,11 +50,11 @@ public class Resultat {
     }
 
     public Matiere getCours() {
-        return matiere;
+        return cours;
     }
 
     public void setCours(Matiere cours) {
-        this.matiere = cours;
+        this.cours = cours;
     }
 
     public Float getNote() {
@@ -68,12 +76,11 @@ public class Resultat {
     @Override
     public String toString() {
         return "Resultat{" +
-                "id=" + id +  // Affiche l'ID composite
-                ", etudiant=" + (etudiant != null ? etudiant.getNom() : "Non spécifié") +  // Affiche le nom de l'étudiant
-                ", cours=" + (matiere != null ? matiere.getNom() : "Non spécifié") +  // Affiche le nom du cours
+                "id=" + id +
+                ", etudiant=" + (etudiant != null ? etudiant.getNom() : "Non spécifié") +
+                ", cours=" + (cours != null ? cours.getNom() : "Non spécifié") +
                 ", note=" + note +
                 ", commentaire='" + commentaire + '\'' +
                 '}';
     }
-
 }

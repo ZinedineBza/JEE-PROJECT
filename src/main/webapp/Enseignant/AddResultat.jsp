@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,42 +10,48 @@
 </head>
 <body>
 
-        <h1>Ajouter un Résultat</h1>
+    <h1>Ajouter un Résultat</h1>
 
-
-    <form action="<%= request.getContextPath() %>/addResultat" method="post">
+    <form action="${pageContext.request.contextPath}/addResultat" method="post">
         <div class="form-group">
-            <label for="etudiant">Étudiant email :</label>
-            <input type="text" id="etudiant" name="etudiant" required/>
-        </div>
-
+            <label for="etudiant">Étudiant :</label>
+            <select id="etudiant" name="etudiant">
+                <c:forEach var="etudiant" items="${etudiants}">
+                    <option value="${etudiant.email}">${etudiant.nom} ${etudiant.prenom}</option>
+                </c:forEach>
+            </select>
+        </div>  
+    
         <div class="form-group">
-            <label for="cours">Cours :</label>
-            <input type="text" id="cours" name="cours" required/>
+            <label for="matiere">Matière :</label>
+            <select id="corus" name="cours">
+                <c:forEach var="matiere" items="${matieres}">
+                    <option value="${matiere.nom}">${matiere.nom}</option>
+                </c:forEach>
+            </select>
         </div>
-
+    
         <div class="form-group">
             <label for="note">Note :</label>
-            <input type="text" id="note" name="note" required/>
+            <input type="text" id="note" name="note" required>
         </div>
-
+    
         <div class="form-group">
             <label for="commentaire">Commentaire :</label>
             <textarea id="commentaire" name="commentaire"></textarea>
         </div>
-
+    
         <div class="form-group">
             <label for="date">Date :</label>
-            <input type="date" id="date" name="date" required/>
+            <input type="date" id="date" name="date" required>
         </div>
-
+    
         <div class="form-group">
-            <input type="submit" value="Ajouter"/>
+            <input type="submit" value="Ajouter">
         </div>
     </form>
-
-
-        <h1><a href="listResultats">Retour à la liste des Résultats</a></h1>
+    
+    <h1><a href="${pageContext.request.contextPath}/redirectionServlet">Retour à la liste des Résultats</a></h1>
 
 </body>
 </html>

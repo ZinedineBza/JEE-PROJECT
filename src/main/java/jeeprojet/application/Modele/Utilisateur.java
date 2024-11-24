@@ -1,10 +1,13 @@
 package jeeprojet.application.Modele;
 
-import javax.persistence.*;
-import java.sql.PseudoColumnUsage;
-import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "utilisateur")
@@ -41,6 +44,9 @@ public class Utilisateur {
 
     @OneToMany(mappedBy = "etudiant")
     private Set<Resultat> resultats = new LinkedHashSet<>();
+
+    @Column(name = "classe")
+    private String classe;
 
     public String getPseudo() {
         return pseudo;
@@ -129,6 +135,15 @@ public class Utilisateur {
         this.resultats = resultats;
     }
 
+    public String getClasse() {
+        return classe;
+    }
+
+    public void setClasse(String classe) {
+        this.classe = classe;
+    }
+
+
     @Override
     public String toString() {
         return "Utilisateur{" +
@@ -137,5 +152,6 @@ public class Utilisateur {
                 ", prenom='" + prenom + '\'' +
                 '}';
     }
+
 
 }

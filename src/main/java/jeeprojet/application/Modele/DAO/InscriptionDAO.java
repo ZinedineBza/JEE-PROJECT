@@ -1,14 +1,18 @@
 package jeeprojet.application.Modele.DAO;
 
-import jeeprojet.application.Modele.*;
-import jeeprojet.application.Util.HibernateUtil;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.util.ArrayList;
-import java.util.List;
+import jeeprojet.application.Modele.Inscription;
+import jeeprojet.application.Modele.InscriptionId;
+import jeeprojet.application.Modele.Matiere;
+import jeeprojet.application.Modele.Utilisateur;
+import jeeprojet.application.Util.HibernateUtil;
 
 public class InscriptionDAO {
     private SessionFactory sessionFactory;
@@ -109,5 +113,27 @@ public class InscriptionDAO {
         }
         return inscriptions;
     }
+    
+    // Recherche les inscriptions d'un enseignant par son email
+    public List<Inscription> findByEnseignant(String enseignantEmail) {
+        List<Inscription> inscriptions = null;
+
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "SELECT i FROM Inscription i " +
+                         "JOIN i.matiere m " +
+                         "JOIN m.cours c " +
+                         "WHERE c.enseignant.email = :enseignantEmail";
+            Query<Inscription> query = session.createQuery(hql, Inscription.class);
+            query.setParameter("enseignantEmail", enseignantEmail);
+
+            inscriptions = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return inscriptions;
+    }
 
 }
+
+

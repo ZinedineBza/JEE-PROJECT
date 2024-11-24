@@ -1,5 +1,9 @@
 package jeeprojet.application.Servlet.Inscription;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,11 +13,7 @@ import jeeprojet.application.Modele.DAO.InscriptionDAO;
 import jeeprojet.application.Modele.Inscription;
 import jeeprojet.application.Modele.Utilisateur;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-
-@WebServlet("/ListInscriptionServlet")
+@WebServlet("/Inscription/ListInscriptionServlet")
 public class ListInscriptionServlet extends HttpServlet {
     private InscriptionDAO inscriptionDAO;
 

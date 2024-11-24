@@ -1,5 +1,6 @@
 package jeeprojet.application.Modele.DAO;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -12,6 +13,7 @@ import jeeprojet.application.Modele.Matiere;
 import jeeprojet.application.Modele.Resultat;
 import jeeprojet.application.Modele.ResultatId;
 import jeeprojet.application.Modele.Utilisateur;
+import jeeprojet.application.Util.HibernateUtil;
 
 public class ResultatDAO {
     private SessionFactory sessionFactory;
@@ -148,5 +150,39 @@ public class ResultatDAO {
             return query.uniqueResult();
         }
     }
+    
+
+    // Récupérer les résultats donnés par un enseignant
+    public List<Resultat> findResultatByEnseignant(String enseignantEmail) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "SELECT r FROM Resultat r " +
+            "JOIN r.etudiant e " +
+            "JOIN r.cours m " +  // Remplacez r.matiere par r.cours
+            "WHERE m.nom IN ( " +
+            "    SELECT c.matiere.nom " +
+            "    FROM Cour c " +
+            "    WHERE c.enseignant.email = :email )";
+
+            Query<Resultat> query = session.createQuery(hql, Resultat.class);
+            query.setParameter("email", enseignantEmail);
+                    // Debug : Affichez les résultats trouvés
+        List<Resultat> resultats = query.getResultList();
+
+        // Debug : Affichez les résultats trouvés
+        System.out.println("Nombre de résultats natifs trouvés : " + resultats.size());
+        for (Resultat resultat : resultats) {
+            System.out.println("Résultat natif : " + resultat.getEtudiant().getNom() + " - " +
+                               resultat.getCours().getNom() + " - " +
+                               resultat.getNote());
+        }
+
+        return resultats;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }        
+    
+    
     
 }

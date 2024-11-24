@@ -56,7 +56,6 @@ public class UtilisateurDAO {
         return user;
     }
 
-
     public List<Utilisateur> findAll() {
         List<Utilisateur> users = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -99,20 +98,48 @@ public class UtilisateurDAO {
         return exists;
     }
 
+    public Utilisateur findByPseudo(String pseudo) {
+        Utilisateur user = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE pseudo = :pseudo", Utilisateur.class);
+            query.setParameter("pseudo", pseudo);
+            user = query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return user;
+    }
+
+    public List<Utilisateur> findByRole(String role) {
+        List<Utilisateur> users = new ArrayList<>();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE role = :role", Utilisateur.class);
+            query.setParameter("role", role);
+            users = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     public List<Utilisateur> findAllStudents() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE role = 'ETUDIANT'", Utilisateur.class);
             return query.list();
         }
     }
-    
-    public List<Utilisateur> findByRole(String role) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+    public List<Utilisateur> findAllByRole(String role) {
+        try (Session session = sessionFactory.openSession()) {
             Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE role = :role", Utilisateur.class);
             query.setParameter("role", role);
-            return query.list();
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
-    
 
 }
+
+

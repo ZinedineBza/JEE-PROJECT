@@ -1,20 +1,19 @@
 package jeeprojet.application.Servlet.Resultat;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jeeprojet.application.Modele.DAO.MatiereDAO;
-import jeeprojet.application.Modele.DAO.UtilisateurDAO;
-import jeeprojet.application.Modele.DAO.ResultatDAO;
-import jeeprojet.application.Modele.Matiere;
-import jeeprojet.application.Modele.Resultat;
-import jeeprojet.application.Modele.Utilisateur;
-import jeeprojet.application.Modele.ResultatId;
-
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
+import jeeprojet.application.Modele.DAO.MatiereDAO;
+import jeeprojet.application.Modele.DAO.ResultatDAO;
+import jeeprojet.application.Modele.DAO.UtilisateurDAO;
+import jeeprojet.application.Modele.Matiere;
+import jeeprojet.application.Modele.Resultat;
+import jeeprojet.application.Modele.ResultatId;
+import jeeprojet.application.Modele.Utilisateur;
 
 @WebServlet("/addResultat")
 public class AddResultatServlet extends HttpServlet {

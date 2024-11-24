@@ -47,6 +47,3 @@ public class AuthServlet extends HttpServlet {
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 }
-
-
-
