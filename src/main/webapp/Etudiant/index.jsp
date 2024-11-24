@@ -1,3 +1,4 @@
+<%@ page import="jeeprojet.application.Modele.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -23,12 +24,18 @@
     </style>
 </head>
 <body>
-
+<%
+    // Récupérer l'utilisateur de la session
+    Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+    String role = (utilisateur != null) ? utilisateur.getRole() : "";
+%>
 <!-- Barre de navigation en haut -->
 <header>
     <nav>
         <a href="Etudiant/index.jsp">Accueil</a>
+        <% if (!"enseignant".equals(role)) { %>
         <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Inscriptions</a>
+        <% } %>
         <a href="<%= request.getContextPath() %>/listResultats">Résultats</a>
     </nav>
 </header>

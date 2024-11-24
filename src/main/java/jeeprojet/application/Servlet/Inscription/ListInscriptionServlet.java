@@ -45,7 +45,7 @@ public class ListInscriptionServlet extends HttpServlet {
             MatiereDAO matiereDAO = new MatiereDAO();
             List<Matiere> matieres = matiereDAO.findAll();
             request.setAttribute("matieres", matieres);
-        } else {
+        }  else {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Accès non autorisé");
             return;
         }
