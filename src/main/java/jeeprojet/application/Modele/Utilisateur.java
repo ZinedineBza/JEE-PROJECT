@@ -53,9 +53,6 @@ public class Utilisateur {
     @OneToMany(mappedBy = "etudiant", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Resultat> resultats = new LinkedHashSet<>();
 
-    @Column(name = "classe")
-    private String classe;
-
     public String getPseudo() {
         return pseudo;
     }

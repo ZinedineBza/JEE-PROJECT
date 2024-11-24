@@ -15,7 +15,7 @@ import jeeprojet.application.Modele.Inscription;
 import jeeprojet.application.Modele.Matiere;
 import jeeprojet.application.Modele.Utilisateur;
 
-@WebServlet("/Inscription/ListInscriptionServlet")
+@WebServlet("/ListInscriptionServlet")
 public class ListInscriptionServlet extends HttpServlet {
     private InscriptionDAO inscriptionDAO;
 
@@ -45,7 +45,10 @@ public class ListInscriptionServlet extends HttpServlet {
             MatiereDAO matiereDAO = new MatiereDAO();
             List<Matiere> matieres = matiereDAO.findAll();
             request.setAttribute("matieres", matieres);
-        }  else {
+        }  else if(Objects.equals(utilisateur.getRole(), "enseignant")) {
+            String enseignantEmail = ((Utilisateur) request.getSession().getAttribute("user")).getEmail();
+            inscriptions = inscriptionDAO.findByEnseignant(enseignantEmail);
+        }else {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Accès non autorisé");
             return;
         }
