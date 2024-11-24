@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jdk.jshell.execution.Util;
+import jeeprojet.application.Modele.Classe;
+import jeeprojet.application.Modele.DAO.ClasseDAO;
 import jeeprojet.application.Modele.DAO.UtilisateurDAO;
 import jeeprojet.application.Modele.Utilisateur;
 
@@ -19,6 +21,7 @@ import java.util.Objects;
 public class CreateUserServlet extends HttpServlet {
 
     private UtilisateurDAO utilisateurDAO;
+    private ClasseDAO classeDAO;
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final String SPECIAL_CHARACTERS = "!@#$%^&*()_-+=<>?/{}~|";
     private static final int PSEUDO_LENGTH = 8;
@@ -26,6 +29,7 @@ public class CreateUserServlet extends HttpServlet {
 
     public void init() {
         utilisateurDAO = new UtilisateurDAO();
+        classeDAO = new ClasseDAO();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,6 +38,9 @@ public class CreateUserServlet extends HttpServlet {
         String prenom = request.getParameter("prenom");
         String dateNaissanceStr = request.getParameter("dateNaissance");
         String email = request.getParameter("email");
+        String classerecherche = request.getParameter("classe");
+
+        Classe classe = classeDAO.findById(classerecherche);
 
         Map<String, String> errors = new HashMap<>();
 
@@ -75,10 +82,11 @@ public class CreateUserServlet extends HttpServlet {
             utilisateur.setPrenom(prenom);
             utilisateur.setDateNaissance(dateNaissanceStr);
             utilisateur.setEmail(email);
+            utilisateur.setClasse(classe);
 
             utilisateurDAO.save(utilisateur);
 
-            response.sendRedirect("listUsers");
+            response.sendRedirect("listUsers?recherche="+role);
         }
     }
 
