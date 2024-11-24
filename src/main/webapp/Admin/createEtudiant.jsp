@@ -42,6 +42,11 @@
     </div>
 
     <div class="form-group">
+        <label for="classe">classe:</label>
+        <input type="text" name="classe" id="classe" value="${param.classe}" required>
+    </div>
+
+    <div class="form-group">
         <input type="submit" value="Créer">
     </div>
 </form>

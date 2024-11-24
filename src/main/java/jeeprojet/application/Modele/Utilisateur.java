@@ -1,19 +1,20 @@
 package jeeprojet.application.Modele;
 
 import javax.persistence.*;
-import java.sql.PseudoColumnUsage;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur {
-    @Column(name = "pseudo", nullable = false, length = 20)
-    private String pseudo;
     @Id
     @Column(name = "email", nullable = false, length = 50)
     private String email;
+
+    @Column(name = "pseudo", nullable = false, length = 20)
+    private String pseudo;
 
     @Column(name = "motDePasse", nullable = false, length = 100)
     private String motDePasse;
@@ -30,16 +31,20 @@ public class Utilisateur {
     @Column(name = "dateNaissance")
     private String dateNaissance;
 
-    @OneToMany(mappedBy = "enseignant")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "classe")
+    private Classe classe;
+
+    @OneToMany(mappedBy = "enseignant", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Cour> cours = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "etudiant")
+    @OneToMany(mappedBy = "etudiant", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Inscription> inscriptions = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "destinataire")
+    @OneToMany(mappedBy = "destinataire", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Notification> notifications = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "etudiant")
+    @OneToMany(mappedBy = "etudiant", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Resultat> resultats = new LinkedHashSet<>();
 
     public String getPseudo() {
@@ -49,6 +54,7 @@ public class Utilisateur {
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }
+
     public String getEmail() {
         return email;
     }
@@ -97,6 +103,14 @@ public class Utilisateur {
         this.dateNaissance = dateNaissance;
     }
 
+    public Classe getClasse() {
+        return classe;
+    }
+
+    public void setClasse(Classe classe) {
+        this.classe = classe;
+    }
+
     public Set<Cour> getCours() {
         return cours;
     }
@@ -130,12 +144,28 @@ public class Utilisateur {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Utilisateur that = (Utilisateur) o;
+        return Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
+    }
+
+    @Override
     public String toString() {
         return "Utilisateur{" +
                 "email='" + email + '\'' +
+                ", pseudo='" + pseudo + '\'' +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
+                ", role='" + role + '\'' +
+                ", dateNaissance='" + dateNaissance + '\'' +
+                ", classe=" + classe +
                 '}';
     }
-
 }
