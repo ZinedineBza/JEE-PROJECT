@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Créer Enseignant</title>
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 
@@ -13,7 +13,7 @@
 
     <!-- Affichage des messages d'erreur -->
     <c:if test="${not empty errors}">
-        <div style="color: red;">
+        <div class="error">
             <ul>
                 <c:forEach var="error" items="${errors}">
                     <li>${error.value}</li>

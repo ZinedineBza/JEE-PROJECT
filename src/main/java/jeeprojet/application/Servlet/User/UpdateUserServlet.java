@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 @WebServlet("/updateUser")
 public class UpdateUserServlet extends HttpServlet {
@@ -31,23 +32,26 @@ public class UpdateUserServlet extends HttpServlet {
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String dateNaissanceStr = request.getParameter("dateNaissance");
+        Utilisateur utilisateur= (Utilisateur) request.getSession().getAttribute("user");
 
-        Utilisateur utilisateur = utilisateurDAO.findById(email);
-        utilisateur.setMotDePasse(motDePasse);
-        utilisateur.setRole(role);
-        utilisateur.setNom(nom);
-        utilisateur.setPrenom(prenom);
-        utilisateur.setDateNaissance(dateNaissanceStr);
 
-        utilisateurDAO.update(utilisateur);
+        if (Objects.equals(utilisateur.getRole(), "admin")) {
+            utilisateur = utilisateurDAO.findById(email);
+            utilisateur.setMotDePasse(motDePasse);
+            utilisateur.setRole(role);
+            utilisateur.setNom(nom);
+            utilisateur.setPrenom(prenom);
+            utilisateur.setDateNaissance(dateNaissanceStr);
+            utilisateurDAO.update(utilisateur);
 
-        response.sendRedirect("listUsers");
+            response.sendRedirect("listUsers");
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         Utilisateur existingUser = utilisateurDAO.findById(email);
         request.setAttribute("user", existingUser);
-        request.getRequestDispatcher("updateUser.jsp").forward(request, response);
+        request.getRequestDispatcher("Admin/updateUser.jsp").forward(request, response);
     }
 }

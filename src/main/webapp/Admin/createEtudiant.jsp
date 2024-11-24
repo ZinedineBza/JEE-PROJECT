@@ -5,19 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Créer Etudiant</title>
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
 <h1>Créer Etudiant</h1>
-<!-- Affichage des messages d'erreur -->
+
 <c:if test="${not empty errors}">
-    <div style="color: red;">
-        <ul>
+        <div class="error">
             <c:forEach var="error" items="${errors}">
-                <li>${error.value}</li>
+                ${error.value}
             </c:forEach>
-        </ul>
-    </div>
+        </div>
 </c:if>
 
 <form action="<%= request.getContextPath() %>/createUser" method="post">
@@ -47,7 +45,7 @@
         <input type="submit" value="Créer">
     </div>
 </form>
-<a href="listUsers">Retour à la liste des utilisateurs</a>
+<h1><a href="listUsers">Retour à la liste des utilisateurs</a></h1>
 </div>
 </body>
 </html>

@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jdk.jshell.execution.Util;
 import jeeprojet.application.Modele.DAO.UtilisateurDAO;
 import jeeprojet.application.Modele.Utilisateur;
 
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @WebServlet("/createUser")
 public class CreateUserServlet extends HttpServlet {
@@ -60,21 +62,24 @@ public class CreateUserServlet extends HttpServlet {
             return;
         }
 
-        String pseudo = generatePseudo(prenom,nom);
-        String motDePasse = generateSecurePassword();
+        Utilisateur utilisateur1 = (Utilisateur) request.getSession().getAttribute("user");
+        if (Objects.equals(utilisateur1.getRole(), "admin")) {
+            String pseudo = generatePseudo(prenom, nom);
+            String motDePasse = generateSecurePassword();
 
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setPseudo(pseudo);
-        utilisateur.setMotDePasse(motDePasse);
-        utilisateur.setRole(role);
-        utilisateur.setNom(nom);
-        utilisateur.setPrenom(prenom);
-        utilisateur.setDateNaissance(dateNaissanceStr);
-        utilisateur.setEmail(email);
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.setPseudo(pseudo);
+            utilisateur.setMotDePasse(motDePasse);
+            utilisateur.setRole(role);
+            utilisateur.setNom(nom);
+            utilisateur.setPrenom(prenom);
+            utilisateur.setDateNaissance(dateNaissanceStr);
+            utilisateur.setEmail(email);
 
-        utilisateurDAO.save(utilisateur);
+            utilisateurDAO.save(utilisateur);
 
-        response.sendRedirect("listUsers");
+            response.sendRedirect("listUsers");
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

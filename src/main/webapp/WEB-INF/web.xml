@@ -23,13 +23,4 @@
         <url-pattern>*.jsp</url-pattern>
     </servlet-mapping>
 
-    <!-- Configuration pour ReleveDeNotesServlet -->
-    <servlet>
-        <servlet-name>ReleveDeNotesServlet</servlet-name>
-        <servlet-class>jeeprojet.application.Servlet.Notes.ReleveDeNotesServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ReleveDeNotesServlet</servlet-name>
-        <url-pattern>/ReleveDeNotesServlet</url-pattern>
-    </servlet-mapping>
 </web-app>

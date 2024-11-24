@@ -132,12 +132,9 @@ public class Utilisateur {
     @Override
     public String toString() {
         return "Utilisateur{" +
-                ", motDePasse='" + motDePasse + '\'' +
-                ", role='" + role + '\'' +
+                "email='" + email + '\'' +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
-                ", dateNaissance=" + dateNaissance +
-                ", email='" + email + '\'' +
                 '}';
     }
 

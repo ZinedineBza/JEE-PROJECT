@@ -21,9 +21,15 @@ public class ListUsersServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Utilisateur> listUsers = utilisateurDAO.findAll();
-        request.setAttribute("listUsers", listUsers);
-        request.getRequestDispatcher("Admin/listUsers.jsp").forward(request, response);
+        String paramValue = request.getParameter("recherche");
+        System.out.println(paramValue);
+        List<Utilisateur> listUsers = new ArrayList<>();
+        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+        if (Objects.equals(utilisateur.getRole(), "admin")) {
+            listUsers = utilisateurDAO.findByRole(paramValue);
+            request.setAttribute("listUsers", listUsers);
+            request.getRequestDispatcher("Admin/listUsers.jsp").forward(request, response);
+        }
 
     }
 }

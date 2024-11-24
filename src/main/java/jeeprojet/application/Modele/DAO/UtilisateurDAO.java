@@ -83,6 +83,7 @@ public class UtilisateurDAO {
         }
         return exists;
     }
+
     public boolean pseudoExists(String pseudo) {
         boolean exists = false;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

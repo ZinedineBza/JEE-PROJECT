@@ -17,7 +17,6 @@
     <th>Enseignant</th>
     <th>Salle</th>
     <th>Date de Début</th>
-    <th>Date de Fin</th>
     <th>Actions</th>
   </tr>
   </thead>

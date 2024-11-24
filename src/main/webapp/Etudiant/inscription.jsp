@@ -19,9 +19,9 @@
     <tbody>
     <c:forEach var="inscription" items="${inscriptions}">
         <tr>
-            <td>${inscription.etudiant.nom}</td>
-            <td>${inscription.etudiant.prenom}</td>
-            <td>${inscription.etudiant.email}</td>
+            <td>${inscription.id.etudiant.nom}</td>
+            <td>${inscription.id.etudiant.prenom}</td>
+            <td>${inscription.id.etudiant.email}</td>
 
             <td>${inscription.cours.nom}</td>
             <td>

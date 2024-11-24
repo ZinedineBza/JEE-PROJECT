@@ -9,16 +9,27 @@ public class Cour {
     private CourId id;
 
     @MapsId("enseignant")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "enseignant", nullable = false)
     private Utilisateur enseignant;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "nom", nullable = false)
-    private Matiere nom;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "matiere", nullable = false)
+    private Matiere matiere;
 
     @Column(name = "salle", length = 5)
     private String salle;
+
+    @Override
+    public String toString() {
+        return "Cour{" +
+                "id=" + id +
+                ", enseignant=" + (enseignant != null ? enseignant.getNom() + " " + enseignant.getPrenom() : "null") +
+                ", nom=" + (matiere != null ? matiere.getNom() : "null") +
+                ", salle='" + salle + '\'' +
+                '}';
+    }
+
 
     public CourId getId() {
         return id;
@@ -37,11 +48,11 @@ public class Cour {
     }
 
     public Matiere getNom() {
-        return nom;
+        return matiere;
     }
 
     public void setNom(Matiere nom) {
-        this.nom = nom;
+        this.matiere = nom;
     }
 
     public String getSalle() {
@@ -51,5 +62,6 @@ public class Cour {
     public void setSalle(String salle) {
         this.salle = salle;
     }
+
 
 }
