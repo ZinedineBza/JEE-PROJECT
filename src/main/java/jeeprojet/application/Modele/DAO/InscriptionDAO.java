@@ -41,12 +41,32 @@ public class InscriptionDAO {
 
     // Sauvegarde une inscription
     public void save(Inscription inscription) {
-        try (Session session = sessionFactory.openSession()) { // Session ouverte dans un try-with-resources
-            Transaction transaction = session.beginTransaction();
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            // Ouverture de la session
+            session = sessionFactory.openSession();
+
+            // Démarrage de la transaction
+            transaction = session.beginTransaction();
+
+            // Sauvegarde du cours
             session.save(inscription);
+
+            // Commit de la transaction
             transaction.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            // En cas d'erreur, rollback de la transaction
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace(); // Afficher l'exception pour débogage
+        } finally {
+            // Fermeture de la session dans le bloc finally pour garantir la fermeture
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
 

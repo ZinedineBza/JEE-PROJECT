@@ -8,7 +8,7 @@ import java.util.Set;
 @Table(name = "matiere")
 public class Matiere {
     @Id
-    @Column(name = "nom", nullable = false, length = 100)
+    @Column(name = "nom", nullable = false, length = 20)
     private String nom;
 
     @OneToMany(mappedBy = "matiere")
@@ -54,6 +54,7 @@ public class Matiere {
     }
 
     public String toString() {
-        return nom;
+        return this.getNom();
     }
+
 }

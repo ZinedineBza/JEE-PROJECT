@@ -27,8 +27,8 @@
 <!-- Barre de navigation en haut -->
 <header>
     <nav>
-        <a href="index.jsp">Accueil</a>
-        <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Inscriptions Cours</a>
+        <a href="Etudiant/index.jsp">Accueil</a>
+        <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Inscriptions</a>
         <a href="<%= request.getContextPath() %>/listResultats">Résultats</a>
     </nav>
 </header>

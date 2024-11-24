@@ -25,38 +25,42 @@ public class AddInscriptionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String etudiantEmail = request.getParameter("etudiantEmail");
-        String coursId = request.getParameter("coursId");
+        String matiereId = request.getParameter("coursId");
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateInscription = currentDate.format(formatter);
+
+
+
+        Utilisateur etudiant = inscriptionDAO.findUtilisateurByEmail(etudiantEmail);
+        System.out.println("FINDUTILISATEUR: " + etudiant);
+
+        Matiere cours = inscriptionDAO.findCoursById(matiereId);
+        System.out.println("FINDCours: " + cours.getNom());
+
+
+
         InscriptionId id = new InscriptionId();
         id.setEtudiant(etudiantEmail);
         id.setDateInscription(dateInscription);
+        id.setMatiere(cours.getNom());
 
         System.out.println("Etudiant Email: " + etudiantEmail);
-        System.out.println("Cours ID: " + coursId);
+        System.out.println("Cours ID: " + matiereId);
         System.out.println("Date Inscription: " + dateInscription);
-        System.out.println("Inscription ID: " + id.getEtudiant() + ", " + id.getDateInscription());
+        System.out.println("Inscription ID: " + id.getEtudiant() + ", " + id.getDateInscription()+", " + id.getMatiere());
 
-
-            Utilisateur etudiant = inscriptionDAO.findUtilisateurByEmail(etudiantEmail);
-            System.out.println("FINDUTILISATEUR: " +etudiant);
-            Matiere cours = inscriptionDAO.findCoursById(coursId);
-            System.out.println("FINDCours: " +cours);
-
-            if (etudiant == null || cours == null) {
-                request.setAttribute("error", "Utilisateur ou cours introuvable.");
-                request.getRequestDispatcher("addInscription.jsp").forward(request, response);
-                return;
-            }
-            id.setMatiere(cours.getNom());
+        if (etudiant != null && cours != null) {
             Inscription inscription = new Inscription();
             inscription.setEtudiant(etudiant);
             inscription.setId(id);
+            inscription.setMatiere(cours);
 
             inscriptionDAO.save(inscription);
             response.sendRedirect("ListInscriptionServlet");
-
-
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid student or course");
+        }
     }
+
 }
