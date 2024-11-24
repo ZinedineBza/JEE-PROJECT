@@ -25,10 +25,11 @@ public class Cour {
         return "Cour{" +
                 "id=" + id +
                 ", enseignant=" + (enseignant != null ? enseignant.getNom() + " " + enseignant.getPrenom() : "null") +
-                ", nom=" + (matiere != null ? matiere.getNom() : "null") +
+                ", nom=" + (matiere != null ? matiere.getNom() : "null") + // Afficher le nom de la matière
                 ", salle='" + salle + '\'' +
                 '}';
     }
+
 
 
     public CourId getId() {

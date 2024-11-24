@@ -4,22 +4,48 @@ import jeeprojet.application.Modele.Cour;
 import jeeprojet.application.Modele.CourId;
 import jeeprojet.application.Util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import java.util.List;
 
 public class CoursDAO {
     // Sauvegarde d'un cours
+    private SessionFactory sessionFactory;
+
+    public CoursDAO() {
+        sessionFactory = new Configuration().configure().buildSessionFactory();
+    }
+    // Sauvegarde d'un cours
     public void save(Cour cours) {
+        Session session = null;
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+        try {
+            // Ouverture de la session
+            session = sessionFactory.openSession();
+
+            // Démarrage de la transaction
             transaction = session.beginTransaction();
+
+            // Sauvegarde du cours
             session.save(cours);
+
+            // Commit de la transaction
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            e.printStackTrace();
+            // En cas d'erreur, rollback de la transaction
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace(); // Afficher l'exception pour débogage
+        } finally {
+            // Fermeture de la session dans le bloc finally pour garantir la fermeture
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
 

@@ -52,4 +52,8 @@ public class Matiere {
     public void setResultats(Set<Resultat> resultats) {
         this.resultats = resultats;
     }
+
+    public String toString() {
+        return nom;
+    }
 }
