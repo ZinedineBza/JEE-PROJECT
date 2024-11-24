@@ -36,7 +36,7 @@
         <% if (!"enseignant".equals(role)) { %>
         <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Inscriptions</a>
         <% } %>
-        <a href="<%= request.getContextPath() %>/listResultats">Résultats</a>
+        <a href="<%= request.getContextPath() %>/studentResults">Résultats</a>
     </nav>
 </header>
 

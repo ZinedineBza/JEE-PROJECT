@@ -1,10 +1,7 @@
 package jeeprojet.application.Servlet.Etudiant;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -29,7 +26,13 @@ public class StudentResultsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupérer l'email de l'étudiant depuis les paramètres de la requête
-        String etudiantEmail = request.getParameter("email");
+        Utilisateur user = (Utilisateur) request.getSession().getAttribute("user");
+        String etudiantEmail;
+        if (Objects.equals(user.getRole(), "admin")) {
+             etudiantEmail = request.getParameter("email");
+        }else {
+             etudiantEmail = user.getEmail();
+        }
     
         // Initialisation des DAO
         UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
