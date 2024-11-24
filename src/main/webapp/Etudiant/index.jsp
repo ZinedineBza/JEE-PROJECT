@@ -40,6 +40,13 @@
         <h2>Votre Emploi du Temps</h2>
         <div id='calendar'></div>
     </section>
+
+    <%-- Si l'utilisateur est connecté, afficher le bouton de déconnexion --%>
+    <c:if test="${not empty sessionScope.user}">
+        <form action="logout" method="post">
+            <button type="submit">Se déconnecter</button>
+        </form>
+    </c:if>
 </div>
 
 <!-- Pied de page -->
@@ -59,14 +66,6 @@
             },
             </c:forEach>
         ];
-
-        // Affichage dans la console pour vérifier uniquement le start
-        <c:forEach var="course" items="${listCourses}">
-        console.log("${course.id.date}");  // Affiche uniquement l'heure de début de chaque cours
-        console.log("${course.id.horaire}");
-        </c:forEach>
-
-
 
         $('#calendar').fullCalendar({
             header: {
