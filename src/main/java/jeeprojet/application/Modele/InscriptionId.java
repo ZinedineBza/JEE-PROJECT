@@ -58,5 +58,13 @@ public class InscriptionId implements java.io.Serializable {
     public int hashCode() {
         return Objects.hash(dateInscription, etudiant, matiere);
     }
+    @Override
+    public String toString() {
+        return "InscriptionId{" +
+                "dateInscription='" + dateInscription + '\'' +
+                ", etudiant='" + etudiant + '\'' +
+                ", matiere='" + matiere + '\'' +
+                '}';
+    }
 
 }

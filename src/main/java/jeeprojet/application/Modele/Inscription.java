@@ -9,7 +9,7 @@ public class Inscription {
     private InscriptionId id;
 
     @MapsId("etudiant")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "etudiant", nullable = false)
     private Utilisateur etudiant;
 
@@ -43,5 +43,14 @@ public class Inscription {
     public void setMatiere(Matiere matiere) {
         this.matiere = matiere;
     }
+    @Override
+    public String toString() {
+        return "Inscription{" +
+                "id=" + id +
+                ", etudiant=" + (etudiant != null ? etudiant.getNom() + " " + etudiant.getPrenom() : "null") +
+                ", matiere=" + (matiere != null ? matiere.getNom() : "null") +
+                '}';
+    }
+
 
 }

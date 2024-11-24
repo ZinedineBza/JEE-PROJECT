@@ -2,11 +2,9 @@ package jeeprojet.application.Modele.DAO;
 
 import jeeprojet.application.Modele.*;
 import jeeprojet.application.Util.HibernateUtil;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import java.util.ArrayList;
@@ -16,68 +14,93 @@ public class InscriptionDAO {
     private SessionFactory sessionFactory;
 
     public InscriptionDAO() {
-        sessionFactory = new Configuration().configure().buildSessionFactory();
+        sessionFactory = HibernateUtil.getSessionFactory(); // Utilisation cohérente du utilitaire
     }
 
+    // Recherche un utilisateur par son email
     public Utilisateur findUtilisateurByEmail(String email) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) { // Utilisation de try-with-resources
             return session.createQuery("FROM Utilisateur WHERE email = :email", Utilisateur.class)
                     .setParameter("email", email)
                     .uniqueResult();
-        }
-    }
-
-    public Matiere findCoursById(String id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Matiere.class, id);
-        }
-    }
-
-    public void save(Inscription inscription) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(inscription);
-        transaction.commit();
-        session.close();
-    }
-
-    public List<Inscription> findAll() {
-        List<Inscription> users = new ArrayList<>();
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Inscription> query = session.createQuery("FROM Inscription ", Inscription.class);
-            users = query.getResultList();
         } catch (Exception e) {
-            e.printStackTrace(); // Pour le dÃ©bogage
+            e.printStackTrace(); // Il est préférable d'utiliser un logger ici
+            return null;
         }
-        return users;
     }
 
+    // Recherche un cours par son ID
+    public Matiere findCoursById(String id) {
+        try (Session session = sessionFactory.openSession()) { // Utilisation de try-with-resources
+            return session.get(Matiere.class, id);
+        } catch (Exception e) {
+            e.printStackTrace(); // Il est préférable d'utiliser un logger ici
+            return null;
+        }
+    }
+
+    // Sauvegarde une inscription
+    public void save(Inscription inscription) {
+        try (Session session = sessionFactory.openSession()) { // Session ouverte dans un try-with-resources
+            Transaction transaction = session.beginTransaction();
+            session.save(inscription);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Trouve toutes les inscriptions
+    public List<Inscription> findAll() {
+        List<Inscription> inscriptions = new ArrayList<>();
+        try (Session session = sessionFactory.openSession()) { // Utilisation de try-with-resources
+            Query<Inscription> query = session.createQuery("FROM Inscription", Inscription.class);
+            inscriptions = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return inscriptions;
+    }
+
+    // Recherche une inscription par ID
     public Inscription findById(InscriptionId id) {
-        Session session = sessionFactory.openSession();
-        Inscription inscription = session.get(Inscription.class, id);
-        session.close();
-        return inscription;
+        try (Session session = sessionFactory.openSession()) { // Utilisation de try-with-resources
+            return session.get(Inscription.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
+    // Met à jour une inscription
     public void update(Inscription inscription) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.update(inscription);
-        transaction.commit();
-        session.close();
+        try (Session session = sessionFactory.openSession()) { // Utilisation de try-with-resources
+            Transaction transaction = session.beginTransaction();
+            session.update(inscription);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void delete(int id) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.delete(id);
-        transaction.commit();
-        session.close();
+    // Supprime une inscription par ID
+    public void delete(InscriptionId id) {
+        try (Session session = sessionFactory.openSession()) { // Utilisation de try-with-resources
+            Transaction transaction = session.beginTransaction();
+            Inscription inscription = session.get(Inscription.class, id); // On récupère d'abord l'entité à supprimer
+            if (inscription != null) {
+                session.delete(inscription);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
     }
 
+    // Recherche les inscriptions d'un utilisateur par son email
     public List<Inscription> findCoursUtilisateur(String email) {
         List<Inscription> inscriptions = new ArrayList<>();
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) { // Utilisation de try-with-resources
             Query<Inscription> query = session.createQuery("FROM Inscription WHERE etudiant.email = :email", Inscription.class);
             query.setParameter("email", email);
             inscriptions = query.getResultList();
@@ -86,6 +109,5 @@ public class InscriptionDAO {
         }
         return inscriptions;
     }
-
 
 }
