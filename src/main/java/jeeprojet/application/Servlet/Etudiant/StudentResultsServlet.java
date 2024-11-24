@@ -28,27 +28,27 @@ public class StudentResultsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Votre logique existante pour la méthode GET
-        String etudiantEmail = request.getParameter("etudiantEmail");
-
+        // Récupérer l'email de l'étudiant depuis les paramètres de la requête
+        String etudiantEmail = request.getParameter("email");
+    
         // Initialisation des DAO
         UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
         ResultatDAO resultatDAO = new ResultatDAO();
-
+    
         // Récupération des données de l'étudiant
         Utilisateur etudiant = utilisateurDAO.findById(etudiantEmail);
         if (etudiant == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Étudiant introuvable.");
             return;
         }
-
+    
         // Récupération des résultats de l'étudiant
         List<Resultat> resultats = resultatDAO.findByUser(etudiant);
         if (resultats.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Aucun résultat trouvé pour cet étudiant.");
             return;
         }
-
+    
         // Regrouper les résultats par matière et calculer les moyennes
         Map<String, ResultatSummary> resultatsParMatiere = new HashMap<>();
         for (Resultat resultat : resultats) {
@@ -56,28 +56,29 @@ public class StudentResultsServlet extends HttpServlet {
             ResultatSummary summary = resultatsParMatiere.computeIfAbsent(matiere, k -> new ResultatSummary());
             summary.addResultat(resultat);
         }
-
+    
         // Calcul de la moyenne générale
         double sommeMoyennes = 0.0;
         int nombreDeCours = 0;
-
+    
         for (ResultatSummary summary : resultatsParMatiere.values()) {
             if (summary.getMoyenne() > 0) {
                 sommeMoyennes += summary.getMoyenne();
                 nombreDeCours++;
             }
         }
-
+    
         double moyenneGenerale = (nombreDeCours > 0) ? (sommeMoyennes / nombreDeCours) : 0.0;
-
+    
         // Ajouter les données au modèle (requête)
         request.setAttribute("etudiant", etudiant);
         request.setAttribute("resultatsParMatiere", resultatsParMatiere.values());
         request.setAttribute("moyenneGenerale", String.format("%.2f", moyenneGenerale));
-
+    
         // Rediriger vers la JSP
         request.getRequestDispatcher("/Etudiant/studentResults.jsp").forward(request, response);
     }
+    
 
     // Classe interne pour regrouper les résultats par matière
     public static class ResultatSummary {

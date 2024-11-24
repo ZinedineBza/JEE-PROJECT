@@ -26,9 +26,9 @@
                     <td>${etudiant.email}</td>
                     <td>
                         <form action="${pageContext.request.contextPath}/studentResults" method="post">
-                            <input type="hidden" name="etudiantEmail" value="${etudiant.email}" />
-                            <button type="submit">Voir le Bulletin</button>
-                        </form>                        
+                            <input type="hidden" name="email" value="${user.email}">
+                            <button type="submit" class="notes-button">Notes</button>
+                        </form>                                 
                     </td>
                 </tr>
             </c:forEach>
