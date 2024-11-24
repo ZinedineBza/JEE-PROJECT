@@ -41,9 +41,16 @@
         <input type="email" name="email" id="email" value="${param.email}" required>
     </div>
 
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
     <div class="form-group">
-        <label for="classe">classe:</label>
-        <input type="text" name="classe" id="classe" value="${param.classe}" required>
+        <label for="classe">Classe:</label>
+        <select name="classe" id="classe" required>
+            <option value="">Sélectionnez une classe</option>
+            <c:forEach var="classe" items="${classes}">
+                <option value="${classe}">${classe}</option>
+            </c:forEach>
+        </select>
     </div>
 
     <div class="form-group">

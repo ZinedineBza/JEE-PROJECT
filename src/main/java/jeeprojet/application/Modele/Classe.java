@@ -20,4 +20,7 @@ public class Classe {
         this.classe = classe;
     }
 
+    public String toString() {
+        return classe;
+    }
 }

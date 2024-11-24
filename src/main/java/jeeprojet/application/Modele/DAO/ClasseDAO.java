@@ -1,12 +1,12 @@
 package jeeprojet.application.Modele.DAO;
 
 import jeeprojet.application.Modele.Classe;
-import jeeprojet.application.Modele.Cour;
-import jeeprojet.application.Modele.CourId;
 import jeeprojet.application.Util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
-import java.io.Serializable;
+
+import java.util.List;
 
 public class ClasseDAO {
     public Classe findById(String id) {
@@ -16,5 +16,14 @@ public class ClasseDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Classe> findAll() {
+        List<Classe> classes;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Classe> query = session.createQuery("FROM Classe", Classe.class);
+            classes = query.list();
+        }
+        return classes;
     }
 }

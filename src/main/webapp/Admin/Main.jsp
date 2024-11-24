@@ -13,7 +13,7 @@
 </header>
 
 <nav>
-    <a href="${pageContext.request.contextPath}/Admin/createEtudiant.jsp">Créer un étudiant</a>
+    <a href="${pageContext.request.contextPath}/FormUser">Créer un étudiant</a>
     <a href="${pageContext.request.contextPath}/Admin/createEnseignant.jsp">Créer un enseignant</a>
     <a href="<%= request.getContextPath() %>/listUsers?recherche=etudiant">liste les etudiants</a>
     <a href="<%= request.getContextPath() %>/listUsers?recherche=enseignant">liste les enseignants</a>
