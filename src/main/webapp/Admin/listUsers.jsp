@@ -7,30 +7,32 @@
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
   <script>
     function filterUsers() {
-      //var roleFilter = document.getElementById('roleFilter').value.toLowerCase();
+      // Définir les filtres
       var nameFilter = document.getElementById('nameFilter').value.toLowerCase();
       var prenomFilter = document.getElementById('prenomFilter').value.toLowerCase();
       var emailFilter = document.getElementById('emailFilter').value.toLowerCase();
-      //var rows = document.querySelectorAll('table tr.userRow');
+      
+      // Sélectionner toutes les lignes avec la classe userRow
+      var rows = document.querySelectorAll('table tr.userRow');
       
       rows.forEach(row => {
         var name = row.querySelector('td.name').textContent.toLowerCase();
         var prenom = row.querySelector('td.prenom').textContent.toLowerCase();
         var email = row.querySelector('td.email').textContent.toLowerCase();
-
+  
         if (
-            name.includes(nameFilter) &&
-            prenom.includes(prenomFilter) &&
-            email.includes(emailFilter)
+          name.includes(nameFilter) &&
+          prenom.includes(prenomFilter) &&
+          email.includes(emailFilter)
         ) {
-            row.style.display = ''; // Afficher la ligne
+          row.style.display = ''; // Afficher la ligne
         } else {
-            row.style.display = 'none'; // Masquer la ligne
+          row.style.display = 'none'; // Masquer la ligne
         }
       });
     }
   </script>
-</head>
+  </head>
 <body>
 
 <!-- Filtres uniquement pour les enseignants -->
