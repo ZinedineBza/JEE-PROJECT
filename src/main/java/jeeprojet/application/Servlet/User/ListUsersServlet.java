@@ -29,6 +29,7 @@ public class ListUsersServlet extends HttpServlet {
         if (Objects.equals(utilisateur.getRole(), "admin")) {
             listUsers = utilisateurDAO.findByRole(paramValue);
             request.setAttribute("listUsers", listUsers);
+            request.setAttribute("recherche", paramValue);
             request.getRequestDispatcher("Admin/listUsers.jsp").forward(request, response);
         }
 

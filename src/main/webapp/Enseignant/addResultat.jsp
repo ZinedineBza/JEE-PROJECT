@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,20 +10,30 @@
 </head>
 <body>
 
-        <h1>Ajouter un Résultat</h1>
-
+    <h1>Ajouter un Résultat</h1>
+    <p>Etudiants : ${etudiants}</p>
+    <p>Matieres : ${matieres}</p>
+        
 
     <form action="<%= request.getContextPath() %>/addResultat" method="post">
         <div class="form-group">
-            <label for="etudiant">Étudiant email :</label>
-            <input type="text" id="etudiant" name="etudiant" required/>
+            <label for="etudiant">Étudiant :</label>
+            <select id="etudiant" name="etudiant">
+                <c:forEach var="etudiant" items="${etudiants}">
+                    <option value="${etudiant.email}">${etudiant.nom} ${etudiant.prenom}</option>
+                </c:forEach>
+            </select>
         </div>
-
+        
         <div class="form-group">
             <label for="cours">Cours :</label>
-            <input type="text" id="cours" name="cours" required/>
+            <select id="cours" name="cours">
+                <c:forEach var="matiere" items="${matieres}">
+                    <option value="${matiere.nom}">${matiere.nom}</option>
+                </c:forEach>
+            </select>
         </div>
-
+        
         <div class="form-group">
             <label for="note">Note :</label>
             <input type="text" id="note" name="note" required/>

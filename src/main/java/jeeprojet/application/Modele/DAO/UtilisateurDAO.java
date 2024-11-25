@@ -148,6 +148,23 @@ public class UtilisateurDAO {
         }
     }
 
+    // Récupérer la liste des étudiants inscrits aux matières enseignées par un enseignant
+    public List<Utilisateur> findEtudiantsInscritsAuxMatieres(String enseignantEmail) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "SELECT DISTINCT u FROM Inscription i " +
+                         "JOIN i.etudiant u " +
+                         "JOIN i.matiere m " +
+                         "WHERE m.nom IN (SELECT c.matiere.nom FROM Cour c WHERE c.enseignant.email = :email)";
+            Query<Utilisateur> query = session.createQuery(hql, Utilisateur.class);
+            query.setParameter("email", enseignantEmail);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+
 }
 
 

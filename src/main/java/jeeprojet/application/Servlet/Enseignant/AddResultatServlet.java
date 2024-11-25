@@ -40,17 +40,24 @@ public class AddResultatServlet extends HttpServlet {
     
         String enseignantEmail = user.getEmail();
     
-        // Récupérer la liste des étudiants
-        List<Utilisateur> etudiants = utilisateurDAO.findAllByRole("etudiant");
-    
-        // Récupérer la liste des matières enseignées par l'enseignant
+        // Récupérer uniquement les cours enseignés par l'enseignant
         List<Matiere> matieres = matiereDAO.findMatiereByEnseignant(enseignantEmail);
+    
+        // Récupérer les étudiants inscrits aux cours enseignés par l'enseignant
+        List<Utilisateur> etudiants = utilisateurDAO.findEtudiantsInscritsAuxMatieres(enseignantEmail);
+    
         System.out.println("Nombre de matières trouvées : " + matieres.size());
+        System.out.println("Nombre d'étudiants inscrits trouvés : " + etudiants.size());
+        System.out.println("Nombre d'étudiants inscrits : " + etudiants.size());
+        for (Utilisateur etudiant : etudiants) {
+            System.out.println("Etudiant : " + etudiant.getNom() + " " + etudiant.getPrenom());
+        }
+        
+        System.out.println("Nombre de matières enseignées : " + matieres.size());
         for (Matiere matiere : matieres) {
             System.out.println("Matière : " + matiere.getNom());
         }
-        System.out.println("Email de l'enseignant connecté : " + enseignantEmail);
-
+        
         // Ajouter les données à la requête pour la JSP
         request.setAttribute("etudiants", etudiants);
         request.setAttribute("matieres", matieres);
@@ -58,6 +65,7 @@ public class AddResultatServlet extends HttpServlet {
         // Rediriger vers la JSP
         request.getRequestDispatcher("/Enseignant/addResultat.jsp").forward(request, response);
     }
+    
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

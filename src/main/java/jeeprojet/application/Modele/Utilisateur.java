@@ -6,12 +6,6 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur {
@@ -37,8 +31,8 @@ public class Utilisateur {
     @Column(name = "dateNaissance")
     private String dateNaissance;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "classe")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "classe", nullable = true)
     private Classe classe;
 
     @OneToMany(mappedBy = "enseignant", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
