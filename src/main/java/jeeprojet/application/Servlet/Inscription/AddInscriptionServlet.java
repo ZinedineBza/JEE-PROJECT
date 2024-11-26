@@ -30,8 +30,6 @@ public class AddInscriptionServlet extends HttpServlet {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateInscription = currentDate.format(formatter);
 
-
-
         Utilisateur etudiant = inscriptionDAO.findUtilisateurByEmail(etudiantEmail);
         System.out.println("FINDUTILISATEUR: " + etudiant);
 

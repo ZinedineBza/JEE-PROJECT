@@ -163,7 +163,38 @@ public class UtilisateurDAO {
             return null;
         }
     }
-    
+
+    public List<Utilisateur> findElevesByClasseAndMatiere(String classe, String matiere) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction tx = session.beginTransaction();
+
+            // Requête HQL avec jointure implicite entre Inscription, Utilisateur et Matiere
+            String hql = "SELECT i.etudiant FROM Inscription i " +
+                    "JOIN i.etudiant u " + // Rejoindre l'entité Utilisateur
+                    "JOIN i.matiere m " +  // Rejoindre l'entité Matiere
+                    "WHERE u.classe.classe = :classe " + // Accéder à la classe via l'utilisateur
+                    "AND m.nom = :matiere"; // Accéder à la matière via l'inscription
+
+            Query<Utilisateur> query = session.createQuery(hql, Utilisateur.class);
+            query.setParameter("classe", classe);
+            query.setParameter("matiere", matiere);
+
+            // Affichage pour déboguer
+            System.out.println("Classe: " + classe + " | Matière: " + matiere);
+
+            List<Utilisateur> eleves = query.list();
+
+            // Commit de la transaction
+            tx.commit();
+
+            return eleves;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 
 }
 

@@ -22,7 +22,7 @@
     <a href="${pageContext.request.contextPath}/addResultatEnseignant">Ajouter un Resultat</a>
     <a href="<%= request.getContextPath() %>/listResultats">Lister les Resultats</a>
     <a href="${pageContext.request.contextPath}/Admin/createCourse.jsp">Ajouter un Cours</a>
-    <a href="<%= request.getContextPath() %>/listCourses">Etudiant index</a>
+    <a href="<%= request.getContextPath() %>/GetMatiere">Liste Cours</a>
 </nav>
 
 <h1>Gestion des utilisateurs et des inscriptions</h1>
