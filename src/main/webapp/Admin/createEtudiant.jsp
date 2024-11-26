@@ -18,7 +18,7 @@
         </div>
 </c:if>
 
-<form action="<%= request.getContextPath() %>/createUser" method="post">
+<form action="<%= request.getContextPath() %>/FormUser?type=etudiant" method="post">
     <input type="hidden" name="role" id="role" value="etudiant" required>
 
     <div class="form-group">
@@ -40,8 +40,6 @@
         <label for="email">Email:</label>
         <input type="email" name="email" id="email" value="${param.email}" required>
     </div>
-
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
     <div class="form-group">
         <label for="classe">Classe:</label>
