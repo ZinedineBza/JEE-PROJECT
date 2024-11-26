@@ -11,7 +11,9 @@
 <c:set var="user" value="${sessionScope.user}" />
 
 <h1>Liste des Inscriptions</h1>
-
+<c:if test="${not empty error}">
+    <p style="color: red;">${error}</p>
+</c:if>
 <table border="1">
     <thead>
     <tr>
@@ -34,8 +36,8 @@
                 <td>${inscription.etudiant.prenom}</td>
                 <td>${inscription.etudiant.email}</td>
                 <td>
-                    <a href="InscriptionServlet?action=edit&id=${inscription.id}">Modifier</a> |
-                    <a href="DeleteInscriptionServlet?id=${inscription.id}"
+
+                    <a href="${pageContext.request.contextPath}/DeleteInscriptionServlet?etudiantEmail=${inscription.etudiant.email}&matiere=${inscription.matiere.nom}"
                        onclick="return confirm('Voulez-vous vraiment supprimer cette inscription ?');">
                         Supprimer
                     </a>
@@ -60,7 +62,7 @@
 
 <%-- Bouton pour ajouter une inscription si l'utilisateur est admin --%>
 <c:if test="${user.role == 'admin'}">
-    <a href="addInscription.jsp">Ajouter une Inscription</a>
+    <a href="<%=request.getContextPath()%>/AddInscriptionServlet">Ajouter une Inscription</a>
 </c:if>
 </body>
 </html>

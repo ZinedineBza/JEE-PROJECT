@@ -63,6 +63,18 @@ public class UtilisateurDAO {
         }
         return user;
     }
+    public Utilisateur findByIdEnseignant(String email) {
+        Utilisateur user = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE email = :email AND role = 'enseignant'", Utilisateur.class);
+            query.setParameter("email", email);
+            user = query.uniqueResult();
+            System.out.println(user);
+        } catch (Exception e) {
+            e.printStackTrace(); // Pour le débogage
+        }
+        return user;
+    }
 
     public List<Utilisateur> findAll() {
         List<Utilisateur> users = new ArrayList<>();
