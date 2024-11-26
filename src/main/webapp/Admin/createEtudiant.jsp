@@ -18,7 +18,7 @@
         </div>
 </c:if>
 
-<form action="<%= request.getContextPath() %>/createUser" method="post">
+<form action="<%= request.getContextPath() %>/FormUser?type=etudiant" method="post">
     <input type="hidden" name="role" id="role" value="etudiant" required>
 
     <div class="form-group">
