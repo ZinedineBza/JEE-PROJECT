@@ -41,8 +41,6 @@
         <input type="email" name="email" id="email" value="${param.email}" required>
     </div>
 
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
     <div class="form-group">
         <label for="classe">Classe:</label>
         <select name="classe" id="classe" required>

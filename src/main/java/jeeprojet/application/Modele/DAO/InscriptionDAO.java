@@ -73,7 +73,16 @@ public class InscriptionDAO {
             }
         }
     }
-
+    public boolean isAlreadyEnrolled(String etudiantEmail, String matiereNom) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Long count = session.createQuery(
+                            "SELECT COUNT(i) FROM Inscription i WHERE i.id.etudiant = :etudiantEmail AND i.id.matiere = :matiereNom", Long.class)
+                    .setParameter("etudiantEmail", etudiantEmail)
+                    .setParameter("matiereNom", matiereNom)
+                    .uniqueResult();
+            return count > 0; // Retourne true si l'inscription existe
+        }
+    }
     // Trouve toutes les inscriptions
     public List<Inscription> findAll() {
         List<Inscription> inscriptions = new ArrayList<>();
@@ -106,20 +115,28 @@ public class InscriptionDAO {
             e.printStackTrace();
         }
     }
+    public boolean deleteInscription(String etudiantEmail, String matiereNom) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
 
-    // Supprime une inscription par ID
-    public void delete(InscriptionId id) {
-        try (Session session = sessionFactory.openSession()) { // Utilisation de try-with-resources
-            Transaction transaction = session.beginTransaction();
-            Inscription inscription = session.get(Inscription.class, id); // On récupère d'abord l'entité à supprimer
-            if (inscription != null) {
-                session.delete(inscription);
-            }
+            // Requête HQL pour supprimer une inscription spécifique
+            int deletedCount = session.createQuery(
+                            "DELETE FROM Inscription i WHERE i.id.etudiant = :etudiantEmail AND i.id.matiere = :matiereNom")
+                    .setParameter("etudiantEmail", etudiantEmail)
+                    .setParameter("matiereNom", matiereNom)
+                    .executeUpdate();
+
             transaction.commit();
+            return deletedCount > 0; // Retourne true si une inscription a été supprimée
         } catch (Exception e) {
-            e.printStackTrace(); // Pour le débogage
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+            return false;
         }
     }
+
+
 
     // Recherche les inscriptions d'un utilisateur par son email
     public List<Inscription> findCoursUtilisateur(String email) {
