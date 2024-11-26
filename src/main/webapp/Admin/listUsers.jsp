@@ -51,7 +51,7 @@
 <!-- Filtres uniquement pour les étudiants -->
 <c:if test="${recherche == 'etudiant'}">
   <h1>Liste des Etudiants</h1>
-
+  
     <label for="nameFilter">Filtrer par nom:</label>
     <input type="text" id="nameFilter" onkeyup="filterUsers()">
 
@@ -102,6 +102,12 @@
     </tr>
   </c:forEach>
 </table>
-<a href="createUser">Créer un nouvel utilisateur</a>
+<c:if test="${recherche == 'etudiant'}">
+  <a href="${pageContext.request.contextPath}/FormUser?type=etudiant">Créer un nouvel utilisateur</a>
+</c:if>
+<c:if test="${recherche == 'enseignant'}">
+  <a href="${pageContext.request.contextPath}/FormUser?type=enseignant">Voir la liste des enseignants</a>
+</c:if>
+
 </body>
 </html>

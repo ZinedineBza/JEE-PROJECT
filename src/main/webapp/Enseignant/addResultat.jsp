@@ -10,10 +10,7 @@
 </head>
 <body>
 
-    <h1>Ajouter un Résultat</h1>
-    <p>Etudiants : ${etudiants}</p>
-    <p>Matieres : ${matieres}</p>
-        
+    <h1>Ajouter un Résultat</h1>        
 
     <form action="<%= request.getContextPath() %>/addResultat" method="post">
         <div class="form-group">
@@ -55,7 +52,9 @@
     </form>
 
 
-        <h1><a href="listResultats">Retour à la liste des Résultats</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/listResultats">Retour à la liste des Résultats</a></h1>
+        <br>
+        <h1><a href="${pageContext.request.contextPath}/redirectionServlet">Retour Accueil</a></h1>
 
 </body>
 </html>

@@ -32,7 +32,7 @@
 
       <td>
         <a href="<%= request.getContextPath() %>/updateCourse?id=${cours.id}">Modifier</a> |
-        <a href="<%= request.getContextPath() %>/deleteCourse?id=${cours.id}">Supprimer</a>
+        <a href="<%= request.getContextPath() %>/deleteCourse?enseignantEmail=${cours.id.enseignant}&date=${cours.id.date}&horaire=${cours.id.horaire}">Supprimer</a>
       </td>
     </tr>
   </c:forEach>

@@ -45,6 +45,7 @@
 
 
 <a href="${pageContext.request.contextPath}/addResultatEnseignant">Ajouter un Résultat</a>
+<a href="${pageContext.request.contextPath}/redirectionServlet">Retour Accueil</a>
 
 </body>
 </html>

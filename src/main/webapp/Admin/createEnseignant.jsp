@@ -49,6 +49,9 @@
             <input type="submit" value="Créer">
         </div>
     </form>
-    <h1><a href="listUsers">Retour à la liste des utilisateurs</a></h1>
+    <h1><a href="${pageContext.request.contextPath}/listUsers?recherche=enseignant">Retour à la liste des enseignants</a></h1>
+    <br>
+    <h1><a href="${pageContext.request.contextPath}/redirectionServlet">Retour Accueil</a></h1>
+
 </body>
 </html>

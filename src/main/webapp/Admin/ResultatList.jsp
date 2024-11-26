@@ -6,6 +6,27 @@
 <head>
     <title>Liste des Résultats</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
+    <script>
+        function filterResults() {
+            var studentFilter = document.getElementById('studentFilter').value.toLowerCase();
+            var courseFilter = document.getElementById('courseFilter').value.toLowerCase();
+            var rows = document.querySelectorAll('table tbody tr');
+
+            rows.forEach(row => {
+                var studentName = row.querySelector('td.student').textContent.toLowerCase();
+                var courseName = row.querySelector('td.course').textContent.toLowerCase();
+
+                if (
+                    studentName.includes(studentFilter) &&
+                    courseName.includes(courseFilter)
+                ) {
+                    row.style.display = ''; // Afficher la ligne
+                } else {
+                    row.style.display = 'none'; // Masquer la ligne
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 <h1>Liste de toutes les notes</h1>
@@ -14,6 +35,15 @@
 <c:if test="${empty resultats}">
     <p>Aucun résultat trouvé.</p>
 </c:if>
+
+<!-- Filtres pour Étudiant et Cours -->
+<div>
+    <label for="studentFilter">Filtrer par étudiant :</label>
+    <input type="text" id="studentFilter" onkeyup="filterResults()">
+
+    <label for="courseFilter">Filtrer par cours :</label>
+    <input type="text" id="courseFilter" onkeyup="filterResults()">
+</div>
 
 <!-- Table pour afficher les résultats -->
 <table border="1">
@@ -31,8 +61,8 @@
     <tbody>
         <c:forEach var="resultat" items="${resultats}">
             <tr>
-                <td>${resultat.etudiant.nom} ${resultat.etudiant.prenom}</td>
-                <td>${resultat.cours.nom}</td>
+                <td class="student">${resultat.etudiant.nom} ${resultat.etudiant.prenom}</td>
+                <td class="course">${resultat.cours.nom}</td>
                 <td>${resultat.id.date}</td>
                 <td>${resultat.note}</td>
                 <td>${resultat.commentaire}</td>
@@ -62,7 +92,8 @@
 </table>
 
 <!-- Lien pour ajouter un nouveau résultat -->
-<a href="${pageContext.request.contextPath}/addResultat.jsp">Ajouter un Résultat</a>
+<a href="${pageContext.request.contextPath}/addResultatEnseignant">Ajouter un Résultat</a>
+<a href="${pageContext.request.contextPath}/redirectionServlet">Retour Accueil</a>
 
 </body>
 </html>

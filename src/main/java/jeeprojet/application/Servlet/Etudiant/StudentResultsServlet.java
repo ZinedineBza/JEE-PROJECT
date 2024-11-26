@@ -47,10 +47,12 @@ public class StudentResultsServlet extends HttpServlet {
     
         // Récupération des résultats de l'étudiant
         List<Resultat> resultats = resultatDAO.findByUser(etudiant);
-        if (resultats.isEmpty()) {
+        /*if (resultats.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Aucun résultat trouvé pour cet étudiant.");
             return;
-        }
+        }*/
+        boolean notesVides = resultats.isEmpty();
+
     
         // Regrouper les résultats par matière et calculer les moyennes
         Map<String, ResultatSummary> resultatsParMatiere = new HashMap<>();
@@ -74,6 +76,7 @@ public class StudentResultsServlet extends HttpServlet {
         double moyenneGenerale = (nombreDeCours > 0) ? (sommeMoyennes / nombreDeCours) : 0.0;
     
         // Ajouter les données au modèle (requête)
+        request.setAttribute("notesVides", notesVides);
         request.setAttribute("etudiant", etudiant);
         request.setAttribute("resultatsParMatiere", resultatsParMatiere.values());
         request.setAttribute("moyenneGenerale", String.format("%.2f", moyenneGenerale));

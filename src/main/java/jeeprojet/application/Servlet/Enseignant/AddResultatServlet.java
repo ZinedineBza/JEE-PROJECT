@@ -31,31 +31,37 @@ public class AddResultatServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Vérifier si l'utilisateur est connecté et est un enseignant
+        // Vérifier si l'utilisateur est connecté
         Utilisateur user = (Utilisateur) request.getSession().getAttribute("user");
-        if (user == null || !user.getRole().equalsIgnoreCase("enseignant")) {
+        if (user == null) {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             return;
         }
     
-        String enseignantEmail = user.getEmail();
+        List<Matiere> matieres = null;
+        List<Utilisateur> etudiants = null;
     
-        // Récupérer uniquement les cours enseignés par l'enseignant
-        List<Matiere> matieres = matiereDAO.findMatiereByEnseignant(enseignantEmail);
+        // Récupération des données en fonction du rôle de l'utilisateur
+        if (user.getRole().equalsIgnoreCase("enseignant")) {
+            String enseignantEmail = user.getEmail();
     
-        // Récupérer les étudiants inscrits aux cours enseignés par l'enseignant
-        List<Utilisateur> etudiants = utilisateurDAO.findEtudiantsInscritsAuxMatieres(enseignantEmail);
+            // Récupérer les cours enseignés par l'enseignant
+            matieres = matiereDAO.findMatiereByEnseignant(enseignantEmail);
     
-        System.out.println("Nombre de matières trouvées : " + matieres.size());
-        System.out.println("Nombre d'étudiants inscrits trouvés : " + etudiants.size());
-        System.out.println("Nombre d'étudiants inscrits : " + etudiants.size());
-        for (Utilisateur etudiant : etudiants) {
-            System.out.println("Etudiant : " + etudiant.getNom() + " " + etudiant.getPrenom());
-        }
-        
-        System.out.println("Nombre de matières enseignées : " + matieres.size());
-        for (Matiere matiere : matieres) {
-            System.out.println("Matière : " + matiere.getNom());
+            // Récupérer les étudiants inscrits aux cours de l'enseignant
+            etudiants = utilisateurDAO.findEtudiantsInscritsAuxMatieres(enseignantEmail);
+    
+            System.out.println("Enseignant connecté : " + enseignantEmail);
+        } else if (user.getRole().equalsIgnoreCase("admin")) {
+            // L'administrateur voit tous les étudiants et toutes les matières
+            matieres = matiereDAO.findAll();
+            etudiants = utilisateurDAO.findByRole("etudiant");
+    
+            System.out.println("Administrateur connecté : " + user.getEmail());
+        } else {
+
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            return;
         }
         
         // Ajouter les données à la requête pour la JSP
@@ -65,7 +71,7 @@ public class AddResultatServlet extends HttpServlet {
         // Rediriger vers la JSP
         request.getRequestDispatcher("/Enseignant/addResultat.jsp").forward(request, response);
     }
-    
+        
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

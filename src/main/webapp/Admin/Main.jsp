@@ -13,13 +13,13 @@
 </header>
 
 <nav>
-    <a href="${pageContext.request.contextPath}/FormUser">Créer un étudiant</a>
-    <a href="${pageContext.request.contextPath}/Admin/createEnseignant.jsp">Créer un enseignant</a>
+    <a href="${pageContext.request.contextPath}/FormUser?type=etudiant">Créer un étudiant</a>
+    <a href="${pageContext.request.contextPath}/FormUser?type=enseignant">Créer un enseignant</a>
     <a href="<%= request.getContextPath() %>/listUsers?recherche=etudiant">liste les etudiants</a>
     <a href="<%= request.getContextPath() %>/listUsers?recherche=enseignant">liste les enseignants</a>
     <a href="${pageContext.request.contextPath}/Etudiant/addInscription.jsp">Ajouter une inscription</a>
     <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Lister les inscriptions</a>
-    <a href="${pageContext.request.contextPath}/Enseignant/addResultat.jsp">Ajouter un Resultat</a>
+    <a href="${pageContext.request.contextPath}/addResultatEnseignant">Ajouter un Resultat</a>
     <a href="<%= request.getContextPath() %>/listResultats">Lister les Resultats</a>
     <a href="${pageContext.request.contextPath}/Admin/createCourse.jsp">Ajouter un Cours</a>
     <a href="<%= request.getContextPath() %>/listCourses">Etudiant index</a>

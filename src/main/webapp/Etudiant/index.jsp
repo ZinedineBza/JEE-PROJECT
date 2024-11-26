@@ -32,7 +32,7 @@
 <!-- Barre de navigation en haut -->
 <header>
     <nav>
-        <a href="Etudiant/index.jsp">Accueil</a>
+        <a href="${pageContext.request.contextPath}/redirectionServlet">Accueil</a>
         <% if (!"enseignant".equals(role)) { %>
         <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Inscriptions</a>
         <% } %>
