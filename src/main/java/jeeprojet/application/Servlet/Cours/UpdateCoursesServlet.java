@@ -8,6 +8,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jeeprojet.application.Modele.CourId;
 import jeeprojet.application.Modele.DAO.CoursDAO;
 import jeeprojet.application.Modele.Cour;
+import jeeprojet.application.Modele.DAO.MatiereDAO;
+import jeeprojet.application.Modele.DAO.UtilisateurDAO;
+import jeeprojet.application.Modele.Matiere;
 import jeeprojet.application.Modele.Utilisateur;
 
 import java.io.IOException;
@@ -20,35 +23,71 @@ import java.util.Objects;
 public class UpdateCoursesServlet extends HttpServlet {
 
     private CoursDAO courDAO;
+    private MatiereDAO matiereDAO;
+    private UtilisateurDAO utilisateurDAO;
+
 
     public void init() {
         courDAO = new CoursDAO();
+        matiereDAO = new MatiereDAO();
+        utilisateurDAO = new UtilisateurDAO();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String enseignantEmail = request.getParameter("enseignantEmail");
-        String nomMatiere = request.getParameter("nomMatiere");
-        String date = request.getParameter("date");
+        String enseignantEmail = request.getParameter("enseignant");
+        String nomMatiere = request.getParameter("matiere");
+        String dateancienne = request.getParameter("date");
+        String horaireancienne = request.getParameter("horaireancienne");
+        String date = request.getParameter("dateancienne");
         String horaire = request.getParameter("horaire");
         String salle = request.getParameter("salle");
-        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
+        System.out.println("horaire ancienne "+horaireancienne);
+        System.out.println("date ancienne "+dateancienne);
+        System.out.println("enseignantEmail: " + enseignantEmail);
+        System.out.println("date: " + date);
+        System.out.println("horaire: " + horaire);
+        System.out.println("salle: " + salle);
+        System.out.println("nomMatiere: " + nomMatiere);
 
+
+        Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
         CourId courId = new CourId();
         courId.setEnseignant(enseignantEmail);
-
         courId.setDate(date);
         courId.setHoraire(horaire);
 
+        CourId anciencourId = new CourId();
+        anciencourId.setEnseignant(enseignantEmail);
+        anciencourId.setDate(dateancienne);
+        anciencourId.setHoraire(horaireancienne);
+
         if (Objects.equals(utilisateur.getRole(), "admin")) {
-            Cour cours = courDAO.findById(courId);
-            if (cours != null) {
-                cours.setSalle(salle); // Met à jour la salle
-                courDAO.update(cours);
-            }
+            // Récupérer l'ancien cours avec l'ID
+            Cour cours = courDAO.findById(anciencourId);
+            Matiere matiere = matiereDAO.findById(nomMatiere);
+            Utilisateur user = utilisateurDAO.findById(enseignantEmail);
+            System.out.println( "Cours ;"+ cours+"Matiere " + matiere +"User :"+ user);
+
+
+
+
+            courDAO.delete(cours);
+
+
+            // Créer un nouveau cours avec les nouvelles informations
+            Cour newCours = new Cour();
+            newCours.setId(courId);
+            newCours.setNom(matiere); // Mettre à jour le nom de la matière
+            newCours.setSalle(salle);    // Mettre à jour la salle
+            newCours.setEnseignant(user); // Ajouter ou mettre à jour l'enseignant
+
+            // Enregistrer le nouveau cours
+            courDAO.save(newCours);
         }
 
-        response.sendRedirect("listCourses");
+        response.sendRedirect( request.getContextPath() +"/GetMatiere");
     }
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String enseignantEmail = request.getParameter("enseignantEmail");
@@ -63,7 +102,7 @@ public class UpdateCoursesServlet extends HttpServlet {
 
         Cour cours = courDAO.findById(courId);
         request.setAttribute("cours", cours);
-        request.getRequestDispatcher("updateCourse.jsp").forward(request, response);
+        request.getRequestDispatcher("Admin/updateCourse.jsp").forward(request, response);
     }
 }
 

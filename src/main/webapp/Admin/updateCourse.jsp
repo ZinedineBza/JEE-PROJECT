@@ -9,21 +9,39 @@
 <body>
 <h1>Modifier le Cours</h1>
 <form action="<%= request.getContextPath() %>/updateCourse" method="post">
-  <input type="hidden" name="id" value="${course.id}"/>
+  <div class="form-group">
+  <label for="matiere">Nom du Cours:</label>
+  <input type="text" name="matiere" id="matiere2" value="${cours.nom}" disabled/><br/><br/>
+    <input type="text" name="matiere" id="matiere" value="${cours.nom}" hidden/>
+  </div>
 
-  <label for="nom">Nom du Cours:</label>
-  <input type="text" name="nom" id="nom" value="${course.nom}" required/><br/><br/>
+  <div class="form-group">
+  <label for="enseignant">enseignant:</label>
+  <input name="enseignant" id="enseignant2" value="${cours.id.enseignant}"disabled><br/><br/>
+    <input name="enseignant" id="enseignant" value="${cours.id.enseignant}" hidden/>
+  </div>
 
-  <label for="description">Description:</label>
-  <textarea name="description" id="description" required>${course.description}</textarea><br/><br/>
+  <div class="form-group">
+  <label for="date">Date:</label>
+  <input type="date" name="date" id="date" value="${cours.id.date}" required/><br/><br/>
+    <input type="date" name="dateancienne" id="dateancienne" value="${cours.id.date}" hidden/>
+  </div>
 
-  <label for="dateDebut">Date de Début:</label>
-  <input type="date" name="dateDebut" id="dateDebut" value="${course.dateDebut}" required/><br/><br/>
+  <div class="form-group">
+  <label for="horaire">Horaire:</label>
+  <input type="time" name="horaire" id="horaire" value="${cours.id.horaire}" required/><br/><br/>
+    <input type="time" name="horaireancienne" id="horaireancienne" value="${cours.id.horaire}" hidden/>
+  </div>
 
-  <label for="dateFin">Date de Fin:</label>
-  <input type="date" name="dateFin" id="dateFin" value="${course.dateFin}" required/><br/><br/>
+  <div class="form-group">
+    <label for="salle">Salle:</label>
+    <input type="text" name="salle" id="salle" value="${cours.salle}" required>
+  </div>
 
+  <div class="form-group">
   <button type="submit">Mettre à jour le Cours</button>
+  </div>
+
 </form>
 </body>
 </html>

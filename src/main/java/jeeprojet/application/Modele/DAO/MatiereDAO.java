@@ -3,6 +3,7 @@ package jeeprojet.application.Modele.DAO;
 import java.util.Collections;
 import java.util.List;
 
+import jeeprojet.application.Modele.Utilisateur;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -21,12 +22,18 @@ public class MatiereDAO {
         sessionFactory = new Configuration().configure().buildSessionFactory();
     }
 
-    public Matiere findById(String id) {
-        Session session = sessionFactory.openSession();
-        Matiere matiere = session.get(Matiere.class, id);
-        session.close();
-        return matiere;
+    public Matiere findById(String id){
+        Matiere matiere = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Query<Matiere> query = session.createQuery("FROM Matiere WHERE nom = :nom", Matiere.class);
+        query.setParameter("nom", id);
+        matiere = query.uniqueResult();
+        System.out.println(matiere);
+    } catch (Exception e) {
+        e.printStackTrace(); // Pour le débogage
     }
+        return matiere;
+}
 
     public List<Matiere> findAll() {
         try (Session session = sessionFactory.openSession()) {

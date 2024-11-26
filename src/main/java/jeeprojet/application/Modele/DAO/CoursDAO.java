@@ -18,6 +18,7 @@ public class CoursDAO {
     public CoursDAO() {
         sessionFactory = new Configuration().configure().buildSessionFactory();
     }
+
     // Sauvegarde d'un cours
     public void save(Cour cours) {
         Session session = null;
@@ -41,23 +42,23 @@ public class CoursDAO {
                 transaction.rollback();
             }
             e.printStackTrace(); // Afficher l'exception pour débogage
-        } finally {
-            // Fermeture de la session dans le bloc finally pour garantir la fermeture
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
         }
     }
 
-    // Recherche d'un cours par ID
     public Cour findById(CourId id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Cour.class, id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+            if (id == null) {
+                throw new IllegalArgumentException("L'ID du cours ne peut pas être null.");
+            }
+
+            Cour cours = session.get(Cour.class, id);
+            if (cours == null) {
+                System.out.println("Aucun cours trouvé avec cet ID : " + id);
+                return null;
+            }
+            return cours;
     }
+
 
     // Mise à jour d'un cours
     public void update(Cour cours) {
@@ -74,14 +75,17 @@ public class CoursDAO {
 
     // Suppression d'un cours
     public void delete(Cour cours) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
             session.delete(cours);
+            System.out.println("supprimer de " + cours.getNom());
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
+            transaction.rollback();
             e.printStackTrace();
+        } finally {
+            session.close();
         }
     }
 
@@ -103,10 +107,10 @@ public class CoursDAO {
         List<Cour> cours = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             // Utilisation de JOIN FETCH pour éviter LazyInitializationException
-            Query<Cour> query = session.createQuery("FROM Cour c " +
-                    "JOIN FETCH c.matiere " + // Matiere
-                    "JOIN FETCH c.enseignant " + // Utilisateur (enseignant)
-                    "WHERE c.enseignant.email = :email OR c.matiere IN (SELECT i.matiere FROM Inscription i WHERE i.etudiant = :email)", Cour.class);
+            Query<Cour> query = session.createQuery("SELECT DISTINCT c FROM Cour c " +
+                    "JOIN FETCH c.matiere m " + // Matiere
+                    "JOIN FETCH c.enseignant e " + // Utilisateur (enseignant)
+                    "WHERE c.enseignant.email = :email OR c.matiere IN (SELECT i.matiere FROM Inscription i WHERE i.etudiant.email = :email)", Cour.class);
 
             // Passer l'email de l'utilisateur en paramètre pour enseignant ou étudiant
             query.setParameter("email", utilisateurEmail);
@@ -119,4 +123,16 @@ public class CoursDAO {
     }
 
 
+
+    public List<Cour> findCoursByMatiere(String matiereId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "FROM Cour c WHERE c.matiere.id = :matiereId";
+            Query<Cour> query = session.createQuery(hql, Cour.class);
+            query.setParameter("matiereId", matiereId);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

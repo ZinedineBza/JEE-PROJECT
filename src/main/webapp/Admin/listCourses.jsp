@@ -44,6 +44,21 @@
   </table>
 </div>
 
+<div id="courses-container" style="display: none;">
+  <h2>Cours</h2>
+  <table border="1" id="courses-table">
+    <thead>
+    <tr>
+      <th>Nom du cours</th>
+      <th>Professeur</th>
+      <th>Emploi du temps</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
 <script>
   $(document).ready(function () {
     // Quand la matière est sélectionnée
@@ -51,6 +66,7 @@
       var matiereId = $(this).val(); // Récupérer la matière sélectionnée
 
       if (matiereId) {
+        // Requête AJAX pour récupérer les classes
         $.ajax({
           url: '<%= request.getContextPath() %>/getClasses', // URL de la servlet qui renvoie les classes
           method: 'GET',
@@ -66,10 +82,30 @@
             console.log("Erreur AJAX:", status, error);
           }
         });
+
+        // Requête AJAX pour récupérer les cours
+        $.ajax({
+          url: '<%= request.getContextPath() %>/getCourses', // URL de la servlet qui renvoie les cours
+          method: 'GET',
+          data: { matiereId: matiereId }, // Envoyer la matière sélectionnée
+          success: function (response) {
+            var tbody = $('#courses-table tbody');
+            tbody.empty(); // Vider la table des cours
+
+            // Ajouter les cours reçus (attendons un tableau HTML ou un format similaire)
+            tbody.append(response); // La réponse doit être une ligne de tableau HTML <tr><td>...</td></tr>
+            $('#courses-container').show(); // Afficher la section des cours
+          },
+          error: function(xhr, status, error) {
+            console.log("Erreur AJAX:", status, error);
+          }
+        });
+
       } else {
-        // Cacher la section des classes et des élèves si aucune matière n'est sélectionnée
+        // Cacher la section des classes, des élèves et des cours si aucune matière n'est sélectionnée
         $('#classes-container').hide();
         $('#eleves-container').hide();
+        $('#courses-container').hide();
       }
     });
 
@@ -99,10 +135,18 @@
         // Cacher la section des élèves si aucune classe n'est sélectionnée
         $('#eleves-container').hide();
       }
+
+    });
+    $('#courses-table').on('click', '.emploi-du-temps-btn', function () {
+      var profEmail = $(this).data('email'); // Récupérer l'email du professeur
+      if (profEmail) {
+        window.location.href = '<%= request.getContextPath() %>/emploiDuTempsProf?email=' + profEmail;
+      }
     });
   });
 
 </script>
+
 
 </body>
 </html>

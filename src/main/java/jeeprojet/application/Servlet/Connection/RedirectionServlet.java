@@ -44,6 +44,8 @@ public class RedirectionServlet extends HttpServlet {
             request.getRequestDispatcher("Admin/Main.jsp").forward(request, response);
 
         } else if (Objects.equals(role, "enseignant")) {
+            List<Cour> coursEtudiant = coursDAO.findByUtilisateur(utilisateur.getEmail());
+            request.setAttribute("coursEtudiant", coursEtudiant);
             // Exemple : Redirection pour les enseignants (ajouter votre logique ici)
             request.getRequestDispatcher("Enseignant/index.jsp").forward(request, response);
 
