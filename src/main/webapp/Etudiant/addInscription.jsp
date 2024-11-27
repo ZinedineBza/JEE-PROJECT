@@ -21,14 +21,6 @@
 
 <body>
 
-<header>
-    <nav>
-        <a href="index.jsp">Accueil</a>
-        <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Inscriptions Cours</a>
-        <a href="<%= request.getContextPath() %>/listResultats">Résultats</a>
-    </nav>
-</header>
-
 <h1>Ajouter une Inscription</h1>
 
 <c:if test="${not empty error}">
@@ -36,9 +28,17 @@
 </c:if>
 
 <form action="<%= request.getContextPath() %>/AddInscriptionServlet" method="post">
-    <label for="etudiantEmail">Email de l'Étudiant :</label>
-    <input type="email" name="etudiantEmail" id="etudiantEmail" required><br>
 
+    <div class="form-group">
+    <label for="etudiantEmail">Email de l'Étudiant :</label>
+        <select name="etudiantEmail" id="etudiantEmail" required>
+            <c:forEach var="user" items="${users}">
+                <option value="${user.email}">${user.prenom} ${user.nom}</option>
+            </c:forEach>
+        </select>
+    </div>
+
+    <div class="form-group">
     <label for="coursId">Matière :</label>
     <select name="coursId" id="coursId" required>
         <c:forEach var="cours" items="${coursList}">
@@ -46,8 +46,13 @@
         </c:forEach>
     </select>
     <br>
+    </div>
 
+    <div class="form-group">
     <button type="submit">Enregistrer</button>
+    </div>
 </form>
+
+<h2><a href="${pageContext.request.contextPath}/Admin/Main.jsp">Retour</a></h2>
 </body>
 </html>

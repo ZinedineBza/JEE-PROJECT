@@ -103,7 +103,6 @@ public class CreateCourseServlet extends HttpServlet {
         List<Matiere> coursList = matiereDAO.findAll();
         List<Utilisateur> utilisateursList = utilisateurDAO.findAllByRole("enseignant");
         request.setAttribute("enseignant", utilisateursList);
-        System.out.println(utilisateursList);
         request.setAttribute("coursList", coursList);
         request.getRequestDispatcher("/Admin/createCourse.jsp").forward(request, response);
     }
