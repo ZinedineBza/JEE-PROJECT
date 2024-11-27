@@ -1,6 +1,18 @@
+<%@ page import="jeeprojet.application.Modele.Utilisateur" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="fr">
+<%
+    // Récupérer l'utilisateur de la session
+    Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+    String role = "";
+
+    if (utilisateur == null) {
+        response.sendRedirect( request.getContextPath() + "/redirectionServlet");
+    } else {
+        role = utilisateur.getRole();
+    }
+%>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -24,13 +24,15 @@ public class DeleteCourseServlet extends HttpServlet {
         coursDAO = new CoursDAO();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupération des paramètres envoyés dans la requête
         String enseignantEmail = request.getParameter("enseignantEmail");
         String date = (request.getParameter("date"));
         String horaire = (request.getParameter("horaire"));
         Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("user");
-
+        System.out.println("Enseignant email: " + enseignantEmail);
+        System.out.println("Date: " + date);
+        System.out.println("Horaire: " + horaire);
         // Création de l'ID composite pour identifier le cours
         CourId courId = new CourId();
         courId.setEnseignant(enseignantEmail);
@@ -46,7 +48,7 @@ public class DeleteCourseServlet extends HttpServlet {
             }
 
             // Redirection vers la liste des cours après suppression
-            response.sendRedirect("listCourses");
+            response.sendRedirect(request.getContextPath() +"/GetMatiere");
         }
     }
 }

@@ -27,8 +27,15 @@
 <%
     // Récupérer l'utilisateur de la session
     Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
-    String role = (utilisateur != null) ? utilisateur.getRole() : "";
+    String role = "";
+
+    if (utilisateur == null) {
+        response.sendRedirect( request.getContextPath() + "/redirectionServlet");
+    } else {
+        role = utilisateur.getRole();
+    }
 %>
+
 <!-- Barre de navigation en haut -->
 <header>
     <nav>
@@ -50,10 +57,15 @@
 
     <%-- Si l'utilisateur est connecté, afficher le bouton de déconnexion --%>
     <c:if test="${not empty sessionScope.user}">
+
+
+<div class="form-group">
         <form action="logout" method="post">
             <button type="submit">Se déconnecter</button>
         </form>
+</div>
     </c:if>
+
 </div>
 
 <!-- Pied de page -->

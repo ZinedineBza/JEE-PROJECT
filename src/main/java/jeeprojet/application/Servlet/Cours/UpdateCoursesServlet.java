@@ -36,9 +36,9 @@ public class UpdateCoursesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String enseignantEmail = request.getParameter("enseignant");
         String nomMatiere = request.getParameter("matiere");
-        String dateancienne = request.getParameter("date");
+        String date = request.getParameter("date");
         String horaireancienne = request.getParameter("horaireancienne");
-        String date = request.getParameter("dateancienne");
+        String dateancienne = request.getParameter("dateancienne");
         String horaire = request.getParameter("horaire");
         String salle = request.getParameter("salle");
         System.out.println("horaire ancienne "+horaireancienne);

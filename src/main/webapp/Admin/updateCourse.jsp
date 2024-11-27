@@ -1,6 +1,18 @@
+<%@ page import="jeeprojet.application.Modele.Utilisateur" %>
 <!-- updateCourse.jsp -->
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
+<%
+  // Récupérer l'utilisateur de la session
+  Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+  String role = "";
+
+  if (utilisateur == null) {
+    response.sendRedirect( request.getContextPath() + "/redirectionServlet");
+  } else {
+    role = utilisateur.getRole();
+  }
+%>
 <html>
 <head>
   <title>Modifier le Cours</title>
@@ -41,7 +53,19 @@
   <div class="form-group">
   <button type="submit">Mettre à jour le Cours</button>
   </div>
-
 </form>
+    <form action="deleteCourse" method="post">
+      <!-- Champs cachés pour les informations du cours -->
+      <input type="hidden" name="enseignantEmail" value="${cours.id.enseignant}">
+      <input type="hidden" name="date" value="${cours.id.date}">
+      <input type="hidden" name="horaire" value="${cours.id.horaire}">
+      <div class="form-group">
+      <!-- Bouton de suppression -->
+      <button type="submit">Supprimer le cours</button>
+      </div>
+    </form>
+
+
+
 </body>
 </html>

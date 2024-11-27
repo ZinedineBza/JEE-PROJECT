@@ -1,8 +1,20 @@
+<%@ page import="jeeprojet.application.Modele.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="fr">
+<%
+    // Récupérer l'utilisateur de la session
+    Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+    String role = "";
+
+    if (utilisateur == null) {
+        response.sendRedirect( request.getContextPath() + "/redirectionServlet");
+    } else {
+        role = utilisateur.getRole();
+    }
+%>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
