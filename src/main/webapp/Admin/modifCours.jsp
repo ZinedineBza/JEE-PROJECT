@@ -35,6 +35,9 @@
     </style>
 </head>
 <body>
+<nav>
+    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+</nav>
 
 <div class="main-content">
     <h1>Modification emploi du temps</h1>

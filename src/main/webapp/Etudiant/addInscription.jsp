@@ -21,6 +21,18 @@
 
 <body>
 
+<header>
+    <nav>
+        <a href="${pageContext.request.contextPath}/redirectionServlet">Accueil</a>
+        <% if (!"enseignant".equals(role)) { %>
+        <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Inscriptions</a>
+        <% } %>
+        <a href="<%= request.getContextPath() %>/studentResults">Résultats</a>
+        <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+
+    </nav>
+</header>
+
 <h1>Ajouter une Inscription</h1>
 
 <c:if test="${not empty error}">

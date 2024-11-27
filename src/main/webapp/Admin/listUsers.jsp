@@ -46,7 +46,9 @@
   </script>
   </head>
 <body>
-
+<nav>
+  <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+</nav>
 <!-- Filtres uniquement pour les enseignants -->
 <c:if test="${recherche == 'enseignant'}">
   <h1>Liste des Enseignants</h1>

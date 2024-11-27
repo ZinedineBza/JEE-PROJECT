@@ -20,6 +20,9 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+<nav>
+  <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+</nav>
 <h1>Liste des Cours</h1>
 
 <div>

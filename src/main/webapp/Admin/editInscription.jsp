@@ -17,6 +17,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
+<nav>
+    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+</nav>
 <h1>Modifier une Inscription</h1>
 <form action="<%= request.getContextPath() %>/EditInscriptionServlet" method="post">
     <input type="hidden" name="id" value="${inscription.id}">

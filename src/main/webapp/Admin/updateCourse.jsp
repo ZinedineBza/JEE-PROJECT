@@ -19,6 +19,9 @@
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
+<nav>
+  <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+</nav>
 <h1>Modifier le Cours</h1>
 <form action="<%= request.getContextPath() %>/updateCourse" method="post">
   <div class="form-group">
