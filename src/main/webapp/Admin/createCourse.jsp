@@ -34,7 +34,11 @@
 <form action="${pageContext.request.contextPath}/createCourse" method="post">
     <div class="form-group">
         <label for="emailProf">Email du Professeur:</label>
-        <input type="email" name="emailProf" id="emailProf" value="${emailProf}" required />
+        <select id="emailProf" name="emailProf">
+            <c:forEach var="enseignant" items="${enseignant}">
+                <option value="${enseignant.email}" ${enseignant.nom == nom ? "selected" : ""}>${enseignant.prenom} ${enseignant.nom}</option>
+            </c:forEach>
+        </select>
     </div>
 
     <div class="form-group">

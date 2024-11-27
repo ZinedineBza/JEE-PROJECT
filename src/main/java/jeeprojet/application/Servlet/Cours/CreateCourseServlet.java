@@ -24,10 +24,12 @@ import java.util.*;
 public class CreateCourseServlet extends HttpServlet {
     private MatiereDAO matiereDAO;
     private CoursDAO coursDAO;
+    private UtilisateurDAO utilisateurDAO;
 
     public void init() {
         coursDAO = new CoursDAO();
         matiereDAO = new MatiereDAO();
+        utilisateurDAO = new UtilisateurDAO();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -67,6 +69,7 @@ public class CreateCourseServlet extends HttpServlet {
 
             // Repasser la liste des matières
             List<Matiere> coursList = matiereDAO.findAll();
+
             request.setAttribute("coursList", coursList);
 
             // Rediriger vers la page
@@ -92,12 +95,15 @@ public class CreateCourseServlet extends HttpServlet {
         coursDAO.save(cours);
 
         // Redirection après succès
-        response.sendRedirect("listCourses");
+        response.sendRedirect("GetMatiere");
     }
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Matiere> coursList = matiereDAO.findAll();
+        List<Utilisateur> utilisateursList = utilisateurDAO.findAllByRole("enseignant");
+        request.setAttribute("enseignant", utilisateursList);
+        System.out.println(utilisateursList);
         request.setAttribute("coursList", coursList);
         request.getRequestDispatcher("/Admin/createCourse.jsp").forward(request, response);
     }
