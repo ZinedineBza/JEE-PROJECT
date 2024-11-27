@@ -35,21 +35,81 @@ public class UtilisateurDAO {
         session.close();
     }
 
+    public void supprimerAvecArchivage(String email, Session session) {
+        try {
+            // Vérifie si l'utilisateur est déjà archivé
+            String checkArchivageSQL = "SELECT COUNT(*) FROM vieux_utilisateurs WHERE email = :email";
+            Long count = ((Number) session.createSQLQuery(checkArchivageSQL)
+                    .setParameter("email", email)
+                    .uniqueResult()).longValue();
+
+            if (count > 0) {
+                System.out.println("Utilisateur déjà archivé. Insertion ignorée.");
+            } else {
+                // Archiver l'utilisateur
+                String archiveUtilisateurSQL =
+                        "INSERT INTO vieux_utilisateurs (pseudo, motDePasse, role, nom, prenom, dateNaissance, email, classe, dateDesactivation) " +
+                                "SELECT pseudo, motDePasse, role, nom, prenom, dateNaissance, email, classe, CURDATE() " +
+                                "FROM Utilisateur WHERE email = :email";
+                session.createSQLQuery(archiveUtilisateurSQL)
+                        .setParameter("email", email)
+                        .executeUpdate();
+                System.out.println("Archivage de l'utilisateur réussi.");
+            }
+
+            // Archiver les résultats
+            String archiveResultatsSQL =
+                    "INSERT IGNORE INTO vieux_resultats (date, note, commentaire, etudiant, matiere) " +
+                            "SELECT r.date, r.note, r.commentaire, r.etudiant, r.matiere " +
+                            "FROM Resultat r WHERE r.etudiant = :email";
+            session.createSQLQuery(archiveResultatsSQL)
+                    .setParameter("email", email)
+                    .executeUpdate();
+            System.out.println("Archivage des résultats réussi.");
+
+            // Supprimer les résultats
+            session.createSQLQuery("DELETE FROM Resultat WHERE etudiant = :email")
+                    .setParameter("email", email)
+                    .executeUpdate();
+
+            // Supprimer les inscriptions
+            session.createSQLQuery("DELETE FROM Inscription WHERE etudiant = :email")
+                    .setParameter("email", email)
+                    .executeUpdate();
+
+            // Supprimer les notifications
+            session.createSQLQuery("DELETE FROM Notification WHERE destinataire = :email")
+                    .setParameter("email", email)
+                    .executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de l'archivage et de la suppression des données associées : " + e.getMessage(), e);
+        }
+    }
+
     public void supprimer(Utilisateur utilisateur) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
         try {
+            // Appeler supprimerAvecArchivage avec la session active
+            supprimerAvecArchivage(utilisateur.getEmail(), session);
+
+            // Supprimer l'utilisateur après archivage
             session.delete(utilisateur);
-            System.out.println("supprimer de " + utilisateur.getNom());
+            System.out.println("Utilisateur supprimé : " + utilisateur.getNom());
+
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
             e.printStackTrace();
+            throw new RuntimeException("Erreur lors de la suppression de l'utilisateur : " + e.getMessage());
         } finally {
             session.close();
         }
     }
+
+
 
     public Utilisateur findById(String email) {
         Utilisateur user = null;
