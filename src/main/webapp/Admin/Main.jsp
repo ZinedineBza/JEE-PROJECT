@@ -33,7 +33,7 @@
     <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Lister les inscriptions</a>
     <a href="${pageContext.request.contextPath}/addResultatEnseignant">Ajouter un Resultat</a>
     <a href="<%= request.getContextPath() %>/listResultats">Lister les Resultats</a>
-    <a href="${pageContext.request.contextPath}/Admin/createCourse.jsp">Ajouter un Cours</a>
+    <a href="${pageContext.request.contextPath}/createCourse">Ajouter un Cours</a>
     <a href="<%= request.getContextPath() %>/GetMatiere">Liste Cours</a>
 </nav>
 

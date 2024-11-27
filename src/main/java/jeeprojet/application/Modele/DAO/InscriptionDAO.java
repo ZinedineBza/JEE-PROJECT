@@ -171,6 +171,26 @@ public class InscriptionDAO {
         return inscriptions;
     }
 
+    // Recherche les inscriptions par cours (matière, date et horaire)
+    public List<Inscription> findByCours(String matiere, String date, String horaire) {
+        List<Inscription> inscriptions = new ArrayList<>();
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "SELECT i FROM Inscription i " +
+                    "WHERE i.matiere.nom = :matiere " +
+                    "AND i.id.matiere IN (SELECT c.matiere FROM Cour c WHERE c.id.date = :date AND c.id.horaire = :horaire)";
+            Query<Inscription> query = session.createQuery(hql, Inscription.class);
+            query.setParameter("matiere", matiere);
+            query.setParameter("date", date);
+            query.setParameter("horaire", horaire);
+
+            inscriptions = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return inscriptions;
+    }
+
+
 }
 
 

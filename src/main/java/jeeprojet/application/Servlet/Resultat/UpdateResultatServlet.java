@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jeeprojet.application.Modele.DAO.ResultatDAO;
 import jeeprojet.application.Modele.Resultat;
 import jeeprojet.application.Modele.ResultatId;
+import jeeprojet.application.Util.GMailer;
 
 @WebServlet("/updateResultat")
 public class UpdateResultatServlet extends HttpServlet {
@@ -51,8 +52,23 @@ public class UpdateResultatServlet extends HttpServlet {
             System.out.println("Aucun résultat trouvé pour l'ID donné.");
         }
 
+        //envoi du mail
+        GMailer gMailer;
+        try {
+            gMailer = new GMailer();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            gMailer.sendMail("[CY ENT]Note modifiée","Bonjour, \n\nVotre note en "+coursId+ " a été modifiée. Vous avez obtenu: "+note+"\n\nCordialement,\nVotre ENT",etudiantId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         // Redirection après mise à jour
         response.sendRedirect("listResultats");
         System.out.println("Redirection vers la liste des résultats.");
+
     }
 }
