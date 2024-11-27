@@ -35,6 +35,9 @@
     </script>
 </head>
 <body>
+<nav>
+    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+</nav>
 <div class="container">
     <h1>Modifier Etudiant</h1>
 

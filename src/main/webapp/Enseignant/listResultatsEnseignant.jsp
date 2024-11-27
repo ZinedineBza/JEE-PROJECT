@@ -28,6 +28,7 @@
         <a href="${pageContext.request.contextPath}/ListInscriptionServlet">Mes Étudiants</a>
         <a href="${pageContext.request.contextPath}/listResultatsEnseignant">Voir les Résultats</a>
         <a href="${pageContext.request.contextPath}/addResultatEnseignant">Ajouter Résultat</a>
+        <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
     </nav>
 </header>
 

@@ -19,6 +19,17 @@
     }
 %>
 <body>
+<header>
+    <nav>
+        <a href="${pageContext.request.contextPath}/redirectionServlet">Accueil</a>
+        <% if (!"enseignant".equals(role)) { %>
+        <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Inscriptions</a>
+        <% } %>
+        <a href="<%= request.getContextPath() %>/studentResults">Résultats</a>
+        <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+
+    </nav>
+</header>
     <h1>Liste des Étudiants</h1>
 
     <table border="1">

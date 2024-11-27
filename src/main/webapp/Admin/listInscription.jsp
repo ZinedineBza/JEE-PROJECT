@@ -19,6 +19,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
+<nav>
+    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+</nav>
 <%-- Récupération de l'utilisateur depuis la session --%>
 <c:set var="user" value="${sessionScope.user}" />
 

@@ -44,6 +44,8 @@
         <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Inscriptions</a>
         <% } %>
         <a href="<%= request.getContextPath() %>/studentResults">Résultats</a>
+        <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+
     </nav>
 </header>
 
@@ -55,16 +57,7 @@
         <div id='calendar'></div>
     </section>
 
-    <%-- Si l'utilisateur est connecté, afficher le bouton de déconnexion --%>
-    <c:if test="${not empty sessionScope.user}">
 
-
-<div class="form-group">
-        <form action="logout" method="post">
-            <button type="submit">Se déconnecter</button>
-        </form>
-</div>
-    </c:if>
 
 </div>
 

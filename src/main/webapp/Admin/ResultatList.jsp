@@ -41,6 +41,9 @@
     </script>
 </head>
 <body>
+<nav>
+    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+</nav>
 <h1>Liste de toutes les notes</h1>
 
 <!-- Vérification que des résultats existent -->

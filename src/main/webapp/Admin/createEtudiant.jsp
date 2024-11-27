@@ -20,6 +20,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
+<nav>
+    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+</nav>
 <h1>Créer Etudiant</h1>
 
 <c:if test="${not empty errors}">
