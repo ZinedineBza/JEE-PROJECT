@@ -5,18 +5,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jeeprojet.application.Modele.CourId;
+import jeeprojet.application.Modele.*;
 import jeeprojet.application.Modele.DAO.CoursDAO;
-import jeeprojet.application.Modele.Cour;
+import jeeprojet.application.Modele.DAO.InscriptionDAO;
 import jeeprojet.application.Modele.DAO.MatiereDAO;
 import jeeprojet.application.Modele.DAO.UtilisateurDAO;
-import jeeprojet.application.Modele.Matiere;
-import jeeprojet.application.Modele.Utilisateur;
+import jeeprojet.application.Util.GMailer;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @WebServlet("/updateCourse")
@@ -26,11 +26,16 @@ public class UpdateCoursesServlet extends HttpServlet {
     private MatiereDAO matiereDAO;
     private UtilisateurDAO utilisateurDAO;
 
+    private InscriptionDAO inscriptionDAO;
+
+
 
     public void init() {
         courDAO = new CoursDAO();
         matiereDAO = new MatiereDAO();
         utilisateurDAO = new UtilisateurDAO();
+        inscriptionDAO = new InscriptionDAO();
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,11 +73,44 @@ public class UpdateCoursesServlet extends HttpServlet {
             Utilisateur user = utilisateurDAO.findById(enseignantEmail);
             System.out.println( "Cours ;"+ cours+"Matiere " + matiere +"User :"+ user);
 
+            // *** AJOUT : Récupérer la liste des étudiants inscrits au cours ***
+            List<Inscription> inscriptions = inscriptionDAO.findByCours(nomMatiere, dateancienne, horaireancienne);
+            if (inscriptions != null && !inscriptions.isEmpty()) {
+                System.out.println("Étudiants inscrits au cours :");
+                for (Inscription inscription : inscriptions) {
+                    System.out.println("Email étudiant : " + inscription.getEtudiant().getEmail());
+                }
+                //envoi du mail
+                GMailer gMailer;
+                try {
+                    gMailer = new GMailer();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                if (inscriptions != null && !inscriptions.isEmpty()) {
+                    for (Inscription inscription : inscriptions) {
+                        try {
+                            gMailer.sendMail("[CY ENT] Un cours a été modifié","Bonjour,\n\n  Votre cours de "+nomMatiere+" du "+dateancienne+" à "+horaireancienne+" en "+salle+" a été modifié :\n"+"\n-Date: "+ date+"\n-Horaire: "+horaire+"\n-Salle: "+salle+"\n\nCordialement,\nVotre ENT",inscription.getEtudiant().getEmail());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            gMailer.sendMail("[CY ENT] Un cours a été modifié","Bonjour,\n\n  Votre cours de "+nomMatiere+" du "+dateancienne+" à "+horaireancienne+" en "+salle+" a été modifié :\n"+"\n-Date: "+ date+"\n-Horaire: "+horaire+"\n-Salle: "+salle+"\n\nCordialement,\nVotre ENT",enseignantEmail);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+
+            } else {
+                System.out.println("Aucun étudiant inscrit à ce cours.");
+            }
+            // *** FIN DE L'AJOUT ***
 
 
 
             courDAO.delete(cours);
-
 
             // Créer un nouveau cours avec les nouvelles informations
             Cour newCours = new Cour();

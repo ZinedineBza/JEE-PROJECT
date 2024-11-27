@@ -14,17 +14,20 @@ import jeeprojet.application.Modele.Matiere;
 import jeeprojet.application.Modele.Resultat;
 import jeeprojet.application.Modele.ResultatId;
 import jeeprojet.application.Modele.Utilisateur;
+import jeeprojet.application.Util.GMailer;
 
 @WebServlet("/addResultat")
 public class AddResultatServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
         // Récupération des paramètres depuis la requête
         String etudiantId = request.getParameter("etudiant");
         String coursId = request.getParameter("cours");
         String noteStr = request.getParameter("note");
         String commentaire = request.getParameter("commentaire");
         String date = request.getParameter("date");
+
 
         // Affichage des données reçues pour débogage
         System.out.println("etudiantId: " + etudiantId);
@@ -82,9 +85,18 @@ public class AddResultatServlet extends HttpServlet {
         System.out.println("Objet Resultat créé: " + resultat);
             // Sauvegarder l'objet Resultat dans la base de données
         ResultatDAO resultatDAO = new ResultatDAO();
+            System.out.println("Je suis gay");
         resultatDAO.save(resultat);
+
+        //envoi du mail
+
+            System.out.println(etudiantId);
+            GMailer gMailer = new GMailer();
+            gMailer.sendMail("[CY ENT] Nouvelle note","Bonjour, \n\nUne nouvelle note vous a été attribuée en "+coursId+ ". Vous avez obtenu: "+note+"\n\nCordialement,\nVotre ENT",etudiantId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         response.sendRedirect("listResultats");
-
-
     }
 }
