@@ -51,10 +51,10 @@
 <!-- Filtres pour Étudiant et Cours -->
 <div>
     <label for="studentFilter">Filtrer par étudiant :</label>
-    <input type="text" id="studentFilter" onkeyup="filterResults()">
+    <input type="text" id="studentFilter" onkeyup="filterResults()" style="width:100%;">
 
     <label for="courseFilter">Filtrer par cours :</label>
-    <input type="text" id="courseFilter" onkeyup="filterResults()">
+    <input type="text" id="courseFilter" onkeyup="filterResults()" style="width:100%;">
 </div>
 
 <!-- Table pour afficher les résultats -->

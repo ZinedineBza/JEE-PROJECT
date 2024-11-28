@@ -37,7 +37,17 @@
     <a href="<%= request.getContextPath() %>/GetMatiere">Liste Cours</a>
 </nav>
 
-<h1>Gestion des utilisateurs et des inscriptions</h1>
+<div class="main-content">
+
+
+
+    <div>
+        <a href="<%= request.getContextPath() %>/index.jsp">
+            <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo">
+        </a>
+
+    </div>
+</div>
 
 <footer>
     &copy; 2024 Gestion Application - Tous droits réservés.
