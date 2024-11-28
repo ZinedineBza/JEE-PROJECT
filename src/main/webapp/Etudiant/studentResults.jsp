@@ -56,7 +56,7 @@
             </table>
 
             <!-- Bouton pour générer un PDF -->
-            <form action="${pageContext.request.contextPath}/generatePDF" method="post">
+            <form action="${pageContext.request.contextPath}/generatePDF" method="post" style="text-align: center;">
                 <input type="hidden" name="etudiantEmail" value="${etudiant.email}" />
                 <button type="submit">Générer PDF</button>
             </form>
