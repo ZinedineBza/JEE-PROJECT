@@ -9,6 +9,8 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 public class CoursDAO {
@@ -42,6 +44,7 @@ public class CoursDAO {
                 transaction.rollback();
             }
             e.printStackTrace(); // Afficher l'exception pour débogage
+            throw e; // Repropager l'exception pour qu'elle soit interceptée dans la servlet
         }
     }
 
@@ -135,4 +138,47 @@ public class CoursDAO {
             return null;
         }
     }
+
+    public String hasConflict(String enseignantEmail, String salle, String date, String horaire) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+
+            // Vérification des conflits avec l'enseignant
+            String teacherHql = "SELECT COUNT(c) FROM Cour c WHERE c.enseignant.email = :enseignantEmail AND c.id.date = :date AND c.id.horaire = :horaire";
+            Query<Long> teacherQuery = session.createQuery(teacherHql, Long.class);
+            teacherQuery.setParameter("enseignantEmail", enseignantEmail);
+            teacherQuery.setParameter("date", date);
+            teacherQuery.setParameter("horaire", horaire);
+            long teacherCount = teacherQuery.getSingleResult();
+
+            if (teacherCount > 0) {
+                return "Conflit : L'enseignant a déjà un cours à cette heure.";
+            }
+
+            // Vérification des conflits avec la salle
+            String roomHql = "SELECT COUNT(c) FROM Cour c WHERE c.salle = :salle AND c.id.date = :date AND c.id.horaire = :horaire";
+            Query<Long> roomQuery = session.createQuery(roomHql, Long.class);
+            roomQuery.setParameter("salle", salle);
+            roomQuery.setParameter("date", date);
+            roomQuery.setParameter("horaire", horaire);
+            long roomCount = roomQuery.getSingleResult();
+
+            if (roomCount > 0) {
+                return "Conflit : La salle est déjà occupée à cette heure.";
+            }
+
+            // Si aucun conflit n'est trouvé
+            return null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Erreur de vérification du conflit.";
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
 }

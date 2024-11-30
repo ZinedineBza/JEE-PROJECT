@@ -27,5 +27,6 @@
         <mapping class="jeeprojet.application.Modele.Notification"/>
         <mapping class="jeeprojet.application.Modele.Resultat"/>
         <mapping class="jeeprojet.application.Modele.Classe"/>
+        <mapping class="jeeprojet.application.Modele.Salle"/>
     </session-factory>
 </hibernate-configuration>
