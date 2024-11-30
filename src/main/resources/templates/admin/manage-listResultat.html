@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Résultats</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Liste des Résultats</h1>
+    </header>
+    <main>
+        <!-- Message si aucun résultat n'est disponible -->
+        <div th:if="${resultats.isEmpty()}">
+            <p>Aucun résultat trouvé.</p>
+        </div>
+
+        <!-- Tableau des résultats -->
+        <table th:if="${!resultats.isEmpty()}" border="1">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Étudiant</th>
+                    <th>Matière</th>
+                    <th>Date</th>
+                    <th>Note</th>
+                    <th>Commentaire</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Parcours des résultats -->
+                <tr th:each="resultat, iterStat : ${resultats}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${resultat.etudiant.pseudo} + ' (' + resultat.etudiant.email + ')'"></td>
+                    <td th:text="${resultat.cours.nom}"></td>
+                    <td th:text="${resultat.id.date}"></td>
+                    <td th:text="${resultat.note}"></td>
+                    <td th:text="${resultat.commentaire ?: 'Aucun commentaire'}"></td>
+                    <td>
+                        <a th:href="@{'/admin/edit-resultat/' + ${resultat.id}}">Modifier</a> |
+                        <a th:href="@{'/admin/delete-resultat/' + ${resultat.id}}">Supprimer</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Liens de navigation -->
+        <a href="/admin/manage-ajouterResultat">Ajouter un nouveau résultat</a><br>
+        <a href="/admin">Retour à l'accueil</a>
+    </main>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un Cours</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Ajouter un Cours</h1>
+    </header>
+    <main>
+        <form action="/admin/add-cours" method="POST">
+            <div>
+                <label for="date">Date :</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div>
+                <label for="horaire">Horaire :</label>
+                <input type="time" id="horaire" name="horaire" required>
+            </div>
+            <div>
+                <label for="enseignant">Enseignant :</label>
+                <select id="enseignant" name="enseignant" required>
+                    <option value="" disabled selected>-- Sélectionnez un enseignant --</option>
+                    <option th:value="${user.email}" th:text="${user.pseudo + ' (' + user.email + ')'}"></option>
+                </select>
+            </div>
+            <div>
+                <label for="matiere">Matière :</label>
+                <select id="matiere" name="matiere" required>
+                    <option value="" disabled selected>-- Sélectionnez une matière --</option>
+                    <option th:each="mat : ${matieres}" th:value="${mat.id}" th:text="${mat.nom}"></option>
+                </select>
+            </div>
+            <div>
+                <label for="salle">Salle :</label>
+                <input type="text" id="salle" name="salle" maxlength="5" required>
+            </div>
+            <button type="submit">Ajouter</button>
+            <a href="/admin/manage-listCours">Retour à la liste des cours</a>
+        </form>
+    </main>
+</body>
+</html>

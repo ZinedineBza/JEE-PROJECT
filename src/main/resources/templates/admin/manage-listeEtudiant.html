@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des étudiants</title>
+</head>
+<body>
+    <h1>Liste des étudiants</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Pseudo</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="etudiant : ${etudiants}">
+                <td th:text="${etudiant.pseudo}"></td>
+                <td th:text="${etudiant.email}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/admin">Retour</a>
+    <a href="/admin/manage-ajouterEtudiant">Ajouter un étudiant</a>
+</body>
+</html>

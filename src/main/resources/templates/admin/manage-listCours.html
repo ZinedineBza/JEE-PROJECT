@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Cours</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Liste des Cours</h1>
+    </header>
+    <main>
+        <!-- Message si aucun cours n'est disponible -->
+        <div th:if="${cours.isEmpty()}">
+            <p>Aucun cours trouvé.</p>
+        </div>
+
+        <!-- Tableau des cours -->
+        <table th:if="${!cours.isEmpty()}" border="1">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Enseignant</th>
+                    <th>Matière</th>
+                    <th>Date</th>
+                    <th>Horaire</th>
+                    <th>Salle</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Parcours des cours -->
+                <tr th:each="cour, iterStat : ${cours}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${cour.enseignant.nom} + ' ' + ${cour.enseignant.prenom}"></td>
+                    <td th:text="${cour.matiere.nom}"></td>
+                    <td th:text="${cour.id.date}"></td>
+                    <td th:text="${cour.id.horaire}"></td>
+                    <td th:text="${cour.salle}"></td>
+                    <td>
+                        <a th:href="@{'/admin/edit-cours/' + ${cour.id.date} + '-' + ${cour.id.horaire} + '-' + ${cour.id.enseignant}}">Modifier</a> |
+                        <a th:href="@{'/admin/delete-cours/' + ${cour.id.date} + '-' + ${cour.id.horaire} + '-' + ${cour.id.enseignant}}" 
+                           onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?');">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Lien pour ajouter un cours -->
+        <a href="/admin/manage-ajouterCours">Ajouter un nouveau cours</a><br>
+        <a href="/admin">Retour à l'accueil</a>
+    </main>
+</body>
+</html>

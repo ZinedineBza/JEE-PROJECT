@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des enseignants</title>
+</head>
+<body>
+    <h1>Liste des enseignants</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Pseudo</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="enseignant : ${enseignants}">
+                <td th:text="${enseignant.pseudo}"></td>
+                <td th:text="${enseignant.email}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/admin">Retour</a>
+    <a href="/admin/manage-ajouterEnseignant">Ajouter un enseignant</a>
+</body>
+</html>
