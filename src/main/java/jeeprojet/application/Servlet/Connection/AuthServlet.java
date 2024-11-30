@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 import java.io.IOException;
@@ -31,10 +32,10 @@ public class AuthServlet extends HttpServlet {
 
         // Chercher l'utilisateur dans la base de données par son pseudo
         Utilisateur utilisateur = utilisateurDAO.findByPseudo(username);
-
+        System.out.println(utilisateur);
         // Vérifier si l'utilisateur existe et si le mot de passe est correct
-        if (utilisateur != null && utilisateur.getMotDePasse().equals(password)) {
-            // Connexion réussie : redirection vers la page etudiant.jsp
+        if (utilisateur != null && checkPassword(password,utilisateur.getMotDePasse() )) {
+            System.out.println(checkPassword(password, utilisateur.getMotDePasse()));
             request.getSession().setAttribute("user", utilisateur);
             response.sendRedirect("redirectionServlet");
         } else {
@@ -46,5 +47,9 @@ public class AuthServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Afficher la page de connexion en GET
         request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
+
+    public boolean checkPassword(String plainPassword, String hashedPassword) {
+        return BCrypt.checkpw(plainPassword, hashedPassword);
     }
 }

@@ -35,16 +35,14 @@
     </style>
 </head>
 <body>
-<nav>
-    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-</nav>
 
-<div class="main-content">
+
     <h1>Modification emploi du temps</h1>
     <section class="emploi-du-temps">
         <div id='calendar'></div>
     </section>
-</div>
+</body>
+
 
 <script>
     $(document).ready(function() {
@@ -104,5 +102,5 @@
 
 </script>
 
-</body>
+
 </html>

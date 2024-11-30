@@ -14,9 +14,9 @@
   }
 %>
 <head>
-  <meta charset="UTF-8">
   <title>Liste des Utilisateurs</title>
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
+
   <script>
     function filterUsers() {
       // Définir les filtres
@@ -117,10 +117,10 @@
   </c:forEach>
 </table>
 <c:if test="${recherche == 'etudiant'}">
-  <a href="${pageContext.request.contextPath}/FormUser?type=etudiant">Créer un nouvel utilisateur</a>
+  <a href="${pageContext.request.contextPath}/FormUser?type=etudiant">Créer un nouveau utilisateur</a>
 </c:if>
 <c:if test="${recherche == 'enseignant'}">
-  <a href="${pageContext.request.contextPath}/FormUser?type=enseignant">Voir la liste des enseignants</a>
+  <a href="${pageContext.request.contextPath}/FormUser?type=enseignant">Créer un nouveau enseignant</a>
 </c:if>
 
 </body>

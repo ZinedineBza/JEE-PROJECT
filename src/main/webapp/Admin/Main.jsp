@@ -21,6 +21,9 @@
 </head>
 <body>
 <header>
+    <a href="<%= request.getContextPath() %>/index.jsp">
+        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 15em">
+    </a>
     <nav>
         <a href="${pageContext.request.contextPath}/FormUser?type=etudiant">Créer un étudiant</a>
         <a href="${pageContext.request.contextPath}/FormUser?type=enseignant">Créer un enseignant</a>
@@ -40,18 +43,6 @@
     <h1>Bienvenue dans l'application de gestion</h1>
 </header>
 
-
-<div class="main-content">
-
-
-
-    <div>
-        <a href="<%= request.getContextPath() %>/index.jsp">
-            <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo">
-        </a>
-
-    </div>
-</div>
 
 <footer>
     &copy; 2024 Gestion Application - Tous droits réservés.

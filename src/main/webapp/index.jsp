@@ -22,20 +22,47 @@
     }
 %>
 </div>
-<form action="auth" method="post">
-    <div class="form-group">
-    <label for="username">Pseudo :</label>
-    <input type="text" id="username" name="username" required>
-    </div>
+            <!-- Formulaire de connexion -->
+            <form id="loginForm" action="auth" method="post">
+                <div class="form-group">
+                    <label for="username">Pseudo :</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe :</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn">Se connecter</button>
+                </div>
+                <div class="form-group">
+                    <a href="javascript:void(0);" onclick="showForgotPasswordForm()">Mot de passe oublié ?</a>
+                </div>
+            </form>
 
-    <div class="form-group">
-    <label for="password">Mot de passe :</label>
-    <input type="password" id="password" name="password" required>
-    </div>
+            <!-- Formulaire de réinitialisation de mot de passe -->
+            <form id="forgotPasswordForm" action="forgotPasswordServlet" method="post" style="display:none;">
+                <div class="form-group">
+                    <label for="email">Adresse e-mail :</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn">Envoyer le lien de réinitialisation</button>
+                </div>
+                <div class="form-group">
+                    <a href="javascript:void(0);" onclick="showLoginForm()">Retour à la connexion</a>
+                </div>
+            </form>
+    </body>
+<script>
+    function showForgotPasswordForm() {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('forgotPasswordForm').style.display = 'block';
+    }
 
-    <div class="form-group">
-    <button type="submit">Se connecter</button>
-    </div>
-</form>
-</body>
+    function showLoginForm() {
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('forgotPasswordForm').style.display = 'none';
+    }
+</script>
 </html>

@@ -20,9 +20,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
-<nav>
+<div id="deconnexion">
     <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-</nav>
+</div>
 <h1>Ajouter un nouveau Cours</h1>
 
 <!-- Afficher les erreurs -->
@@ -34,7 +34,7 @@
 
 <form action="${pageContext.request.contextPath}/createCourse" method="post">
     <div class="form-group">
-        <label for="emailProf">Email du Professeur:</label>
+        <label for="emailProf">Professeur:</label>
         <select id="emailProf" name="emailProf">
             <c:forEach var="enseignant" items="${enseignant}">
                 <option value="${enseignant.email}" ${enseignant.nom == nom ? "selected" : ""}>${enseignant.prenom} ${enseignant.nom}</option>

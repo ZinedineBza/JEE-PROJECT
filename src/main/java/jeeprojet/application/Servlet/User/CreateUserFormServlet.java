@@ -11,6 +11,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jeeprojet.application.Modele.DAO.UtilisateurDAO;
 import jeeprojet.application.Modele.Utilisateur;
+import jeeprojet.application.Util.GMailer;
+import jeeprojet.application.Util.GenerateUser;
+import org.apache.taglibs.standard.tag.common.xml.ParseSupport;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -23,10 +27,6 @@ import java.util.Objects;
 public class CreateUserFormServlet extends HttpServlet {
     private UtilisateurDAO utilisateurDAO;
     private ClasseDAO classeDAO;
-    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    private static final String SPECIAL_CHARACTERS = "!@#$%^&*()_-+=<>?/{}~|";
-    private static final int PSEUDO_LENGTH = 8;
-    private static final int PASSWORD_LENGTH = 12;
 
     public void init() {
         utilisateurDAO = new UtilisateurDAO();
@@ -69,15 +69,20 @@ public class CreateUserFormServlet extends HttpServlet {
         if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);
             request.setAttribute("classes", classes);
-            System.out.println(classes);
             request.getRequestDispatcher("Admin/createEtudiant.jsp").forward(request, response);
             return;
         }
 
         Utilisateur utilisateur1 = (Utilisateur) request.getSession().getAttribute("user");
         if (Objects.equals(utilisateur1.getRole(), "admin")) {
-            String pseudo = generatePseudo(prenom, nom);
-            String motDePasse = generateSecurePassword();
+            GenerateUser generateUser = new GenerateUser();
+            String pseudo = generateUser.generatePseudo(prenom, nom);
+            String motDePasse = null;
+            try {
+                motDePasse = generateUser.generateSecurePassword(pseudo, email);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
             Utilisateur utilisateur = new Utilisateur();
             utilisateur.setPseudo(pseudo);
@@ -95,35 +100,6 @@ public class CreateUserFormServlet extends HttpServlet {
         }
     }
 
-
-    private String generatePseudo(String prenom, String nom) {
-        String basePseudo = prenom.substring(0, 1) + nom.substring(0, Math.min(5, nom.length())).toLowerCase();
-        String pseudo = basePseudo;
-        int count = 1;
-
-        while (utilisateurDAO.pseudoExists(pseudo)) {
-            pseudo = basePseudo + count;
-            count++;
-        }
-
-        return pseudo;
-    }
-
-    private String generateSecurePassword() {
-        String password = generateRandomString(PASSWORD_LENGTH - 2);
-        password += SPECIAL_CHARACTERS.charAt(new SecureRandom().nextInt(SPECIAL_CHARACTERS.length()));
-        password += SPECIAL_CHARACTERS.charAt(new SecureRandom().nextInt(SPECIAL_CHARACTERS.length()));
-        return password;
-    }
-
-    private String generateRandomString(int length) {
-        SecureRandom random = new SecureRandom();
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
-        }
-        return sb.toString();
-    }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type = request.getParameter("type");
         

@@ -92,7 +92,7 @@ public class CreateCourseServlet extends HttpServlet {
             request.getRequestDispatcher("/Admin/createCourse.jsp").forward(request, response);
         } else {
             coursDAO.save(cours);
-            response.sendRedirect("/GetMatiere");
+            response.sendRedirect(request.getContextPath() + "/GetMatiere");
         }
     }
 
