@@ -38,6 +38,11 @@
 
 
     <h1>Modification emploi du temps</h1>
+    <c:if test="${not empty errors}">
+        <div class="error">
+            <p>${errors}</p>
+        </div>
+    </c:if>
     <section class="emploi-du-temps">
         <div id='calendar'></div>
     </section>

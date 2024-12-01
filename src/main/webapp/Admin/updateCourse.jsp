@@ -23,6 +23,11 @@
   <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
 </nav>
 <h1>Modifier le Cours</h1>
+<c:if test="${not empty errors}">
+  <div class="error">
+    <p>${errors}</p>
+  </div>
+</c:if>
 <form action="<%= request.getContextPath() %>/updateCourse" method="post">
   <div class="form-group">
   <label for="matiere">Nom du Cours:</label>

@@ -64,12 +64,18 @@
 <script>
     $(document).ready(function() {
         var events = [
-            <c:forEach var="course" items="${listCourses}">
+            <c:forEach var="course" items="${cours}">
             {
-                title: "${course.nom} (${course.salle})",
-                start: '${course.date}T${course.horaire}',
-                end: moment('${course.date}T${course.horaire}').add(2, 'hours').format('YYYY-MM-DDTHH:mm:ss'),
-                description: 'Matière: ${course.nom}, Salle: ${course.salle}, Étudiants inscrits: ${course.nbEtudiants}'
+                title: "${course.nom} \n ${course.enseignant.nom} ${course.enseignant.prenom} \n ${course.salle}",
+                start: '${course.id.date}T${course.id.horaire}', // Heure de début
+                end: moment('${course.id.date}T${course.id.horaire}').add(2, 'hours').format('YYYY-MM-DDTHH:mm:ss'),  // Heure de fin (ajoute 2 heures)
+                description: 'Enseignant: ${course.enseignant.nom}, Salle: ${course.salle}',  // Description de l'événement
+                id: '${course.id.date}_${course.id.horaire}',  // Identifiant unique basé sur la date et l'heure
+                enseignantEmail: '${course.enseignant.email}',  // Email de l'enseignant
+                nomMatiere: '${course.nom}',  // Nom de la matière
+                date: '${course.id.date}',  // Date
+                horaire: '${course.id.horaire}',  // Horaire
+                salle: '${course.salle}'  // Salle
             },
             </c:forEach>
         ];

@@ -66,26 +66,34 @@ public class UpdateCoursesServlet extends HttpServlet {
         anciencourId.setDate(dateancienne);
         anciencourId.setHoraire(horaireancienne);
 
-        if (Objects.equals(utilisateur.getRole(), "admin")) {
-            // Récupérer l'ancien cours avec l'ID
+        if (!Objects.equals(utilisateur.getRole(), "admin")) {
+        response.sendRedirect("index.jsp");}
+
+
             Cour cours = courDAO.findById(anciencourId);
             Matiere matiere = matiereDAO.findById(nomMatiere);
             Utilisateur user = utilisateurDAO.findById(enseignantEmail);
             System.out.println( "Cours ;"+ cours+"Matiere " + matiere +"User :"+ user);
 
-            // *** AJOUT : Récupérer la liste des étudiants inscrits au cours ***
+            //envoi du mail
+            GMailer gMailer;
+            try {
+                gMailer = new GMailer();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                gMailer.sendMail("[CY ENT] Un cours a été modifié","Bonjour,\n\n  Votre cours de "+nomMatiere+" du "+dateancienne+" à "+horaireancienne+" en "+salle+" a été modifié :\n"+"\n-Date: "+ date+"\n-Horaire: "+horaire+"\n-Salle: "+salle+"\n\nCordialement,\nVotre ENT",enseignantEmail);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
             List<Inscription> inscriptions = inscriptionDAO.findByCours(nomMatiere, dateancienne, horaireancienne);
             if (inscriptions != null && !inscriptions.isEmpty()) {
                 System.out.println("Étudiants inscrits au cours :");
+
                 for (Inscription inscription : inscriptions) {
                     System.out.println("Email étudiant : " + inscription.getEtudiant().getEmail());
-                }
-                //envoi du mail
-                GMailer gMailer;
-                try {
-                    gMailer = new GMailer();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
                 }
 
                 if (inscriptions != null && !inscriptions.isEmpty()) {
@@ -106,25 +114,27 @@ public class UpdateCoursesServlet extends HttpServlet {
             } else {
                 System.out.println("Aucun étudiant inscrit à ce cours.");
             }
-            // *** FIN DE L'AJOUT ***
+            String conflictMessage = courDAO.hasConflict(enseignantEmail, salle, date, horaire);
+            System.out.println(conflictMessage);
+            if (conflictMessage != null) {
+                request.setAttribute("errors", conflictMessage);
+                request.setAttribute("cours", cours);
+                request.getRequestDispatcher("Admin/updateCourse.jsp?enseignantEmail=" + enseignantEmail +
+                        "&nomMatiere=" + matiere +
+                        "&date=" + date +
+                        "&horaire=" + horaire +
+                        "&salle="+salle).forward(request, response);
+            }
+                courDAO.delete(cours);
+                Cour newCours = new Cour();
+                newCours.setId(courId);
+                newCours.setNom(matiere); // Mettre à jour le nom de la matière
+                newCours.setSalle(salle);    // Mettre à jour la salle
+                newCours.setEnseignant(user); // Ajouter ou mettre à jour l'enseignant
+                courDAO.save(newCours);
+                response.sendRedirect(request.getContextPath()+ "/GetMatiere");
 
-
-
-            courDAO.delete(cours);
-
-            // Créer un nouveau cours avec les nouvelles informations
-            Cour newCours = new Cour();
-            newCours.setId(courId);
-            newCours.setNom(matiere); // Mettre à jour le nom de la matière
-            newCours.setSalle(salle);    // Mettre à jour la salle
-            newCours.setEnseignant(user); // Ajouter ou mettre à jour l'enseignant
-
-            // Enregistrer le nouveau cours
-            courDAO.save(newCours);
         }
-
-        response.sendRedirect( request.getContextPath() +"/GetMatiere");
-    }
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -143,4 +153,3 @@ public class UpdateCoursesServlet extends HttpServlet {
         request.getRequestDispatcher("Admin/updateCourse.jsp").forward(request, response);
     }
 }
-

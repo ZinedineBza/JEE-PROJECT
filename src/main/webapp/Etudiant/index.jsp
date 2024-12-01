@@ -69,7 +69,7 @@
 <script>
     $(document).ready(function() {
         var events = [
-            <c:forEach var="course" items="${listCourses}">
+            <c:forEach var="course" items="${cours}">
             {
                 title: "${course.nom.nom} \n ${course.enseignant.nom} ${course.enseignant.prenom} \n ${course.salle}",
                 start: '${course.id.date}T${course.id.horaire}',  // Heure de début
