@@ -9,6 +9,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jeeprojet.application.Modele.DAO.MatiereDAO;
+import jeeprojet.application.Modele.DAO.UtilisateurDAO;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class AddInscriptionServlet extends HttpServlet {
     private InscriptionDAO inscriptionDAO;
     private MatiereDAO matiereDAO;
+    private UtilisateurDAO utilisateurDAO;
 
 
 
@@ -28,6 +30,7 @@ public class AddInscriptionServlet extends HttpServlet {
     public void init() {
         inscriptionDAO = new InscriptionDAO();
         matiereDAO = new MatiereDAO();
+        utilisateurDAO = new UtilisateurDAO();
     }
 
     @Override
@@ -80,8 +83,10 @@ public class AddInscriptionServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupérer la liste des matières depuis la base de données
+        List<Utilisateur> users = utilisateurDAO.findAllStudents();
         List<Matiere> coursList = matiereDAO.findAll();
         request.setAttribute("coursList", coursList);
+        request.setAttribute("users", users);
         // Rediriger vers la page JSP
         request.getRequestDispatcher("/Etudiant/addInscription.jsp").forward(request, response);
     }
