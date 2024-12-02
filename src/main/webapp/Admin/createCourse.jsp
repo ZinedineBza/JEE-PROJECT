@@ -28,7 +28,9 @@
 <!-- Afficher les erreurs -->
 <c:if test="${not empty errors}">
     <div class="error">
-        <p>${errors}</p>
+        <c:forEach var="error" items="${errors}">
+            <p>${error}</p>
+        </c:forEach>
     </div>
 </c:if>
 
@@ -54,8 +56,8 @@
     <div class="form-group">
         <label for="salle">Salle:</label>
         <select id="salle" name="salle">
-            <c:forEach var="salle" items="${salle}">
-                <option value="${salle.salle}" ${salle.salle == salle ? "selected" : ""}>${salle.salle}</option>
+            <c:forEach var="salle" items="${selectedSalle}">
+                <option value="${salle.salle}" ${salle.salle == selectedSalle ? "selected" : ""}>${salle.salle}</option>
             </c:forEach>
         </select>
     </div>

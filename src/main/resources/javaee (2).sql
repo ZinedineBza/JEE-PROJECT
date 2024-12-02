@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 30 nov. 2024 à 21:39
+-- Généré le : lun. 02 déc. 2024 à 18:16
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -59,7 +59,8 @@ CREATE TABLE `cours` (
 --
 
 INSERT INTO `cours` (`matiere`, `enseignant`, `salle`, `date`, `horaire`) VALUES
-('Anglais', 'kaddacheyo@cy-tech.fr', 'C103', '2024-11-26', '13:00:00');
+('Anglais', 'martinssoa@cy-tech.fr', 'C103', '2024-12-03', '08:00:00'),
+('Anglais', 'martinssoa@cy-tech.fr', 'C103', '2024-12-03', '19:00:00');
 
 --
 -- Déclencheurs `cours`
@@ -175,19 +176,6 @@ INSERT INTO `matiere` (`nom`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `notification`
---
-
-CREATE TABLE `notification` (
-  `idNotification` int(11) NOT NULL,
-  `message` text NOT NULL,
-  `dateEnvoi` date NOT NULL,
-  `destinataire` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `resultat`
 --
 
@@ -268,9 +256,8 @@ CREATE TABLE `utilisateur` (
 
 INSERT INTO `utilisateur` (`pseudo`, `motDePasse`, `role`, `nom`, `prenom`, `dateNaissance`, `email`, `classe`) VALUES
 ('admin', '$2a$10$qRBF0qyypsSV7hgzeydioufdNBLXTLQHAYgDo/8qPDvOtPlsMiWYW', 'admin', 'admin', 'admin', '1111-11-11', 'admin3@admin.com', NULL),
-('Fmarti2', '$2a$10$N0OTy/7IEuX4ak.w9wOrsORGYwa4VEXhFveUuWVNh/rncX94sg6kO', 'enseignant', 'Martins soares', 'Flavio', '2002-03-08', 'kaddacheyo@cy-tech.fr', NULL),
-('Fmarti1', '$2a$10$crFbIw7vvDkKdXPr4pUc0esqNvoHkAgxRy7xRiy9JKHmQj6ARSOrK', 'etudiant', 'Martins soares', 'Flavio', '2002-03-08', 'martinssoa@cy-tech.fr', 'ING1'),
-('Fmarti', '$2a$10$uAn7YxCB4SYHnSdwsCsvb.lAw29OYfYI1U/N1sZPNGm8HhLu4WnXS', 'etudiant', 'Martins soares', 'Flavio', '2002-03-08', 'soares.flavio2002@gmail.com', 'ING1');
+('Fmarti', '$2a$10$qbJlurdTNiNvNpC2cI5ACuOPaW4gc5ffgozFitJyeuYVHLul1eRVu', 'enseignant', 'Martins soares', 'Flavio', '0011-01-08', 'martinssoa@cy-tech.fr', NULL),
+('e1', '$2a$10$ll1.xuEUTHRQWICC4jRWquBadKJqL.CtpHUnzIRFg9A5VKngBmizS', 'etudiant', '1', 'etudiant1', '2010-10-10', 'test1@test.com', 'ING1');
 
 --
 -- Déclencheurs `utilisateur`
@@ -283,6 +270,20 @@ CREATE TRIGGER `before_delete_utilisateur` BEFORE DELETE ON `utilisateur` FOR EA
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `vieux_resultats`
+--
+
+CREATE TABLE `vieux_resultats` (
+  `date` date NOT NULL,
+  `note` int(11) DEFAULT NULL,
+  `commentaire` varchar(255) DEFAULT NULL,
+  `etudiant` varchar(255) NOT NULL,
+  `matiere` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -301,22 +302,6 @@ CREATE TABLE `vieux_utilisateurs` (
   `classe` varchar(10) DEFAULT NULL,
   `dateDesactivation` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `vieux_utilisateurs`
---
-
-INSERT INTO `vieux_utilisateurs` (`pseudo`, `motDePasse`, `role`, `nom`, `prenom`, `dateNaissance`, `email`, `classe`, `dateDesactivation`) VALUES
-('aadmin1', '$2a$10$78fxWdfaSxDvH8hQI5TQq.HR2MbstAPfKOYjEmbKFWbLpex6m8fq.', 'etudiant', 'admin', 'admin', '1111-11-11', 'admin2@admin.com', 'ING1', '2024-11-30'),
-('admin', 'admin', 'admin', 'admin', 'admin', '0000-00-00', 'admin@admin.admin', NULL, '2024-11-30'),
-('aadmin', '$2a$10$CzQMmIKgKIv/kBUBLhmaxeM/D4zJoSiFtWlVbleB4E4vcRmPppeZi', 'etudiant', 'admin', 'admin', '1111-11-11', 'admin@admin.com', 'ING1', '2024-11-30'),
-('admin', '$2a$10$KIXzTzZJeNmTj9ewz58Z.eFqWgXKmM7tQ.g2ynq.A0yG1X6nmnZWG', 'admin', 'Admin', 'User', NULL, 'admin@example.com', NULL, '2024-11-30'),
-('Amhama', 'OOychw28Xp<_', 'enseignant', 'Mhamat Aware', 'Aware', '2001-10-17', 'awareaware37@gmail.com', NULL, '2024-11-30'),
-('Zbenzo', 'AKPIQO9X9s/$', 'etudiant', 'Benzoua', 'Zinedine', '2002-11-28', 'benzouazin@cy-tech.fr', 'ING2', '2024-11-30'),
-('Jekoka', 'oBPWvbgmSu/}', 'etudiant', 'Ekoka', 'Jeremy', '2003-11-16', 'eyombwaek@cy-tech.fr', 'ING1', '2024-11-30'),
-('Ykadda', 'vF78qdbBOI*/', 'etudiant', 'Kaddache', 'Younes', '2004-06-02', 'kaddacheyo@cy-tech.fr', 'ING1', '2024-11-30'),
-('Fmarti', '5hy1z3pyDT}{', 'etudiant', 'Martins soares', 'Flavio', '2002-03-08', 'soares.flavio2002@gmail.com', 'ING3', '2024-11-30'),
-('Tforti', 'WB3IgWPByW^*', 'enseignant', 'Fortier', 'Theo', '2003-08-13', 'test@test.com', NULL, '2024-11-30');
 
 --
 -- Index pour les tables déchargées
@@ -351,13 +336,6 @@ ALTER TABLE `matiere`
   ADD PRIMARY KEY (`nom`);
 
 --
--- Index pour la table `notification`
---
-ALTER TABLE `notification`
-  ADD PRIMARY KEY (`idNotification`),
-  ADD KEY `destinataire` (`destinataire`);
-
---
 -- Index pour la table `resultat`
 --
 ALTER TABLE `resultat`
@@ -378,21 +356,17 @@ ALTER TABLE `utilisateur`
   ADD KEY `classe` (`classe`);
 
 --
+-- Index pour la table `vieux_resultats`
+--
+ALTER TABLE `vieux_resultats`
+  ADD PRIMARY KEY (`date`,`etudiant`,`matiere`);
+
+--
 -- Index pour la table `vieux_utilisateurs`
 --
 ALTER TABLE `vieux_utilisateurs`
   ADD PRIMARY KEY (`email`,`dateDesactivation`),
   ADD KEY `classe` (`classe`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `notification`
---
-ALTER TABLE `notification`
-  MODIFY `idNotification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Contraintes pour les tables déchargées
@@ -411,12 +385,6 @@ ALTER TABLE `cours`
 ALTER TABLE `inscription`
   ADD CONSTRAINT `inscription_ibfk_1` FOREIGN KEY (`etudiant`) REFERENCES `utilisateur` (`email`),
   ADD CONSTRAINT `inscription_ibfk_2` FOREIGN KEY (`matiere`) REFERENCES `matiere` (`nom`);
-
---
--- Contraintes pour la table `notification`
---
-ALTER TABLE `notification`
-  ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`destinataire`) REFERENCES `utilisateur` (`email`);
 
 --
 -- Contraintes pour la table `resultat`
