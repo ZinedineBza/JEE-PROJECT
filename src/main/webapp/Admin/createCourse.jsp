@@ -20,9 +20,14 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
-<div id="deconnexion">
-    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-</div>
+<header id = "headerleft">
+    <a href="<%= request.getContextPath() %>/redirectionServlet">
+        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
+    </a>
+    <div id="deconnexion">
+        <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+    </div>
+</header>
 <h1>Ajouter un nouveau Cours</h1>
 
 <!-- Afficher les erreurs -->

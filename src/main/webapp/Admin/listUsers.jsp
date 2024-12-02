@@ -1,4 +1,5 @@
 <%@ page import="jeeprojet.application.Modele.Utilisateur" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -46,9 +47,15 @@
   </script>
   </head>
 <body>
-<nav>
-  <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-</nav>
+<header id = "headerleft">
+  <a href="<%= request.getContextPath() %>/redirectionServlet">
+    <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
+  </a>
+  <div id="deconnexion">
+    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+  </div>
+</header>
+
 <!-- Filtres uniquement pour les enseignants -->
 <c:if test="${recherche == 'enseignant'}">
   <h1>Liste des Enseignants</h1>

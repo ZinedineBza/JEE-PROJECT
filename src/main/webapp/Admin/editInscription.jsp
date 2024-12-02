@@ -17,9 +17,14 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
-<nav>
-    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-</nav>
+<header id = "headerleft">
+    <a href="<%= request.getContextPath() %>/redirectionServlet">
+        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
+    </a>
+    <div id="deconnexion">
+        <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+    </div>
+</header>
 <h1>Modifier une Inscription</h1>
 <form action="<%= request.getContextPath() %>/EditInscriptionServlet" method="post">
     <input type="hidden" name="id" value="${inscription.id}">

@@ -20,10 +20,15 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
-<div id="deconnexion">
-    <a href="Main.jsp" >Accueil</a>
-    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-</div>
+<header id = "headerleft">
+    <a href="<%= request.getContextPath() %>/redirectionServlet">
+        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
+    </a>
+    <div id="deconnexion">
+        <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+    </div>
+</header>
+
 
 <h1>Créer Etudiant</h1>
 
@@ -74,7 +79,7 @@
 </form>
 <h1><a href="${pageContext.request.contextPath}/listUsers?recherche=etudiant">Retour à la liste des etudiants</a></h1>
 <br>
-<h1><a href="${pageContext.request.contextPath}/redirectionServlet">Retour Accueil</a></h1>
+
 </div>
 </body>
 </html>

@@ -19,16 +19,13 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
-<header>
-    <nav>
-        <a href="${pageContext.request.contextPath}/redirectionServlet">Accueil</a>
-        <% if (!"enseignant".equals(role)) { %>
-        <a href="<%= request.getContextPath() %>/ListInscriptionServlet">Inscriptions</a>
-        <% } %>
-        <a href="<%= request.getContextPath() %>/listResultatsEnseignant">Résultats</a>
+<header id = "headerleft">
+    <a href="<%= request.getContextPath() %>/redirectionServlet">
+        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
+    </a>
+    <div id="deconnexion">
         <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-
-    </nav>
+    </div>
 </header>
 <h1>Étudiants inscrits à vos cours</h1>
 <table border="1">

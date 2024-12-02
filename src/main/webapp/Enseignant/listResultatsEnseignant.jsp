@@ -22,14 +22,13 @@
 </head>
 <body>
 
-<header>
-    <nav>
-        <a href="${pageContext.request.contextPath}/redirectionServlet">Accueil</a>
-        <a href="${pageContext.request.contextPath}/ListInscriptionServlet">Mes Étudiants</a>
-        <a href="${pageContext.request.contextPath}/listResultatsEnseignant">Voir les Résultats</a>
-        <a href="${pageContext.request.contextPath}/addResultatEnseignant">Ajouter Résultat</a>
+<header id = "headerleft">
+    <a href="<%= request.getContextPath() %>/redirectionServlet">
+        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
+    </a>
+    <div id="deconnexion">
         <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-    </nav>
+    </div>
 </header>
 
 <h1>Résultats Donnés</h1>
@@ -58,7 +57,7 @@
 
 
 <a href="${pageContext.request.contextPath}/addResultatEnseignant">Ajouter un Résultat</a>
-<a href="${pageContext.request.contextPath}/redirectionServlet">Retour Accueil</a>
+
 
 </body>
 </html>

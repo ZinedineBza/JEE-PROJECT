@@ -21,8 +21,8 @@
 </head>
 <body>
 <header>
-    <a href="<%= request.getContextPath() %>/index.jsp">
-        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 15em">
+    <a href="<%= request.getContextPath() %>/redirectionServlet">
+        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
     </a>
     <nav>
         <a href="${pageContext.request.contextPath}/FormUser?type=etudiant">Créer un étudiant</a>

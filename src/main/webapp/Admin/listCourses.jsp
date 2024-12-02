@@ -20,9 +20,14 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<nav>
-  <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-</nav>
+<header id = "headerleft">
+  <a href="<%= request.getContextPath() %>/redirectionServlet">
+    <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
+  </a>
+  <div id="deconnexion">
+    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+  </div>
+</header>
 <h1>Liste des Cours</h1>
 
 <div>

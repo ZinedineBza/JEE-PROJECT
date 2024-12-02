@@ -21,14 +21,13 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
-<header>
-    <nav>
-        <a href="${pageContext.request.contextPath}/redirectionServlet">Accueil</a>
-        <a href="${pageContext.request.contextPath}/ListInscriptionServlet">Mes Étudiants</a>
-        <a href="${pageContext.request.contextPath}/listResultatsEnseignant">Voir les Résultats</a>
-        <a href="${pageContext.request.contextPath}/addResultatEnseignant">Ajouter Résultat</a>
+<header id = "headerleft">
+    <a href="<%= request.getContextPath() %>/redirectionServlet">
+        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
+    </a>
+    <div id="deconnexion">
         <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-    </nav>
+    </div>
 </header>
 
     <h1>Ajouter un Résultat</h1>        
@@ -73,9 +72,9 @@
     </form>
 
 
-        <h1><a href="${pageContext.request.contextPath}/listResultats">Retour à la liste des Résultats</a></h1>
+        <h1><a href="${pageContext.request.contextPath}/listResultatsEnseignant">Retour à la liste des Résultats</a></h1>
         <br>
-        <h1><a href="${pageContext.request.contextPath}/redirectionServlet">Retour Accueil</a></h1>
+
 
 </body>
 </html>
