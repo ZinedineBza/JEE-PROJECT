@@ -34,7 +34,7 @@ public class ForgotPasswordServlet extends HttpServlet {
             }
 
 
-            response.sendRedirect("index.jsp?message=nouveau_mot_de_passe_par_mail");
+            response.sendRedirect("index.jsp?message=msp_mail");
         } else {
             // Rediriger avec un message d'erreur si l'e-mail n'existe pas
             response.sendRedirect("index.jsp?error=email_inconnu");

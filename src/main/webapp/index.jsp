@@ -18,8 +18,16 @@
 %>
 <p style="color:red;">Veuillez remplir tous les champs.</p>
 <%
-        }
+} else if (errorMessage.equals("mdp_mail")) {
+%>
+    <p style="color:green;">Nouveau mot de passe envoyé par mail.</p>
+    <%
+        } else if (errorMessage.equals("email_inconnu")) {
+    %>
+    <p style="color:red;">Votre email n'existe pas contacter un admin pour vous ajouter.</p>
+    <%
     }
+        }
 %>
 </div>
             <!-- Formulaire de connexion -->
