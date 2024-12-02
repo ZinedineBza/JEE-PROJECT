@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Inscriptions</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/enseignant}">Accueil</a>
+        <a th:href="@{/ListInscriptionServlet}" th:if="${role == 'enseignant'}">Inscriptions</a>
+        <a th:href="@{/listResultats}">Voir les Résultats</a>
+        <a th:href="@{/logout}">Se déconnecter</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>Liste des Inscriptions</h1>
+
+    <!-- Affichage des erreurs -->
+    <div th:if="${error}" class="error">
+        <p th:text="${error}"></p>
+    </div>
+
+    <!-- Table des inscriptions -->
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Cours</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="inscription : ${inscriptions}">
+            <td th:text="${inscription.etudiant.nom}"></td>
+            <td th:text="${inscription.etudiant.prenom}"></td>
+            <td th:text="${inscription.etudiant.email}"></td>
+            <td th:text="${inscription.matiere.nom}"></td>
+            <td>
+                <a th:href="@{'/editInscription?id=' + ${inscription.id.dateInscription + '_' + inscription.id.etudiant + '_' + inscription.id.matiere}}">Modifier</a> |
+                <a th:href="@{'/deleteInscription?id=' + ${inscription.id.dateInscription + '_' + inscription.id.etudiant + '_' + inscription.id.matiere}}"
+                   onclick="return confirm('Voulez-vous vraiment supprimer cette inscription ?');">Supprimer</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Lien pour ajouter une nouvelle inscription -->
+    <a th:href="@{/addInscription}" class="btn">Ajouter une Inscription</a>
+</div>
+</body>
+</html>
