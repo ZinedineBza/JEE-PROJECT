@@ -1,22 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil Enseignant</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <title>Index Enseignant</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Bienvenue, Enseignant</h1>
-    </header>
-    <main class="main-content">
-        <p>Vous êtes connecté en tant qu'enseignant.</p>
-        <nav>
-            <a href="/enseignant/manage-students">Gérer mes étudiants</a>
-            <a href="/enseignant/add-course-material">Ajouter des supports de cours</a>
-            <a href="/logout">Se déconnecter</a>
-        </nav>
-    </main>
+<header>
+    <nav>
+        <a href="/enseignant">Accueil</a>
+        <a href="/ListInscriptionServlet">Mes Étudiants</a>
+        <a href="/listResultats">Voir les Résultats</a>
+        <a href="/addResultat">Ajouter Résultat</a>
+        <a href="/logout">Se déconnecter</a>
+    </nav>
+</header>
+
+<div class="main-content">
+    <h1>Bienvenue sur votre Espace Enseignant, <!-- nom et prénom utilisateur --> </h1>
+
+    <section class="emploi-du-temps">
+        <h2>Votre Emploi du Temps</h2>
+        <div id='calendar'></div>
+    </section>
+</div>
 </body>
 </html>

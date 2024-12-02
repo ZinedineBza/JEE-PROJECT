@@ -31,6 +31,9 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, String
     @Query("SELECT u FROM Utilisateur u WHERE u.pseudo = ?1")
     Utilisateur findByPseudo(String pseudo);
 
+    @Query("SELECT u FROM Utilisateur u WHERE CONCAT(u.prenom, ' ', u.nom) = ?1")
+    Utilisateur findByFullName(String fullName);
+
     // Recherche par email
     Utilisateur findByEmail(String email);
 
