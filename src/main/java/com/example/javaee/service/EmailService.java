@@ -12,11 +12,21 @@ public class EmailService {
 
     public void sendEmail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("your-email@gmail.com");  // Remplacez par votre adresse email
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
-
         emailSender.send(message);
+        System.out.println("[EmailService] Email envoyé à: " + to);
+
     }
+
+    public void sendResultatEmail(String toEmail, String coursNom, Float note) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Nouveau Résultat pour " + coursNom);
+        message.setText("Bonjour,\n\nVotre note pour le cours " + coursNom + " est : " + note + ".\n\nCordialement,\nL'équipe pédagogique");
+        emailSender.send(message);
+        System.out.println("[EmailService] Email envoyé à: " + toEmail);
+    }
+
 }

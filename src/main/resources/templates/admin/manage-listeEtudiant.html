@@ -58,6 +58,7 @@
             </tr>
         </thead>
         <tbody>
+
             <tr th:each="user : ${etudiants}" class="userRow">
                 <td th:text="${user.pseudo}"></td>
                 <td class="name" th:text="${user.nom}"></td>
@@ -75,9 +76,9 @@
                 </td>
             </tr>
         </tbody>
-    </table>
+            </table>
 
-    <a th:href="@{/admin/manage-ajouterEtudiant)}">Créer un nouvel étudiant</a>
-    <a th:href="@{/admin}">Retour</a>
+            <a th:href="@{/admin/manage-ajouterEnsein}">Créer un nouvel étudiant</a>
+            <a th:href="@{/admin}">Retour</a>
 </body>
 </html>

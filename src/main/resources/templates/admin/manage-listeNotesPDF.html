@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Résultats de l'étudiant</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tfoot {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1 th:text="'Résultats de ' + ${etudiant.nom} + ' ' + ${etudiant.prenom}"></h1>
+    <div th:if="${notesVides}">
+        <p style="color: red; font-size: 18px; text-align: center;">Aucune note n'a été enregistrée pour cet étudiant.</p>
+    </div>
+    <div th:if="${!notesVides}">
+        <table>
+            <thead>
+                <tr>
+                    <th>Matière</th>
+                    <th>Moyenne</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="entry : ${resultatsParMatiere}">
+                    <tr>
+                        <td th:text="${entry.key}"></td>
+                        <td th:text="${#numbers.formatDecimal(entry.value.stream().mapToDouble(r -> r.note).average().orElse(0.0), 2, '.', ',')}"></td>
+                        <td>
+                            <th:block th:each="resultat : ${entry.value}">
+                                <span th:text="${resultat.note}"></span><br>
+                            </th:block>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td><strong>Moyenne Générale</strong></td>
+                    <td colspan="2" th:text="${#numbers.formatDecimal(moyenneGenerale, 2, '.', ',')}"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</body>
+</html>

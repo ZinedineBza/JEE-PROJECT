@@ -4,8 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer Etudiant</title>
+    <title>Créer Enseignant</title>
     <link rel="stylesheet" type="text/css" href="#" th:href="@{/css/styles.css}">
+    <script>
+        function filterUsers() {
+            // Définir les filtres
+            var nameFilter = document.getElementById('nameFilter').value.toLowerCase();
+            var prenomFilter = document.getElementById('prenomFilter').value.toLowerCase();
+            var emailFilter = document.getElementById('emailFilter').value.toLowerCase();
+            
+            // Sélectionner toutes les lignes avec la classe userRow
+            var rows = document.querySelectorAll('table tr.userRow');
+            
+            rows.forEach(function(row) {
+                var name = row.querySelector('td.name').textContent.toLowerCase();
+                var prenom = row.querySelector('td.prenom').textContent.toLowerCase();
+                var email = row.querySelector('td.email').textContent.toLowerCase();
+        
+                if (name.includes(nameFilter) && prenom.includes(prenomFilter) && email.includes(emailFilter)) {
+                    row.style.display = ''; // Afficher la ligne
+                } else {
+                    row.style.display = 'none'; // Masquer la ligne
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 
@@ -72,26 +95,5 @@
 <br>
 <a href="#" th:href="@{/admin}">Retour Accueil</a>
 
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter un enseignant</title>
-</head>
-<body>
-    <h1>Ajouter un enseignant</h1>
-    <form action="/admin/add-enseignant" method="post">
-        <label for="pseudo">Pseudo :</label>
-        <input type="text" id="pseudo" name="pseudo" required><br>
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" required><br>
-        <label for="motDePasse">Mot de passe :</label>
-        <input type="password" id="motDePasse" name="motDePasse" required><br>
-        <button type="submit">Ajouter</button>
-    </form>
-    <a href="/admin/manage-listeEnseignant">Retour à la liste des enseignants</a>
 </body>
 </html>

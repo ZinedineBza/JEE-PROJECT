@@ -22,4 +22,19 @@ public interface InscriptionRepository extends JpaRepository<Inscription, Inscri
 
     // Trouver toutes les inscriptions pour une date donnée
     List<Inscription> findByIdDateInscription(String dateInscription);
+
+    // Trouver toutes les inscriptions pour une date donnée
+    List<Inscription> findByIdDateInscriptionAndIdMatiere(String dateInscription, String matiere);
+
+    //  Vérification de l'existence d'un utilisateur par email et rôle
+    boolean existsByEtudiantAndMatiere(Utilisateur etudiant, Matiere matiere);
+
+    @Query("SELECT i FROM Inscription i " +
+            "WHERE i.matiere IN (" +
+            "  SELECT c.matiere FROM Cour c WHERE c.enseignant = :enseignantEmail" +
+            ")")
+    List<Inscription> findByEnseignant(@Param("enseignantEmail") String enseignantEmail);
+
+
+
 }

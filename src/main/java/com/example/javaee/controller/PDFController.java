@@ -2,19 +2,26 @@ package com.example.javaee.controller;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import com.example.javaee.model.*;
 import com.example.javaee.repository.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 @RestController
 public class PDFController {
@@ -25,40 +32,46 @@ public class PDFController {
     @Autowired
     private ResultatRepository resultatRepository;
 
-@GetMapping("/generate-pdf")
-@ResponseBody
-public ResponseEntity<byte[]> generatePDF(@RequestParam("email") String email) {
-    // Étape 1 : Récupérer l'utilisateur par email
-    Utilisateur etudiant = utilisateurRepository.findByEmail(email);
-    if (etudiant == null) {
-        return ResponseEntity.badRequest().body("Utilisateur non trouvé.".getBytes());
-    }
+@PostMapping("/generatePDF")
+public void generatePDF(@RequestParam("etudiantEmail") String email, HttpServletResponse response) {
+    try {
+        // Récupérer l'étudiant par email
+        Utilisateur etudiant = utilisateurRepository.findByEmail(email);
+        if (etudiant == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Étudiant non trouvé");
+            return;
+        }
 
-    // Étape 2 : Récupérer les résultats associés à l'étudiant
-    List<Resultat> resultats = resultatRepository.findByEtudiant_Email(email);
-    if (resultats.isEmpty()) {
-        return ResponseEntity.badRequest().body("Aucun résultat trouvé pour cet étudiant.".getBytes());
-    }
+        // Récupérer les résultats de l'étudiant
+        List<Resultat> results = resultatRepository.findByEtudiant(etudiant);
 
-    // Étape 3 : Générer le contenu HTML
-    String htmlContent = generateHTMLContent(etudiant, resultats);
+        // Configurer la réponse HTTP pour le PDF
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=Resultats_" + etudiant.getNom() + ".pdf");
 
-    // Étape 4 : Convertir le contenu HTML en PDF
-    try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-        PdfRendererBuilder builder = new PdfRendererBuilder();
-        builder.useFastMode(); // Mode rapide
-        builder.withHtmlContent(htmlContent, null); // Contenu HTML
-        builder.toStream(outputStream); // Flux de sortie
-        builder.run();
+        // Générer le PDF
+        try (OutputStream out = response.getOutputStream()) {
+            // Exemple avec iText
+            Document document = new Document();
+            PdfWriter.getInstance(document, out);
+            document.open();
 
-        // Retourner le PDF en tant que fichier téléchargeable
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=resultats_" + email + ".pdf")
-                .body(outputStream.toByteArray());
+            // Ajouter les informations de l'étudiant
+            document.add(new Paragraph("Résultats de : " + etudiant.getNom() + " " + etudiant.getPrenom()));
+            document.add(new Paragraph("Email : " + etudiant.getEmail()));
+            document.add(new Paragraph("\n"));
+
+            // Ajouter les résultats
+            for (Resultat resultat : results) {
+                document.add(new Paragraph("Matière : " + resultat.getCours().getNom()));
+                document.add(new Paragraph("Note : " + resultat.getNote()));
+                document.add(new Paragraph("\n"));
+            }
+
+            document.close();
+        }
     } catch (Exception e) {
         e.printStackTrace();
-        // Gérer les erreurs lors de la génération du PDF
-        return ResponseEntity.internalServerError().body("Erreur lors de la génération du PDF.".getBytes());
     }
 }
 

@@ -1,7 +1,5 @@
 package com.example.javaee.model;
 
-import org.hibernate.Hibernate;
-
 import jakarta.persistence.*;
 
 @Entity

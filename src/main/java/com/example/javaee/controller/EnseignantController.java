@@ -1,12 +1,13 @@
 package com.example.javaee.controller;
 
-import com.example.javaee.Enseignant.EmailService;
 import com.example.javaee.model.*;
 import com.example.javaee.repository.InscriptionRepository;
 import com.example.javaee.repository.MatiereRepository;
 import com.example.javaee.repository.ResultatRepository;
 import com.example.javaee.repository.UtilisateurRepository;
+
 import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+
+import com.example.javaee.service.EmailService;
 
 @Controller
 public class EnseignantController {
@@ -267,11 +270,11 @@ public class EnseignantController {
             case "ENSEIGNANT":
                 System.out.println("Mon chibre"+ utilisateur.getEmail());
 
-                inscriptions = inscriptionRepository.findByEnseignantEmail(utilisateur.getEmail());
+                inscriptions = inscriptionRepository.findByEnseignant(utilisateur.getEmail());
                 System.out.println("OUIOUI" + inscriptions);
                 break;
             case "ETUDIANT":
-                inscriptions = inscriptionRepository.findByEnseignantEmail(utilisateur.getEmail());
+                inscriptions = inscriptionRepository.findByEnseignant(utilisateur.getEmail());
                 break;
             default:
                 return "error/403";

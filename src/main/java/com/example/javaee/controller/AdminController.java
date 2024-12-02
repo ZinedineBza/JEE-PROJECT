@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,9 +33,6 @@ import com.example.javaee.service.EmailService;
 
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpSession;
-
-import com.example.javaee.repository.ClasseRepository;
-import com.example.javaee.service.EmailService;
 
 @Controller
 public class AdminController {
@@ -72,18 +68,13 @@ public class AdminController {
         return "admin/admin"; // Correspond à templates/admin/admin.html
     }
 
+    /*********************** Gestion des étudiants **********************/
+
     // Page pour lister les étudiants
     @GetMapping("/admin/manage-listeEtudiant")
     public String listStudentsPage(Model model) {
         model.addAttribute("etudiants", utilisateurRepository.findByRole("ETUDIANT"));
         return "admin/manage-listeEtudiant";
-    }
-
-    // Page pour lister les enseignants
-    @GetMapping("/admin/manage-listeEnseignant")
-    public String listTeachersPage(Model model) {
-        model.addAttribute("enseignants", utilisateurRepository.findByRole("ENSEIGNANT"));
-                return "admin/manage-listeEnseignant";
     }
 
     // Page pour ajouter un étudiant
@@ -94,12 +85,6 @@ public class AdminController {
         model.addAttribute("classes", classes);
         return "admin/manage-ajouterEtudiant";
         }
-
-    // Page pour ajouter un enseignant
-    @GetMapping("/admin/manage-ajouterEnseignant")
-    public String addTeacherPage() {
-        return "admin/manage-ajouterEnseignant";
-    }
 
     @PostMapping("/admin/add-etudiant")
     public String addStudent(@RequestParam String email,
@@ -218,97 +203,32 @@ public class AdminController {
         return "redirect:/admin/manage-listeEtudiant";
     }
         
-        
+    @GetMapping("/admin/delete-etudiantInfo")
+    public String deleteEtudiant(@RequestParam String email, RedirectAttributes redirectAttributes) {
+        utilisateurRepository.findById(email).ifPresentOrElse(
+            utilisateur -> {
+                utilisateurRepository.delete(utilisateur);
+                redirectAttributes.addFlashAttribute("success", "L'utilisateur a été supprimé avec succès.");
+            },
+            () -> redirectAttributes.addFlashAttribute("error", "Utilisateur introuvable avec l'email : " + email)
+        );
+        return "redirect:/admin/manage-listeEtudiant";
+    }
 
-    private Map<String, String> validateInput(String nom, String prenom, String dateNaissanceStr, String email) {
-        Map<String, String> errors = new HashMap<>();
-    
-        // Validation du nom
-        if (nom == null || nom.trim().isEmpty()) {
-            errors.put("nom", "Le nom est obligatoire.");
-        } else if (!InputValidatorConfig.isValidName(nom)) {
-            errors.put("nom", "Le nom doit contenir uniquement des lettres, des espaces ou des tirets.");
-        }
-    
-        // Validation du prénom
-        if (prenom == null || prenom.trim().isEmpty()) {
-            errors.put("prenom", "Le prénom est obligatoire.");
-        } else if (!InputValidatorConfig.isValidName(prenom)) {
-            errors.put("prenom", "Le prénom doit contenir uniquement des lettres, des espaces ou des tirets.");
-        }
-    
-        // Validation de l'email
-        if (email == null || email.trim().isEmpty()) {
-            errors.put("email", "L'email est obligatoire.");
-        } else if (!InputValidatorConfig.isValidEmail(email)) {
-            errors.put("email", "L'email n'est pas valide.");
-        } else if (utilisateurRepository.existsByEmail(email)) {
-            errors.put("email", "Cet email est déjà utilisé.");
-        }
-    
-        // Validation de la date de naissance
-        
-        if (dateNaissanceStr == null || dateNaissanceStr.trim().isEmpty()) {
-            errors.put("dateNaissance", "La date de naissance est obligatoire.");
-        } else if (!InputValidatorConfig.isValidBirthDate(dateNaissanceStr)) {
-            errors.put("dateNaissance", "La date de naissance doit être au format 'dd/MM/YYYY' et doit être une date valide, non dans le futur et après 1900.");
-        }
-    
-        return errors;
+    /*********************** Gestion des enseignants **********************/
+
+    // Page pour lister les enseignants
+    @GetMapping("/admin/manage-listeEnseignant")
+    public String listTeachersPage(Model model) {
+        model.addAttribute("enseignants", utilisateurRepository.findByRole("ENSEIGNANT"));
+                return "admin/manage-listeEnseignant";
     }
-        
-    private Map<String, String> validateInputWithoutMail(String nom, String prenom, String dateNaissanceStr) {
-        Map<String, String> errors = new HashMap<>();
-    
-        // Validation du nom
-        if (nom == null || nom.trim().isEmpty()) {
-            errors.put("nom", "Le nom est obligatoire.");
-        } else if (!nom.matches("^[A-Za-zÀ-ÖØ-öø-ÿ\\s'-]+$")) {
-            errors.put("nom", "Le nom contient des caractères invalides.");
-        }
-    
-        // Validation du prénom
-        if (prenom == null || prenom.trim().isEmpty()) {
-            errors.put("prenom", "Le prénom est obligatoire.");
-        } else if (!prenom.matches("^[A-Za-zÀ-ÖØ-öø-ÿ\\s'-]+$")) {
-            errors.put("prenom", "Le prénom contient des caractères invalides.");
-        }
-    
-        // Validation de la date de naissance
-        if (dateNaissanceStr == null || dateNaissanceStr.trim().isEmpty()) {
-            errors.put("dateNaissance", "La date de naissance est obligatoire.");
-        } else {
-            try {
-                LocalDate dateNaissance = LocalDate.parse(dateNaissanceStr);
-                if (dateNaissance.isAfter(LocalDate.now())) {
-                    errors.put("dateNaissance", "La date de naissance ne peut pas être dans le futur.");
-                }
-            } catch (DateTimeParseException e) {
-                errors.put("dateNaissance", "La date de naissance n'est pas valide.");
-            }
-        }
-    
-        return errors;
+
+    // Page pour ajouter un enseignant
+    @GetMapping("/admin/manage-ajouterEnseignant")
+    public String addTeacherPage() {
+        return "admin/manage-ajouterEnseignant";
     }
-    
-    
-    private String generatePseudo(String prenom, String nom) {
-        // Crée une base pour le pseudo : première lettre du prénom + 5 premières lettres du nom
-        String basePseudo = prenom.substring(0, 1).toLowerCase() + nom.substring(0, Math.min(5, nom.length())).toLowerCase();
-        String pseudo = basePseudo;
-        int count = 1;
-    
-        // Vérifie si ce pseudo existe déjà dans la base de données
-        while (utilisateurRepository.existsByPseudo(pseudo)) {
-            // Si le pseudo existe, ajoute un compteur à la fin
-            pseudo = basePseudo + count;
-            count++;
-        }
-    
-        // Retourne le pseudo généré
-        return pseudo;
-    }
-    
 
     // Traitement pour ajouter un enseignant
     @PostMapping("/admin/add-enseignant")
@@ -363,13 +283,16 @@ public class AdminController {
         // Sauvegarde dans la base de données
         utilisateurRepository.save(enseignant);
         
+        emailService.sendEmail(email, "Bienvenue sur notre plateforme", 
+        "Bonjour " + prenom + " " + nom + ",\n\nVotre inscription a été réussie. Voici vos identifiants de connexion :\n\n" +
+        "Pseudo: " + pseudo + "\nMot de passe: " + rawPassword + "\n\nNous vous souhaitons une excellente utilisation de la plateforme.");
+
         System.out.println("Mot de passe généré pour l'étudiant : " + rawPassword);
         
         // Rediriger vers la liste des étudiants
         return "redirect:/admin/manage-listeEnseignant";
     }
 
-    // Page pour afficher le formulaire de mise à jour d'un enseignant
     @GetMapping("/admin/delete-enseignantInfo")
     public String deleteEnseignant(@RequestParam String email, RedirectAttributes redirectAttributes) {
         utilisateurRepository.findById(email).ifPresentOrElse(
@@ -381,22 +304,8 @@ public class AdminController {
         );
         return "redirect:/admin/manage-listeEnseignant";
     }
-    
-    // Page pour afficher le formulaire de mise à jour d'un enseignant
-    @GetMapping("/admin/delete-etudiantInfo")
-public String deleteEtudiant(@RequestParam String email, RedirectAttributes redirectAttributes) {
-    utilisateurRepository.findById(email).ifPresentOrElse(
-        utilisateur -> {
-            utilisateurRepository.delete(utilisateur);
-            redirectAttributes.addFlashAttribute("success", "L'utilisateur a été supprimé avec succès.");
-        },
-        () -> redirectAttributes.addFlashAttribute("error", "Utilisateur introuvable avec l'email : " + email)
-    );
-    return "redirect:/admin/manage-listeEtudiant";
-}
 
-
-
+    /*********************** Gestion des inscriptions **********************/
 
     // Page pour afficher le formulaire d'ajout d'inscription
     @GetMapping("/admin/manage-inscription")
@@ -453,6 +362,29 @@ public String deleteEtudiant(@RequestParam String email, RedirectAttributes redi
         return "/admin/manage-listInscriptions";
     }
 
+    @GetMapping("/admin/delete-inscription/{id}")
+    public String deleteInscription(@PathVariable String id, RedirectAttributes redirectAttributes) {
+        try {
+        // Convertir l'ID
+        InscriptionId inscriptionId = InscriptionId.fromString(id);
+
+        // Trouver l'entité à supprimer
+        Inscription inscription = entityManager.find(Inscription.class, inscriptionId);
+        System.out.println("Inscription à supprimer : " + inscription);
+        if (inscription != null) {
+            entityManager.remove(inscription); // Suppression via EntityManager
+            redirectAttributes.addFlashAttribute("message", "Inscription supprimée avec succès.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Inscription introuvable.");
+        }
+    } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("error", "Erreur lors de la suppression : " + e.getMessage());
+        e.printStackTrace();
+    }
+    return "redirect:/admin/manage-listInscriptions";
+}
+        
+    /*********************** Gestion des résultats **********************/
 
     // Page pour afficher le formulaire d'ajout de résultat
     @GetMapping("/admin/manage-ajouterResultat")
@@ -542,33 +474,51 @@ public String deleteEtudiant(@RequestParam String email, RedirectAttributes redi
         return "admin/edit-resultat"; // Vue Thymeleaf pour éditer
     }
     
-    @GetMapping("/admin/delete-inscription/{id}")
-    public String deleteInscription(@PathVariable String id, RedirectAttributes redirectAttributes) {
-        try {
-        // Convertir l'ID
-        InscriptionId inscriptionId = InscriptionId.fromString(id);
+    @GetMapping("/admin/manage-listeNotes")
+    public String listStudentResults(@RequestParam("email") String email, Model model) {
+        // Récupérer l'utilisateur (étudiant) basé sur l'email passé dans l'URL
+        Utilisateur etudiant = utilisateurRepository.findByEmail(email);
+        if (etudiant != null) {
+            // Récupérer les résultats associés à cet étudiant
+            List<Resultat> results = resultatRepository.findByEtudiant(etudiant);
 
-        // Trouver l'entité à supprimer
-        Inscription inscription = entityManager.find(Inscription.class, inscriptionId);
-        System.out.println("Inscription à supprimer : " + inscription);
-        if (inscription != null) {
-            entityManager.remove(inscription); // Suppression via EntityManager
-            redirectAttributes.addFlashAttribute("message", "Inscription supprimée avec succès.");
+            // Organiser les résultats par matière et calculer la moyenne par matière
+            Map<String, List<Resultat>> resultatsParMatiere = results.stream()
+                .collect(Collectors.groupingBy(resultat -> resultat.getCours().getNom()));
+
+            // Calculer la moyenne générale de l'étudiant
+            double moyenneGenerale = results.stream()
+                .mapToDouble(Resultat::getNote)
+                .average()
+                .orElse(0.0);
+
+            // Calculer les moyennes par matière
+            List<ResultatParMatiere> resultatsAvecMoyennes = new ArrayList<>();
+            for (Map.Entry<String, List<Resultat>> entry : resultatsParMatiere.entrySet()) {
+                String matiere = entry.getKey();
+                List<Resultat> resultatsDeMatiere = entry.getValue();
+                double moyenneMatiere = resultatsDeMatiere.stream()
+                    .mapToDouble(Resultat::getNote)
+                    .average()
+                    .orElse(0.0);
+
+                resultatsAvecMoyennes.add(new ResultatParMatiere(matiere, moyenneMatiere, resultatsDeMatiere));
+            }
+
+            // Ajouter les données au modèle
+            model.addAttribute("etudiant", etudiant);
+            model.addAttribute("resultatsParMatiere", resultatsAvecMoyennes);
+            model.addAttribute("moyenneGenerale", moyenneGenerale);
+            model.addAttribute("notesVides", results.isEmpty());
         } else {
-            redirectAttributes.addFlashAttribute("error", "Inscription introuvable.");
+            model.addAttribute("error", "Étudiant non trouvé");
         }
-    } catch (Exception e) {
-        redirectAttributes.addFlashAttribute("error", "Erreur lors de la suppression : " + e.getMessage());
-        e.printStackTrace();
+
+        return "admin/manage-listeNotes"; // Retourner la page des résultats
     }
-    return "redirect:/admin/manage-listInscriptions";
-}
-        
-        
 
+    /*********************** Gestion des cours **********************/
 
-    /*********************** Ajouter, consulter, modifier et supprimer cours  **********************/
-    
     // Page pour afficher le formulaire d'ajout de cours
     @GetMapping("/admin/manage-ajouterCours")
     public String showAddCoursPage(Model model) {
@@ -639,53 +589,8 @@ public String deleteEtudiant(@RequestParam String email, RedirectAttributes redi
         return "redirect:/admin/manage-listCours";
     }
 
-    /************************************ Notes*********************************/
-    // Page pour lister les résultats de l'étudiant
-    @GetMapping("/admin/manage-listeNotes")
-    public String listStudentResults(@RequestParam("email") String email, Model model) {
-        // Récupérer l'utilisateur (étudiant) basé sur l'email passé dans l'URL
-        Utilisateur etudiant = utilisateurRepository.findByEmail(email);
-        if (etudiant != null) {
-            // Récupérer les résultats associés à cet étudiant
-            List<Resultat> results = resultatRepository.findByEtudiant(etudiant);
+    /*********************** Autres méthodes **********************/
 
-            // Organiser les résultats par matière et calculer la moyenne par matière
-            Map<String, List<Resultat>> resultatsParMatiere = results.stream()
-                .collect(Collectors.groupingBy(resultat -> resultat.getCours().getNom()));
-
-            // Calculer la moyenne générale de l'étudiant
-            double moyenneGenerale = results.stream()
-                .mapToDouble(Resultat::getNote)
-                .average()
-                .orElse(0.0);
-
-            // Calculer les moyennes par matière
-            List<ResultatParMatiere> resultatsAvecMoyennes = new ArrayList<>();
-            for (Map.Entry<String, List<Resultat>> entry : resultatsParMatiere.entrySet()) {
-                String matiere = entry.getKey();
-                List<Resultat> resultatsDeMatiere = entry.getValue();
-                double moyenneMatiere = resultatsDeMatiere.stream()
-                    .mapToDouble(Resultat::getNote)
-                    .average()
-                    .orElse(0.0);
-
-                resultatsAvecMoyennes.add(new ResultatParMatiere(matiere, moyenneMatiere, resultatsDeMatiere));
-            }
-
-            // Ajouter les données au modèle
-            model.addAttribute("etudiant", etudiant);
-            model.addAttribute("resultatsParMatiere", resultatsAvecMoyennes);
-            model.addAttribute("moyenneGenerale", moyenneGenerale);
-            model.addAttribute("notesVides", results.isEmpty());
-        } else {
-            model.addAttribute("error", "Étudiant non trouvé");
-        }
-
-        return "admin/manage-listeNotes"; // Retourner la page des résultats
-    }
-    
-        
-    /********************************* Liste cours **********************************/
     @GetMapping("/admin/getClasses")
     @ResponseBody
     public String getClasses() {
@@ -704,18 +609,20 @@ public String deleteEtudiant(@RequestParam String email, RedirectAttributes redi
     @GetMapping("/admin/getEleves")
     @ResponseBody
     public String getEleves(@RequestParam String matiereId, @RequestParam String classeId) {
-        // Récupérer les élèves inscrits dans cette matière et classe
         List<Utilisateur> eleves = utilisateurRepository.findElevesByClasseAndMatiereNative(classeId, matiereId);
-
-        // Génération des lignes HTML pour les élèves
+    
+        if (eleves.isEmpty()) {
+            return "<tr><td colspan='2'>Aucun élève trouvé</td></tr>";
+        }
+    
         StringBuilder rows = new StringBuilder();
         for (Utilisateur eleve : eleves) {
             rows.append("<tr><td>").append(eleve.getNom()).append("</td>")
                 .append("<td>").append(eleve.getPrenom()).append("</td></tr>");
         }
-        return rows.toString(); // Retourner les lignes HTML
+        return rows.toString();
     }
-
+    
     @GetMapping("/admin/getMatieres")
     @ResponseBody
     public String getMatieres(Authentication authentication) {
@@ -745,5 +652,93 @@ public String deleteEtudiant(@RequestParam String email, RedirectAttributes redi
         return options.toString(); // Retourner les options en HTML
     }
         
-
+    private Map<String, String> validateInput(String nom, String prenom, String dateNaissanceStr, String email) {
+        Map<String, String> errors = new HashMap<>();
+    
+        // Validation du nom
+        if (nom == null || nom.trim().isEmpty()) {
+            errors.put("nom", "Le nom est obligatoire.");
+        } else if (!InputValidatorConfig.isValidName(nom)) {
+            errors.put("nom", "Le nom doit contenir uniquement des lettres, des espaces ou des tirets.");
+        }
+    
+        // Validation du prénom
+        if (prenom == null || prenom.trim().isEmpty()) {
+            errors.put("prenom", "Le prénom est obligatoire.");
+        } else if (!InputValidatorConfig.isValidName(prenom)) {
+            errors.put("prenom", "Le prénom doit contenir uniquement des lettres, des espaces ou des tirets.");
+        }
+    
+        // Validation de l'email
+        if (email == null || email.trim().isEmpty()) {
+            errors.put("email", "L'email est obligatoire.");
+        } else if (!InputValidatorConfig.isValidEmail(email)) {
+            errors.put("email", "L'email n'est pas valide.");
+        } else if (utilisateurRepository.existsByEmail(email)) {
+            errors.put("email", "Cet email est déjà utilisé.");
+        }
+    
+        // Validation de la date de naissance
+        
+        if (dateNaissanceStr == null || dateNaissanceStr.trim().isEmpty()) {
+            errors.put("dateNaissance", "La date de naissance est obligatoire.");
+        } else if (!InputValidatorConfig.isValidBirthDate(dateNaissanceStr)) {
+            errors.put("dateNaissance", "La date de naissance doit être au format 'dd/MM/YYYY' et doit être une date valide, non dans le futur et après 1900.");
+        }
+    
+        return errors;
+    }
+        
+    private Map<String, String> validateInputWithoutMail(String nom, String prenom, String dateNaissanceStr) {
+        Map<String, String> errors = new HashMap<>();
+    
+        // Validation du nom
+        if (nom == null || nom.trim().isEmpty()) {
+            errors.put("nom", "Le nom est obligatoire.");
+        } else if (!nom.matches("^[A-Za-zÀ-ÖØ-öø-ÿ\\s'-]+$")) {
+            errors.put("nom", "Le nom contient des caractères invalides.");
+        }
+    
+        // Validation du prénom
+        if (prenom == null || prenom.trim().isEmpty()) {
+            errors.put("prenom", "Le prénom est obligatoire.");
+        } else if (!prenom.matches("^[A-Za-zÀ-ÖØ-öø-ÿ\\s'-]+$")) {
+            errors.put("prenom", "Le prénom contient des caractères invalides.");
+        }
+    
+        // Validation de la date de naissance
+        if (dateNaissanceStr == null || dateNaissanceStr.trim().isEmpty()) {
+            errors.put("dateNaissance", "La date de naissance est obligatoire.");
+        } else {
+            try {
+                LocalDate dateNaissance = LocalDate.parse(dateNaissanceStr);
+                if (dateNaissance.isAfter(LocalDate.now())) {
+                    errors.put("dateNaissance", "La date de naissance ne peut pas être dans le futur.");
+                }
+            } catch (DateTimeParseException e) {
+                errors.put("dateNaissance", "La date de naissance n'est pas valide.");
+            }
+        }
+    
+        return errors;
+    }
+    
+    
+    private String generatePseudo(String prenom, String nom) {
+        // Crée une base pour le pseudo : première lettre du prénom + 5 premières lettres du nom
+        String basePseudo = prenom.substring(0, 1).toLowerCase() + nom.substring(0, Math.min(5, nom.length())).toLowerCase();
+        String pseudo = basePseudo;
+        int count = 1;
+    
+        // Vérifie si ce pseudo existe déjà dans la base de données
+        while (utilisateurRepository.existsByPseudo(pseudo)) {
+            // Si le pseudo existe, ajoute un compteur à la fin
+            pseudo = basePseudo + count;
+            count++;
+        }
+    
+        // Retourne le pseudo généré
+        return pseudo;
+    }
+    
 }

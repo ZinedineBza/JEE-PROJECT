@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.javaee.model.Matiere;
 import com.example.javaee.model.Utilisateur;
 
 @Repository
@@ -46,5 +47,9 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, String
                 "WHERE i.classe_id = :classeId AND i.matiere_id = :matiereId", 
         nativeQuery = true)
     List<Utilisateur> findElevesByClasseAndMatiereNative(@Param("classeId") String classeId, @Param("matiereId") String matiereId);
+
+    // Vérification de l'existence d'un utilisateur par email et rôle
+    boolean existsByEmailAndRole(String email, String role);
+
 
 }

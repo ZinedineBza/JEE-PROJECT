@@ -50,13 +50,14 @@
             url: '/admin/getMatieres',
             method: 'GET',
             success: function (response) {
-                $('#matiere-select').empty().append(response);
+                $('#matiere-select').html(response);
             },
-            error: function (xhr, status, error) {
-                console.error("Erreur lors de la récupération des matières :", status, error);
+            error: function (xhr) {
+                console.error("Erreur lors de la récupération des matières :", xhr.responseText);
+                $('#matiere-select').html('<option value="">Erreur lors du chargement des matières</option>');
             }
         });
-
+    
         // Charger les classes en fonction de la matière
         $('#matiere-select').change(function () {
             var matiereId = $(this).val();
@@ -64,12 +65,14 @@
                 $.ajax({
                     url: '/admin/getClasses',
                     method: 'GET',
+                    data: { matiereId: matiereId },
                     success: function (response) {
-                        $('#classe-select').empty().append(response);
+                        $('#classe-select').html(response);
                         $('#classes-container').show();
                     },
-                    error: function (xhr, status, error) {
-                        console.error("Erreur lors de la récupération des classes :", status, error);
+                    error: function (xhr) {
+                        console.error("Erreur lors de la récupération des classes :", xhr.responseText);
+                        $('#classe-select').html('<option value="">Erreur lors du chargement des classes</option>');
                     }
                 });
             } else {
@@ -77,7 +80,7 @@
                 $('#eleves-container').hide();
             }
         });
-
+    
         // Charger les élèves en fonction de la classe et de la matière
         $('#classe-select').change(function () {
             var classeId = $(this).val();
@@ -86,13 +89,14 @@
                 $.ajax({
                     url: '/admin/getEleves',
                     method: 'GET',
-                    data: { matiereId: matiereId, classeId: classeId },
+                    data: { classeId: classeId, matiereId: matiereId },
                     success: function (response) {
-                        $('#eleves-table tbody').empty().append(response);
+                        $('#eleves-table tbody').html(response);
                         $('#eleves-container').show();
                     },
-                    error: function (xhr, status, error) {
-                        console.error("Erreur lors de la récupération des élèves :", status, error);
+                    error: function (xhr) {
+                        console.error("Erreur lors de la récupération des élèves :", xhr.responseText);
+                        $('#eleves-table tbody').html('<tr><td colspan="2">Erreur lors du chargement des élèves</td></tr>');
                     }
                 });
             } else {
@@ -100,6 +104,7 @@
             }
         });
     });
+    
 </script>
 </body>
 </html>
