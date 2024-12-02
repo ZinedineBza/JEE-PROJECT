@@ -328,6 +328,22 @@ form .form-group textarea:focus {
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
 }
 
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+
 form .form-group input[type="submit"] {
     background: linear-gradient(to right, #3498db, #2980b9);
     color: #fff;

@@ -53,21 +53,14 @@ public class AddResultatServlet extends HttpServlet {
     
             System.out.println("Enseignant connecté : " + enseignantEmail);
         } else if (user.getRole().equalsIgnoreCase("admin")) {
-            // L'administrateur voit tous les étudiants et toutes les matières
-            matieres = matiereDAO.findAll();
             etudiants = utilisateurDAO.findByRole("etudiant");
-    
-            System.out.println("Administrateur connecté : " + user.getEmail());
         } else {
-
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             return;
         }
         
         // Ajouter les données à la requête pour la JSP
         request.setAttribute("etudiants", etudiants);
-        request.setAttribute("matieres", matieres);
-    
         // Rediriger vers la JSP
         request.getRequestDispatcher("/Enseignant/addResultat.jsp").forward(request, response);
     }
