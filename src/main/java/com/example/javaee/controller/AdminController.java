@@ -465,70 +465,51 @@ public String deleteEtudiant(@RequestParam String email, RedirectAttributes redi
 
     @PostMapping("/admin/add-resultat")
     public String addResultat(@RequestParam String etudiantEmail,
-                              @RequestParam String matiereNom,
-                              @RequestParam Float note,
-                              @RequestParam(required = false) String commentaire,
-                              Model model) {
-        try {
-            // Vérification que les paramètres nécessaires ne sont pas vides
-            if (etudiantEmail == null || etudiantEmail.trim().isEmpty()) {
-                throw new IllegalArgumentException("L'email de l'étudiant est requis.");
-            }
-            if (matiereNom == null || matiereNom.trim().isEmpty()) {
-                throw new IllegalArgumentException("Le nom de la matière est requis.");
-            }
-    
-            // Recherche de l'étudiant par email
-            Utilisateur etudiant = utilisateurRepository.findByEmail(etudiantEmail);
-            if (etudiant == null) {
-                throw new IllegalArgumentException("Étudiant introuvable.");
-            }
-    
-            // Recherche de la matière par nom
-            List<Matiere> matieres = matiereRepository.findByNom(matiereNom);
-            if (matieres.isEmpty()) {
-                throw new IllegalArgumentException("Matière introuvable.");
-            }
-            Matiere matiere = matieres.get(0);
-    
-            // Vérification si l'étudiant est déjà inscrit à cette matière
-            boolean alreadyEnrolled = inscriptionRepository.existsByEtudiantAndMatiere(etudiant, matiere);
-            if (!alreadyEnrolled) {
-                throw new IllegalArgumentException("L'étudiant n'est pas inscrit à cette matière.");
-            }
-    
-            // Vérification de la note (par exemple entre 0 et 20)
-            if (note < 0 || note > 20) {
-                throw new IllegalArgumentException("La note doit être comprise entre 0 et 20.");
-            }
-    
-            // Création de l'ID de résultat
-            ResultatId resultatId = new ResultatId();
-            resultatId.setEtudiant(etudiant.getPseudo());
-            resultatId.setCours(matiere.getNom());
-            resultatId.setDate(LocalDate.now().toString());
-    
-            // Création et sauvegarde du résultat
-            Resultat resultat = new Resultat();
-            resultat.setId(resultatId);
-            resultat.setEtudiant(etudiant);
-            resultat.setCours(matiere);
-            resultat.setNote(note);
-            resultat.setCommentaire(commentaire);
-    
-            resultatRepository.save(resultat);
-    
-            // Redirection vers la liste des résultats
-            return "redirect:/admin/manage-listResultat";
-    
-        } catch (IllegalArgumentException e) {
-            // Gérer les erreurs et retourner à la page avec un message d'erreur
-            model.addAttribute("error", e.getMessage());
-            model.addAttribute("etudiants", utilisateurRepository.findByRole("ETUDIANT"));
-            model.addAttribute("matieres", matiereRepository.findAll());
-            return "admin/manage-ajouterResultat";
+                          @RequestParam String matiereNom,
+                          @RequestParam Float note,
+                          @RequestParam(required = false) String commentaire,
+                          Model model) {
+    try {
+        // Recherche de l'étudiant par email
+        Utilisateur etudiant = utilisateurRepository.findByEmail(etudiantEmail);
+        if (etudiant == null) {
+            throw new IllegalArgumentException("Étudiant introuvable.");
         }
+
+        // Recherche de la matière par nom
+        List<Matiere> matieres = matiereRepository.findByNom(matiereNom);
+        if (matieres.isEmpty()) {
+            throw new IllegalArgumentException("Matière introuvable.");
+        }
+        Matiere matiere = matieres.get(0);
+
+        // Création de l'ID de résultat
+        ResultatId resultatId = new ResultatId();
+        resultatId.setEtudiant(etudiant.getPseudo());
+        resultatId.setMatiere(matiere.getNom());
+        resultatId.setDate(LocalDate.now().toString());
+
+        // Création et sauvegarde du résultat
+        Resultat resultat = new Resultat();
+        resultat.setId(resultatId);
+        resultat.setEtudiant(etudiant);
+        resultat.setCours(matiere);
+        resultat.setNote(note);
+        resultat.setCommentaire(commentaire);
+
+        resultatRepository.save(resultat);
+        return "redirect:/admin/manage-listResultat";
+
+    } catch (IllegalArgumentException e) {
+        // Gérer les erreurs et retourner à la page avec un message
+        model.addAttribute("error", e.getMessage());
+        model.addAttribute("etudiants", utilisateurRepository.findByRole("ETUDIANT"));
+        model.addAttribute("matieres", matiereRepository.findAll());
+        return "admin/manage-ajouterResultat";
     }
+}
+
+    /*********************** Ajouter, consulter, modifier et supprimer resultat  **********************/
     
     // Page pour afficher la liste des résultats
     @GetMapping("/admin/manage-listResultat")
@@ -548,7 +529,7 @@ public String deleteEtudiant(@RequestParam String email, RedirectAttributes redi
         // Construire la clé composite
         ResultatId id = new ResultatId();
         id.setEtudiant(etudiant);
-        id.setCours(matiere);
+        id.setMatiere(matiere);
         id.setDate(date);
     
         // Récupérer le résultat

@@ -20,7 +20,7 @@ public class AccueilController {
         // Récupérer l'adresse email de l'utilisateur connectés
         String role = authentication.getAuthorities().iterator().next().getAuthority();
         System.out.println("Rôle récupéré : " + role);
-    
+
         if (role.equals("ROLE_ADMIN")) {
             return "redirect:/admin";
         } else if (role.equals("ROLE_ENSEIGNANT")) {
@@ -31,6 +31,6 @@ public class AccueilController {
             return "redirect:/";
         }
     }
-        
+
 }
 

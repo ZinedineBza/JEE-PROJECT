@@ -1,5 +1,7 @@
 package com.example.javaee.config;
 
+import com.example.javaee.model.Utilisateur;
+import com.example.javaee.repository.UtilisateurRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,29 +14,35 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    private final UtilisateurRepository utilisateurRepository;
+
+    public SecurityConfig(UtilisateurRepository utilisateurRepository) {
+        this.utilisateurRepository = utilisateurRepository;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()) // Désactivation de CSRF pour simplifier les tests (activer en production)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/register", "/css/**").permitAll() // Autoriser l'accès public
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // Accès réservé aux admins
-                        .requestMatchers("/enseignant/**").hasRole("ENSEIGNANT") // Accès réservé aux enseignants
-                        .requestMatchers("/etudiant/**").hasRole("ETUDIANT") // Accès réservé aux étudiants
-                        .anyRequest().authenticated() // Authentification requise pour le reste
+                                .requestMatchers("/", "/register", "/css/**").permitAll()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/enseignant/**").hasRole("ENSEIGNANT")
+                                .requestMatchers("/etudiant/**").hasRole("ETUDIANT")
+                                .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/") // Page de connexion
-                        .loginProcessingUrl("/login") // URL de traitement du formulaire
-                        .usernameParameter("pseudo") // Nom d'utilisateur
-                        .passwordParameter("password") // Mot de passe
-                        .defaultSuccessUrl("/redirect", true) // Redirection après connexion réussie
-                        .failureUrl("/?error=true") // Redirection en cas d'échec
-                        .permitAll()
+                                .loginPage("/") // Page de connexion
+                                .loginProcessingUrl("/login") // Formulaire de traitement
+                                .usernameParameter("pseudo") // Nom d'utilisateur
+                                .passwordParameter("password") // Mot de passe
+                                .defaultSuccessUrl("/redirect", true) // Méthode de redirection
+                                .failureUrl("/?error=true") // En cas d'échec
+                                .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/") // Redirection après déconnexion
-                        .permitAll()
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/")
+                                .permitAll()
                 );
 
         return http.build();

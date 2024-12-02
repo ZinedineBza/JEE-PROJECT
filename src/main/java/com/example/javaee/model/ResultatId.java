@@ -27,11 +27,11 @@ public class ResultatId implements java.io.Serializable {
         this.etudiant = etudiant;
     }
 
-    public String getCours() {
+    public String getMatiere() {
         return matiere;
     }
 
-    public void setCours(String cours) {
+    public void setMatiere(String cours) {
         this.matiere = cours;
     }
 

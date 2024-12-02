@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier une Inscription</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/enseignant}">Accueil</a>
+        <a th:href="@{/ListInscriptionServlet}">Inscriptions</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>Modifier une Inscription</h1>
+    <form th:action="@{/editInscription}" method="post">
+        <input type="hidden" name="id" th:value="${inscription.id.dateInscription + '_' + inscription.id.etudiant + '_' + inscription.id.matiere}" />
+
+        <div>
+            <label for="matiere">Matière :</label>
+            <select id="matiere" name="matiere" required>
+                <option th:each="matiere : ${matieres}" th:value="${matiere.nom}" th:text="${matiere.nom}" th:selected="${inscription.matiere.nom == matiere.nom}"></option>
+            </select>
+        </div>
+
+        <div>
+            <label for="etudiant">Étudiant :</label>
+            <select id="etudiant" name="etudiant" required>
+                <option th:each="etudiant : ${etudiants}" th:value="${etudiant.email}" th:text="${etudiant.nom + ' ' + etudiant.prenom}" th:selected="${inscription.etudiant.email == etudiant.email}"></option>
+            </select>
+        </div>
+
+        <button type="submit">Enregistrer</button>
+        <a th:href="@{/ListInscriptionServlet}">Annuler</a>
+    </form>
+</div>
+</body>
+</html>
