@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Cours</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<nav>
+    <a th:href="@{/logout}">Se déconnecter</a>
+</nav>
+
+<h1>Liste des Cours</h1>
+
+<!-- Sélection des matières -->
+<div>
+    <label for="matiere-select">Matière :</label>
+    <select id="matiere-select">
+        <option value="">Sélectionnez une matière</option>
+    </select>
+</div>
+
+<!-- Sélection des classes -->
+<div id="classes-container" style="display: none;">
+    <label for="classe-select">Classe :</label>
+    <select id="classe-select">
+        <option value="">Sélectionnez une classe</option>
+    </select>
+</div>
+
+<!-- Affichage des élèves -->
+<div id="eleves-container" style="display: none;">
+    <h2>Élèves</h2>
+    <table border="1" id="eleves-table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        // Charger les matières
+        $.ajax({
+            url: '/admin/getMatieres',
+            method: 'GET',
+            success: function (response) {
+                $('#matiere-select').empty().append(response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Erreur lors de la récupération des matières :", status, error);
+            }
+        });
+
+        // Charger les classes en fonction de la matière
+        $('#matiere-select').change(function () {
+            var matiereId = $(this).val();
+            if (matiereId) {
+                $.ajax({
+                    url: '/admin/getClasses',
+                    method: 'GET',
+                    success: function (response) {
+                        $('#classe-select').empty().append(response);
+                        $('#classes-container').show();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Erreur lors de la récupération des classes :", status, error);
+                    }
+                });
+            } else {
+                $('#classes-container').hide();
+                $('#eleves-container').hide();
+            }
+        });
+
+        // Charger les élèves en fonction de la classe et de la matière
+        $('#classe-select').change(function () {
+            var classeId = $(this).val();
+            var matiereId = $('#matiere-select').val();
+            if (classeId && matiereId) {
+                $.ajax({
+                    url: '/admin/getEleves',
+                    method: 'GET',
+                    data: { matiereId: matiereId, classeId: classeId },
+                    success: function (response) {
+                        $('#eleves-table tbody').empty().append(response);
+                        $('#eleves-container').show();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Erreur lors de la récupération des élèves :", status, error);
+                    }
+                });
+            } else {
+                $('#eleves-container').hide();
+            }
+        });
+    });
+</script>
+</body>
+</html>

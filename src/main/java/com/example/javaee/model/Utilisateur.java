@@ -96,7 +96,7 @@ public class Utilisateur {
     }
 
     public String getDateNaissance() {
-        return dateNaissance;
+        return dateNaissance.toString();
     }
 
     public void setDateNaissance(String dateNaissance) {
@@ -167,5 +167,10 @@ public class Utilisateur {
                 ", dateNaissance='" + dateNaissance + '\'' +
                 ", classe=" + classe +
                 '}';
+    }
+
+    public Utilisateur orElseThrow(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
     }
 }

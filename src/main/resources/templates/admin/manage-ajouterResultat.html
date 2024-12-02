@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un Résultat</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Ajouter un Résultat</h1>
+    </header>
+    <main class="main-content">
+        <div th:if="${error}" class="error">
+            <p style="color: red; font-size: 18px; text-align: center;" th:text="${error}"></p>
+        </div>
+        <form action="/admin/add-resultat" method="POST">
+            <!-- Sélection de l'étudiant -->
+            <div>
+                <label for="etudiant">Étudiant :</label>
+                <select id="etudiant" name="etudiantEmail" required>
+                    <option value="" disabled selected>-- Sélectionner un étudiant --</option>
+                    <th:block th:each="etudiant : ${etudiants}">
+                        <option th:value="${etudiant.email}" th:text="${etudiant.pseudo} + ' (' + ${etudiant.email} + ')'"></option>
+                    </th:block>
+                </select>
+            </div>
+
+            <!-- Sélection de la matière -->
+            <div>
+                <label for="matiere">Matière :</label>
+                <select id="matiere" name="matiereNom" required>
+                    <option value="" disabled selected>-- Sélectionner une matière --</option>
+                    <th:block th:each="matiere : ${matieres}">
+                        <option th:value="${matiere.nom}" th:text="${matiere.nom}"></option>
+                    </th:block>
+                </select>
+            </div>
+
+            <!-- Saisie de la note -->
+            <div>
+                <label for="note">Note :</label>
+                <input type="number" id="note" name="note" step="0.01" min="0" max="20" required>
+            </div>
+
+            <!-- Saisie du commentaire -->
+            <div>
+                <label for="commentaire">Commentaire :</label>
+                <textarea id="commentaire" name="commentaire" rows="4" cols="50"></textarea>
+            </div>
+
+            <!-- Bouton d'envoi -->
+            <div>
+                <button type="submit">Enregistrer</button>
+            </div>
+        </form>
+        <a href="/admin">Retour à l'accueil</a>
+    </main>
+</body>
+</html>

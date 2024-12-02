@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter un nouveau Cours</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<nav>
+    <a th:href="@{logout}">Se déconnecter</a>
+</nav>
+
+<h1>Ajouter un nouveau Cours</h1>
+
+<!-- Affichage des erreurs -->
+<div th:if="${not #lists.isEmpty(errors)}">
+    <div class="error">
+        <ul>
+            <li th:each="error : ${errors}" th:text="${error.value}"></li>
+        </ul>
+    </div>
+</div>
+
+<form th:action="@{/admin/add-cours}" method="post">
+    <!-- Email du Professeur (enseignant) -->
+    <div class="form-group">
+        <label for="emailProf">Email du Professeur:</label>
+        <select id="emailProf" name="enseignant" required>
+            <option th:each="enseignant : ${enseignants}"
+                    th:value="${enseignant.email}"
+                    th:text="${enseignant.prenom} + ' ' + ${enseignant.nom}"
+                    th:selected="${enseignant.email == user.email}">
+            </option>
+        </select>
+    </div>
+
+    <!-- Nom de la Matière -->
+    <div class="form-group">
+        <label for="nom">Nom de la Matière:</label>
+        <select id="nom" name="matiere" required>
+            <option th:each="matiere : ${matieres}"
+                    th:value="${matiere.nom}"
+                    th:text="${matiere.nom}"
+                    th:selected="${matiere.nom == selectedMatiere}">
+            </option>
+        </select>
+    </div>
+
+    <!-- Salle -->
+    <div class="form-group">
+        <label for="salle">Salle:</label>
+        <input type="text" name="salle" id="salle" required />
+    </div>
+
+    <!-- Date -->
+    <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date" required />
+    </div>
+
+    <!-- Horaire -->
+    <div class="form-group">
+        <label for="horaire">Horaire:</label>
+        <input type="time" name="horaire" id="horaire" required />
+    </div>
+
+    <!-- Bouton de soumission -->
+    <div class="form-group">
+        <button type="submit">Ajouter le Cours</button>
+    </div>
+</form>
+<a href="#" th:href="@{/admin}">Retour Accueil</a>
+
+</body>
+</html>

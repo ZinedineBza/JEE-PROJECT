@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gérer les Inscriptions</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <a href="/etudiant">Accueil</a>
+        <a href="/etudiant/manage-inscriptionEtudiant">Inscriptions</a>
+        <a href="/etudiant/manage-resultatEtudiant">Résultats</a>
+        <a href="/logout">Se déconnecter</a>
+    </nav>
+</header>
+<h1>Gérer les Inscriptions</h1>
+<div th:if="${error}" class="error-message">
+    <p th:text="${error}" style="color: red; font-size: 18px; text-align: center;"></p>
+</div>
+
+<div th:if="${message}" class="success-message">
+    <p th:text="${message}" style="color: green; font-size: 18px; text-align: center;"></p>
+</div>
+
+<!-- Section pour ajouter une nouvelle inscription -->
+<section id="ajouter-inscription">
+    <h2>Ajouter une Inscription</h2>
+    <form th:action="@{/etudiant/add-inscriptionEtudiant}" method="POST">
+        <input type="hidden" name="action" value="add">
+
+        <!-- Étudiant -->
+        <div>
+            <label for="etudiant">Étudiant :</label>
+            <select id="etudiant" name="etudiant" required>
+                <option value="">-- Sélectionnez un étudiant --</option>
+                <th:block th:each="etudiant : ${etudiants}">
+                    <option th:value="${etudiant.email}"
+                            th:text="${etudiant.nom + ' ' + etudiant.prenom + ' (' + etudiant.email + ')'}">
+                        </option>
+                </th:block>
+            </select>
+        </div>
+
+        <!-- Matière -->
+        <div>
+            <label for="matiere">Matière :</label>
+            <select id="matiere" name="matiere" required>
+                <option value="">-- Sélectionnez une matière --</option>
+                <th:block th:each="matiere : ${matieres}">
+                    <option th:value="${matiere.nom}" th:text="${matiere.nom}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <button type="submit">Ajouter</button>
+    </form>
+</section>
+
+<!-- Section pour afficher la liste des inscriptions -->
+<section id="liste-inscriptions">
+    <h2>Liste des Inscriptions</h2>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Matière</th>
+            <th>Étudiant</th>
+            <th>Date d'inscription</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="inscription : ${inscriptions}">
+            <td th:text="${inscription.matiere.nom}">Nom Matière</td>
+            <td th:text="${inscription.etudiant.nom + ' ' + inscription.etudiant.prenom}">Nom Étudiant</td>
+            <td th:text="${inscription.id.dateInscription}">Date</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<footer>
+    <p>&copy; 2024 Université XYZ - Tous droits réservés</p>
+</footer>
+
+</body>
+</html>

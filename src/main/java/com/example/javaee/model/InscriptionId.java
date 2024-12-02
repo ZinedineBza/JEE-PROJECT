@@ -66,4 +66,20 @@ public class InscriptionId implements java.io.Serializable {
                 '}';
     }
 
+    
+    public static InscriptionId fromString(String id) {
+        String[] parts = id.split("-");
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Format invalide pour InscriptionId : " + id);
+        }
+        InscriptionId inscriptionId = new InscriptionId();
+        inscriptionId.setEtudiant(parts[0]);
+        inscriptionId.setMatiere(parts[1]);
+        inscriptionId.setDateInscription(parts[2]);
+        return inscriptionId;
+    }
+
+    
+
+
 }

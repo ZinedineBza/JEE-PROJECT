@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier Utilisateur</title>
+    <!-- Lien vers le fichier CSS externe -->
+    <link rel="stylesheet" type="text/css" href="#" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<nav>
+    <a href="#" th:href="@{/logout}">Se déconnecter</a>
+</nav>
+
+<div class="container">
+    <h1>Modifier les informations de l'utilisateur</h1>
+
+    <!-- Affichage des messages d'erreur -->
+    <div th:if="${not #lists.isEmpty(errors)}" class="error">
+        <ul>
+            <li th:each="error : ${errors}" th:text="${error.value}"></li>
+        </ul>
+    </div>
+
+    <!-- Affichage des messages de succès -->
+    <div th:if="${successMessage != null}" class="success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <form action="#" th:action="@{/admin/update-informations}" method="post">
+
+        <!-- Nom -->
+        <div class="form-group">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" th:value="${etudiant.nom}" required>
+        </div>
+
+        <!-- Prénom -->
+        <div class="form-group">
+            <label for="prenom">Prénom :</label>
+            <input type="text" id="prenom" name="prenom" th:value="${etudiant.prenom}" required>
+        </div>
+
+        <!-- Date de naissance -->
+        <div class="form-group">
+            <label for="dateNaissance">Date de naissance :</label>
+            <input type="date" id="dateNaissance" name="dateNaissance" th:value="${etudiant.dateNaissance}" required>
+        </div>
+
+        <!-- Email - Champ en lecture seule car clé primaire -->
+        <div class="form-group">
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" th:value="${etudiant.email}" readonly required>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+            <label for="motDePasse">Mot de passe :</label>
+            <div style="position: relative;">
+                <input type="password" id="motDePasse" name="motDePasse" th:value="${etudiant.motDePasse}" required>
+                <button type="button" onclick="togglePassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                    👁️
+                </button>
+            </div>
+                </div>
+
+        <div class="form-group">
+            <button type="submit">Mettre à jour</button>
+        </div>
+    </form>
+
+    <!-- Liens de navigation -->
+    <div class="navigation-links">
+        <a href="#" th:href="@{/admin/manage-listeEtudiant}">Retour à la liste des étudiants</a>
+        <br>
+        <a href="#" th:href="@{/admin}">Retour Accueil</a>
+    </div>
+</div>
+
+</body>
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById("motDePasse");
+        const button = event.target;
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            button.textContent = "🙈"; // Icône pour masquer
+        } else {
+            passwordField.type = "password";
+            button.textContent = "👁️"; // Icône pour afficher
+        }
+    }
+</script>
+
+</html>

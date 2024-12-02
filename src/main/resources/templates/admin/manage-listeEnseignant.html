@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Étudiants</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="#" th:href="@{/logout}">Se déconnecter</a>
+    </nav>
+    
+    <h1>Liste des Enseignant</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Date de Naissance</th>
+                <th>Email</th>
+                <th>Modification</th>
+                <th>Suppression</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${enseignants}" class="userRow">
+                <td th:text="${user.pseudo}"></td>
+                <td class="name" th:text="${user.nom}"></td>
+                <td class="prenom" th:text="${user.prenom}"></td>
+                <td th:text="${user.dateNaissance}"></td>
+                <td class="email" th:text="${user.email}"></td>
+                <td>
+                    <a th:href="@{/admin/manage-updateInformations(email=${user.email})}">Modifier</a>
+                </td>
+                <td>
+                    <a th:href="@{/admin/delete-enseignantInfo(email=${user.email})}">Supprimer</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/admin/manage-ajouterEnseignant}">Créer un nouvel enseignant</a>
+    <a th:href="@{/admin}">Retour</a>
+</body>
+</html>

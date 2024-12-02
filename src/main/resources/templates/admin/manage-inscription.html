@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter une Inscription</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Ajouter une Inscription</h1>
+
+    </header>
+    <main class="main-content">
+        <div th:if="${param.error == 'alreadyEnrolled'}">
+            <p style="color: red; font-size: 18px; text-align: center;">L'étudiant est déjà inscrit à cette matière.</p>
+        </div>
+            <form action="/admin/add-inscription" method="POST">
+            <div>
+                <label for="etudiant">Email de l'étudiant :</label>
+                <select id="etudiant" name="etudiantEmail" required>
+                    <option value="" disabled selected>-- Sélectionner un étudiant --</option>
+                    <!-- Dynamique : Liste des étudiants -->
+                    <th:block th:each="etudiant : ${etudiants}">
+                        <option th:value="${etudiant.email}" th:text="${etudiant.pseudo} + ' (' + ${etudiant.email} + ')'"></option>
+                    </th:block>
+                </select>
+            </div>
+            
+            <div>
+                <label for="matiere">Matière :</label>
+                <select id="matiere" name="matiereNom" required>
+                    <option value="" disabled selected>-- Sélectionner une matière --</option>
+                    <!-- Dynamique : Liste des matières -->
+                    <th:block th:each="matiere : ${matieres}">
+                        <option th:value="${matiere.nom}" th:text="${matiere.nom}"></option>
+                    </th:block>
+                </select>
+            </div>
+            
+            <div>
+                <button type="submit">Enregistrer</button>
+            </div>
+        </form>
+        <a href="/admin">Retour</a>
+    </main>
+</body>
+</html>

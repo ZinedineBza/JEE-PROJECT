@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Étudiants</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <script>
+        function filterUsers() {
+            // Définir les filtres
+            var nameFilter = document.getElementById('nameFilter').value.toLowerCase();
+            var prenomFilter = document.getElementById('prenomFilter').value.toLowerCase();
+            var emailFilter = document.getElementById('emailFilter').value.toLowerCase();
+            
+            // Sélectionner toutes les lignes avec la classe userRow
+            var rows = document.querySelectorAll('table tr.userRow');
+            
+            rows.forEach(function(row) {
+                var name = row.querySelector('td.name').textContent.toLowerCase();
+                var prenom = row.querySelector('td.prenom').textContent.toLowerCase();
+                var email = row.querySelector('td.email').textContent.toLowerCase();
+        
+                if (name.includes(nameFilter) && prenom.includes(prenomFilter) && email.includes(emailFilter)) {
+                    row.style.display = ''; // Afficher la ligne
+                } else {
+                    row.style.display = 'none'; // Masquer la ligne
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="#" th:href="@{/logout}">Se déconnecter</a>
+    </nav>
+    
+    <h1>Liste des Étudiants</h1>
+
+    <label for="nameFilter">Filtrer par nom:</label>
+    <input type="text" id="nameFilter" onkeyup="filterUsers()">
+
+    <label for="prenomFilter">Filtrer par prénom:</label>
+    <input type="text" id="prenomFilter" onkeyup="filterUsers()">
+
+    <label for="emailFilter">Filtrer par email:</label>
+    <input type="text" id="emailFilter" onkeyup="filterUsers()">
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Date de Naissance</th>
+                <th>Email</th>
+                <th>Notes</th>
+                <th>Modification</th>
+                <th>Suppression</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${etudiants}" class="userRow">
+                <td th:text="${user.pseudo}"></td>
+                <td class="name" th:text="${user.nom}"></td>
+                <td class="prenom" th:text="${user.prenom}"></td>
+                <td th:text="${user.dateNaissance}"></td>
+                <td class="email" th:text="${user.email}"></td>
+                <td>
+                    <a th:href="@{/admin/manage-listeNotes(email=${user.email})}" class="notes-button">Voir les Notes</a>
+                </td>
+                <td>
+                    <a th:href="@{/admin/manage-updateInformations(email=${user.email})}">Modifier</a>
+                </td>
+                <td>
+                    <a th:href="@{/admin/delete-etudiantInfo(email=${user.email})}">Supprimer</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/admin/manage-ajouterEtudiant)}">Créer un nouvel étudiant</a>
+    <a th:href="@{/admin}">Retour</a>
+</body>
+</html>

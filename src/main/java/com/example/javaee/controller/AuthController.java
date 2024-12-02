@@ -35,24 +35,17 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(String email, String password, String role, Model model) {
-        // Vérifiez que l'utilisateur n'existe pas déjà
-        if (utilisateurRepository.findByEmail(email) != null) {
-            model.addAttribute("error", "Cet email est déjà utilisé.");
-            return "register"; // Retourne la page d'inscription avec une erreur
-        }
-
-        // Créez un nouvel utilisateur
+    public String registerUser(String pseudo, String email, String motDePasse, String role, Model model) {
         Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setPseudo(pseudo);
         utilisateur.setEmail(email);
-        utilisateur.setMotDePasse(passwordEncoder.encode(password)); // Encodez le mot de passe
+        utilisateur.setMotDePasse(motDePasse);
         utilisateur.setRole(role);
-
-        // Sauvegardez l'utilisateur dans la base de données
-        utilisateurRepository.save(utilisateur);
-
-        // Ajoutez un message de succès
-        model.addAttribute("message", "Inscription réussie. Veuillez vous connecter.");
-        return "index"; // Redirige vers la page de connexion après l'inscription
+    
+        // Appel à la méthode du repository qui encode et sauvegarde
+        utilisateurRepository.saveWithEncodedPassword(utilisateur, passwordEncoder);
+    
+        model.addAttribute("message", "Inscription réussie ! Vous pouvez maintenant vous connecter.");
+        return "login";
     }
 }

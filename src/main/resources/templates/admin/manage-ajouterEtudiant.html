@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer Etudiant</title>
+    <link rel="stylesheet" type="text/css" href="#" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<nav>
+    <a href="#" th:href="@{/logout}">Se déconnecter</a>
+</nav>
+
+<h1>Créer Etudiant</h1>
+
+<!-- Affichage des erreurs -->
+<div th:if="${not #lists.isEmpty(errors)}">
+    <div class="error">
+        <ul>
+            <li th:each="error : ${errors}" th:text="${error.value}"></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Formulaire de création d'un étudiant -->
+<form action="#" th:action="@{/admin/add-etudiant}" method="post">
+    <input type="hidden" name="role" value="etudiant" required>
+
+    <!-- Nom -->
+    <div class="form-group">
+        <label for="nom">Nom:</label>
+        <input type="text" name="nom" id="nom" th:value="${param.nom}" required>
+        <div th:if="${errors != null and errors['nom'] != null}" class="error">
+            <span th:text="${errors['nom']}"></span>
+        </div>
+    </div>
+
+    <!-- Prénom -->
+    <div class="form-group">
+        <label for="prenom">Prénom:</label>
+        <input type="text" name="prenom" id="prenom" th:value="${param.prenom}" required>
+        <div th:if="${errors != null and errors['prenom'] != null}" class="error">
+            <span th:text="${errors['prenom']}"></span>
+        </div>
+    </div>
+
+    <!-- Date de Naissance -->
+    <div class="form-group">
+        <label for="dateNaissance">Date de Naissance:</label>
+        <input type="date" name="dateNaissanceStr" id="dateNaissanceStr" th:value="${param.dateNaissanceStr}" required>
+        <div th:if="${errors != null and errors['dateNaissance'] != null}" class="error">
+            <span th:text="${errors['dateNaissance']}"></span>
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" th:value="${param.email}" required>
+    </div>
+
+    <!-- Classe -->
+    <div class="form-group">
+        <label for="classe">Classe:</label>
+        <select name="classe" id="classe" required>
+            <option value="">Sélectionnez une classe</option>
+            <th:block th:each="classe : ${classes}">
+                <option th:value="${classe.classe}" th:text="${classe.classe}"></option>
+            </th:block>
+        </select>
+        <div th:if="${errors != null and errors['classe'] != null}" class="error">
+            <span th:text="${errors['classe']}"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Créer">
+    </div>
+</form>
+
+
+<!-- Liens de navigation -->
+<a href="#" th:href="@{/admin/manage-listeEtudiant}">Retour à la liste des étudiants</a>
+<br>
+<a href="#" th:href="@{/admin}">Retour Accueil</a>
+
+</body>
+</html>

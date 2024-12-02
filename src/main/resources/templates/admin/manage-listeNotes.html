@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats de l'étudiant</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header>
+    <nav>
+        <a href="/admin/manage-ajouterEtudiant">Ajouter les étudiants</a>
+        <a href="/admin/manage-ajouterEnseignant">Ajouter les enseignants</a>
+        <a href="/admin/manage-listeEtudiant">Liste des étudiants</a>
+        <a href="/admin/manage-listeEnseignant">Liste des enseignants</a>
+        <a href="/admin/manage-inscription">Ajouter une inscription</a>
+        <a href="/admin/manage-listInscriptions">Lister les inscriptions</a>
+        <a href="/admin/manage-ajouterResultat">Ajouter un résultat</a>
+        <a href="/admin/manage-listResultat">Lister les résultats</a>
+        <a href="/admin/manage-ajouterCours">Ajouter un cours</a>
+        <a href="/admin/manage-listCours">Liste des cours</a>
+        <a href="/logout">Se déconnecter</a>
+    </nav>
+</header>
+
+<div th:if="${etudiant != null}">
+    <h1 th:text="'Résultats de ' + ${etudiant.nom} + ' ' + ${etudiant.prenom}"></h1>
+
+    <div th:if="${notesVides}">
+        <p style="color: red; font-size: 18px; text-align: center;">Aucune note n'a été enregistrée pour cet étudiant.</p>
+    </div>
+
+    <div th:if="${!notesVides}">
+        <table border="1" style="margin: auto; width: 80%; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #007bff; color: white;">
+                    <th style="padding: 10px; text-align: center;">Matière</th>
+                    <th style="padding: 10px; text-align: center;">Moyenne</th>
+                    <th style="padding: 10px; text-align: center;">Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="entry : ${resultatsParMatiere}">
+                    <tr>
+                        <td th:text="${entry.matiere}" style="text-align: center; padding: 10px;"></td>
+                        <td th:text="${entry.moyenne}" style="text-align: center; padding: 10px;"></td>
+                        <td style="text-align: center; padding: 10px;">
+                            <th:block th:each="note : ${entry.notes}">
+                                <span th:text="${note.note}"></span><br>
+                            </th:block>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+            <tfoot>
+                <tr style="background-color: #f4f4f4;">
+                    <td style="text-align: center; padding: 10px;"><strong>Moyenne Générale</strong></td>
+                    <td colspan="2" style="text-align: center; padding: 10px;" th:text="${moyenneGenerale}"></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- Formulaire pour générer un PDF -->
+        <form th:action="@{/generatePDF}" method="post" style="text-align: center; margin-top: 20px;">
+            <input type="hidden" name="etudiantEmail" th:value="${etudiant.email}" />
+            <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px;">
+                Générer PDF
+            </button>
+        </form>
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <a href="/admin" style="text-decoration: none; color: #007bff;">Retour</a>
+</div>
+
+</body>
+</html>
