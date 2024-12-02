@@ -25,8 +25,8 @@ public class PDFController {
     @Autowired
     private ResultatRepository resultatRepository;
 
-    @GetMapping("/generate-pdf")
-    @ResponseBody
+@GetMapping("/generate-pdf")
+@ResponseBody
 public ResponseEntity<byte[]> generatePDF(@RequestParam("email") String email) {
     // Étape 1 : Récupérer l'utilisateur par email
     Utilisateur etudiant = utilisateurRepository.findByEmail(email);

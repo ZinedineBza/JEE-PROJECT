@@ -8,14 +8,15 @@ import org.springframework.stereotype.Service;
 public class EmailService {
 
     @Autowired
-    private JavaMailSender mailSender;
+    private JavaMailSender emailSender;
 
-    public void sendResultatEmail(String toEmail, String coursNom, Float note) {
+    public void sendEmail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(toEmail);
-        message.setSubject("Nouveau Résultat pour " + coursNom);
-        message.setText("Bonjour,\n\nVotre note pour le cours " + coursNom + " est : " + note + ".\n\nCordialement,\nL'équipe pédagogique");
-        mailSender.send(message);
-        System.out.println("[EmailService] Email envoyé à: " + toEmail);
+        message.setFrom("your-email@gmail.com");  // Remplacez par votre adresse email
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+
+        emailSender.send(message);
     }
 }
