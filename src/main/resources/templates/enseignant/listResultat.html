@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Résultats</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/enseignant}">Accueil</a>
+        <a th:href="@{/ListInscriptionServlet}">Mes Étudiants</a>
+        <a th:href="@{/listResultats}">Voir les Résultats</a>
+        <a th:href="@{/addResultat}">Ajouter Résultat</a>
+        <a th:href="@{/logout}">Se déconnecter</a>
+    </nav>
+</header>
+
+<h1>Liste des Résultats</h1>
+
+<!-- Affichage des messages de succès ou d'erreur -->
+<div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Étudiant</th>
+        <th>Cours</th>
+        <th>Note</th>
+        <th>Commentaire</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="resultat : ${resultats}">
+        <td th:text="${resultat.etudiant.nom} + ' ' + ${resultat.etudiant.prenom}"></td>
+        <td th:text="${resultat.cours.nom}"></td>
+        <td th:text="${resultat.note}"></td>
+        <td th:text="${resultat.commentaire}"></td>
+        <td th:text="${resultat.id.date}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Liens de navigation -->
+<h2><a th:href="@{/addResultat}">Ajouter un Résultat</a></h2>
+<h2><a th:href="@{/redirectionServlet}">Retour Accueil</a></h2>
+
+</body>
+</html>

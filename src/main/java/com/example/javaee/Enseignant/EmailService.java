@@ -1,4 +1,5 @@
-package com.example.javaee.service;
+package com.example.javaee.Enseignant;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -8,25 +9,14 @@ import org.springframework.stereotype.Service;
 public class EmailService {
 
     @Autowired
-    private JavaMailSender emailSender;
-
-    public void sendEmail(String to, String subject, String text) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
-        emailSender.send(message);
-        System.out.println("[EmailService] Email envoyé à: " + to);
-
-    }
+    private JavaMailSender mailSender;
 
     public void sendResultatEmail(String toEmail, String coursNom, Float note) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
         message.setSubject("Nouveau Résultat pour " + coursNom);
         message.setText("Bonjour,\n\nVotre note pour le cours " + coursNom + " est : " + note + ".\n\nCordialement,\nL'équipe pédagogique");
-        emailSender.send(message);
+        mailSender.send(message);
         System.out.println("[EmailService] Email envoyé à: " + toEmail);
     }
-
 }

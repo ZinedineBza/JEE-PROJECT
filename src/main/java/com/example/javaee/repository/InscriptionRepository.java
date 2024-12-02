@@ -35,6 +35,9 @@ public interface InscriptionRepository extends JpaRepository<Inscription, Inscri
             ")")
     List<Inscription> findByEnseignant(@Param("enseignantEmail") String enseignantEmail);
 
+    // Trouver les inscriptions par étudiant
+    List<Inscription> findByEtudiantEmail(String etudiantEmail);
+
 
 
 }

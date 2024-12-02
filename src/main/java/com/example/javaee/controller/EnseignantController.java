@@ -1,5 +1,6 @@
 package com.example.javaee.controller;
 
+import com.example.javaee.Enseignant.EmailService;
 import com.example.javaee.model.*;
 import com.example.javaee.repository.InscriptionRepository;
 import com.example.javaee.repository.MatiereRepository;
@@ -18,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-import com.example.javaee.service.EmailService;
+import com.example.javaee.service.EmailServiceService;
 
 @Controller
 public class EnseignantController {
@@ -36,7 +37,7 @@ public class EnseignantController {
     private ResultatRepository resultatRepository;
 
     @Autowired
-    private EmailService emailService; // Service pour l'envoi d'emails
+    private EmailService emailService;
 
 
     @GetMapping("/editInscription")
@@ -268,7 +269,7 @@ public class EnseignantController {
                 inscriptions = inscriptionRepository.findAll();
                 break;
             case "ENSEIGNANT":
-                System.out.println("Mon chibre"+ utilisateur.getEmail());
+                System.out.println("test :"+ utilisateur.getEmail());
 
                 inscriptions = inscriptionRepository.findByEnseignant(utilisateur.getEmail());
                 System.out.println("OUIOUI" + inscriptions);

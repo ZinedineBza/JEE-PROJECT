@@ -111,10 +111,10 @@ public String manageInscriptionEtudiant(Model model, HttpSession session, Authen
     }
 
     // Étape 3 : Récupérer les inscriptions de l'étudiant
-    List<Inscription> inscriptions = inscriptionRepository.findByEnseignant(utilisateur.getEmail());
+    List<Inscription> inscriptions = inscriptionRepository.findByEtudiantEmail(utilisateur.getEmail());
     System.out.println("Inscriptions pour l'utilisateur connecté : " + inscriptions);
 
-    // Étape 4 : Ajouter les données au modèle
+    // Étape 4 : Ajouter les données au modèle  
     model.addAttribute("etudiants", utilisateurRepository.findByEmail(utilisateur.getEmail()));
     model.addAttribute("inscriptions", inscriptions);
     model.addAttribute("matieres", matiereRepository.findAll());

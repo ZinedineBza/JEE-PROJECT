@@ -29,7 +29,7 @@ import com.example.javaee.config.InputValidatorConfig;
 import com.example.javaee.config.PasswordGenerator;
 import com.example.javaee.model.*;
 import com.example.javaee.repository.*;
-import com.example.javaee.service.EmailService;
+import com.example.javaee.service.EmailServiceService;
 
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpSession;
@@ -46,7 +46,7 @@ public class AdminController {
     private final CoursRepository coursRepository;
     private final ClasseRepository classeRepository;
     @Autowired
-    private EmailService emailService;
+    private EmailServiceService emailService;
 
     public AdminController(UtilisateurRepository utilisateurRepository, 
                            PasswordEncoder passwordEncoder, 
