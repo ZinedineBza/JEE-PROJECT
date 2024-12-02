@@ -1,4 +1,4 @@
-Pour avoir acces au compte Admin il vous suffit de mettre en pseudo admin et en mot de passe : 6TkHmwVihU{@ 
+Pour avoir acces au compte Admin il vous suffit de mettre en pseudo : admin , et en mot de passe : 6TkHmwVihU{@ 
 
 Depuis la vous aurez accès à toute nos fonctionalités.
 
