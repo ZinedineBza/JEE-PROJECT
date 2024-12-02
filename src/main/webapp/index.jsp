@@ -4,7 +4,7 @@
     <title>Connexion</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
-<body>
+<body onload="initDatabase()">
 <h1>Connexion</h1>
 
 <%
@@ -55,6 +55,19 @@
             </form>
     </body>
 <script>
+    function initDatabase() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "<%= request.getContextPath() %>/init", true);  // Utilisation d'un simple GET
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log("Base de données initialisée avec succès");
+            } else if (xhr.readyState === 4) {
+                console.error("Erreur lors de l'initialisation de la base de données");
+            }
+        };
+        xhr.send();  // Envoie de la requête GET pour initialiser la base de données
+    }
+
     function showForgotPasswordForm() {
         document.getElementById('loginForm').style.display = 'none';
         document.getElementById('forgotPasswordForm').style.display = 'block';

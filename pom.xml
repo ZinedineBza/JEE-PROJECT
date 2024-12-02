@@ -119,6 +119,11 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>2.7.3</version> <!-- Choisir une version compatible -->
+        </dependency>
 
     </dependencies>
 

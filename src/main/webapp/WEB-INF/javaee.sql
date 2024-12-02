@@ -1,22 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Hôte : 127.0.0.1
--- Généré le : lun. 02 déc. 2024 à 18:16
--- Version du serveur : 10.4.28-MariaDB
--- Version de PHP : 8.2.4
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Base de données : `javaee`
 --
@@ -54,70 +35,6 @@ CREATE TABLE `cours` (
   `horaire` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déchargement des données de la table `cours`
---
-
-INSERT INTO `cours` (`matiere`, `enseignant`, `salle`, `date`, `horaire`) VALUES
-('Anglais', 'martinssoa@cy-tech.fr', 'C103', '2024-12-03', '08:00:00'),
-('Anglais', 'martinssoa@cy-tech.fr', 'C103', '2024-12-03', '19:00:00');
-
---
--- Déclencheurs `cours`
---
-DELIMITER $$
-CREATE TRIGGER `before_insert_cours` BEFORE INSERT ON `cours` FOR EACH ROW BEGIN
-    DECLARE role_enseignant VARCHAR(50);
-
-    -- Récupérer le rôle de l'utilisateur
-    SELECT role INTO role_enseignant
-    FROM Utilisateur
-    WHERE email = NEW.enseignant;
-
-    -- Vérifier si le rôle est 'enseignant'
-    IF role_enseignant != 'enseignant' THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Le rôle doit être enseignant';
-    END IF;
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `check_room_availability` BEFORE INSERT ON `cours` FOR EACH ROW BEGIN
-    DECLARE room_conflict_count INT;
-
-    SELECT COUNT(*)
-    INTO room_conflict_count
-    FROM cours
-    WHERE salle = NEW.salle
-    AND date = NEW.date
-    AND horaire = NEW.horaire;
-
-    IF room_conflict_count > 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'La salle est déjà occupée à cette heure-là.';
-    END IF;
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `check_teacher_availability` BEFORE INSERT ON `cours` FOR EACH ROW BEGIN
-    DECLARE teacher_conflict_count INT;
-
-    SELECT COUNT(*)
-    INTO teacher_conflict_count
-    FROM cours
-    WHERE enseignant = NEW.enseignant
-    AND date = NEW.date
-    AND horaire = NEW.horaire;
-
-    IF teacher_conflict_count > 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'L''enseignant a déjà un cours à cette heure-là.';
-    END IF;
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -131,26 +48,6 @@ CREATE TABLE `inscription` (
   `matiere` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Déclencheurs `inscription`
---
-DELIMITER $$
-CREATE TRIGGER `before_insert_inscription` BEFORE INSERT ON `inscription` FOR EACH ROW BEGIN
-    DECLARE role_etudiant VARCHAR(50);
-
-    -- Récupérer le rôle de l'utilisateur
-    SELECT role INTO role_etudiant
-    FROM Utilisateur
-    WHERE email = NEW.etudiant;
-
-    -- Vérifier si le rôle est 'etudiant'
-    IF role_etudiant != 'etudiant' THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Le rôle doit être etudiant';
-    END IF;
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -186,27 +83,6 @@ CREATE TABLE `resultat` (
   `etudiant` varchar(50) NOT NULL,
   `matiere` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déclencheurs `resultat`
---
-DELIMITER $$
-CREATE TRIGGER `before_insert_resultat` BEFORE INSERT ON `resultat` FOR EACH ROW BEGIN
-    DECLARE role_etudiant VARCHAR(50);
-
-    -- Récupérer le rôle de l'utilisateur
-    SELECT role INTO role_etudiant
-    FROM Utilisateur
-    WHERE email = NEW.etudiant;
-
-    -- Vérifier si le rôle est 'etudiant'
-    IF role_etudiant != 'etudiant' THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Le rôle doit être etudiant';
-    END IF;
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -255,21 +131,7 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`pseudo`, `motDePasse`, `role`, `nom`, `prenom`, `dateNaissance`, `email`, `classe`) VALUES
-('admin', '$2a$10$qRBF0qyypsSV7hgzeydioufdNBLXTLQHAYgDo/8qPDvOtPlsMiWYW', 'admin', 'admin', 'admin', '1111-11-11', 'admin3@admin.com', NULL),
-('Fmarti', '$2a$10$qbJlurdTNiNvNpC2cI5ACuOPaW4gc5ffgozFitJyeuYVHLul1eRVu', 'enseignant', 'Martins soares', 'Flavio', '0011-01-08', 'martinssoa@cy-tech.fr', NULL),
-('e1', '$2a$10$ll1.xuEUTHRQWICC4jRWquBadKJqL.CtpHUnzIRFg9A5VKngBmizS', 'etudiant', '1', 'etudiant1', '2010-10-10', 'test1@test.com', 'ING1');
-
---
--- Déclencheurs `utilisateur`
---
-DELIMITER $$
-CREATE TRIGGER `before_delete_utilisateur` BEFORE DELETE ON `utilisateur` FOR EACH ROW BEGIN
-    -- Déplacer les données dans Vieux_utilisateurs
-    INSERT INTO Vieux_utilisateurs (pseudo, motDePasse, role, nom, prenom, dateNaissance, email, classe, dateDesactivation)
-    VALUES (OLD.pseudo, OLD.motDePasse, OLD.role, OLD.nom, OLD.prenom, OLD.dateNaissance, OLD.email, OLD.classe, CURDATE());
-END
-$$
-DELIMITER ;
+('admin', '$2a$10$qRBF0qyypsSV7hgzeydioufdNBLXTLQHAYgDo/8qPDvOtPlsMiWYW', 'admin', 'admin', 'admin', '1111-11-11', 'admin3@admin.com', NULL);
 
 -- --------------------------------------------------------
 
@@ -406,6 +268,3 @@ ALTER TABLE `vieux_utilisateurs`
   ADD CONSTRAINT `vieux_utilisateurs_ibfk_1` FOREIGN KEY (`classe`) REFERENCES `classe` (`classe`);
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
