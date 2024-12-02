@@ -124,10 +124,10 @@
   </c:forEach>
 </table>
 <c:if test="${recherche == 'etudiant'}">
-  <a href="${pageContext.request.contextPath}/FormUser?type=etudiant">Créer un nouveau utilisateur</a>
+  <a href="${pageContext.request.contextPath}/FormUser?type=etudiant">Créer un nouvel étudiant</a>
 </c:if>
 <c:if test="${recherche == 'enseignant'}">
-  <a href="${pageContext.request.contextPath}/FormUser?type=enseignant">Créer un nouveau enseignant</a>
+  <a href="${pageContext.request.contextPath}/FormUser?type=enseignant">Créer un nouvel enseignant</a>
 </c:if>
 
 </body>
