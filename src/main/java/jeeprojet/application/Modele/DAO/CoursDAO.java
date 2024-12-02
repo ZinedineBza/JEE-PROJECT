@@ -180,5 +180,24 @@ public class CoursDAO {
             }
         }
     }
+    public List<Object[]> findCoursCountByMatiere(String matiereId) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        String hql = "SELECT e.nom, e.email, COUNT(c) " +
+                "FROM Cour c " +
+                "JOIN c.enseignant e " +
+                "WHERE c.matiere.id = :matiereId " +
+                "GROUP BY e.nom, e.email";
+
+        Query<Object[]> query = session.createQuery(hql, Object[].class);
+        query.setParameter("matiereId", matiereId);
+        List<Object[]> results = query.list();
+
+        session.getTransaction().commit();
+        session.close();
+
+        return results;
+    }
 
 }

@@ -229,6 +229,30 @@ nav a:hover {
     background: #1d6fa5;
 }
 
+#deconnexion {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+#deconnexion a {
+    text-decoration: none;
+    color: white;
+    background: #3498db;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+#deconnexion a:hover {
+    background: #1d6fa5;
+}
+
 /* Footer */
 footer {
     text-align: center;

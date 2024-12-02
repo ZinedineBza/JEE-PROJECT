@@ -9,7 +9,7 @@
   String role = "";
 
   if (utilisateur == null) {
-    response.sendRedirect( request.getContextPath() + "/redirectionServlet");
+    response.sendRedirect(request.getContextPath() + "/redirectionServlet");
   } else {
     role = utilisateur.getRole();
   }
@@ -57,6 +57,7 @@
     <tbody>
     </tbody>
   </table>
+  <p id="no-eleves-message" style="display: none;">Il n'y a pas d'élèves pour cette classe.</p>
 </div>
 
 <div id="courses-container" style="display: none;">
@@ -64,14 +65,15 @@
   <table border="1" id="courses-table">
     <thead>
     <tr>
-      <th>Nom du cours</th>
       <th>Professeur</th>
-      <th>Emploi du temps</th>
+      <th>Nombre de Cours</th>
+      <th>Action</th>
     </tr>
     </thead>
     <tbody>
     </tbody>
   </table>
+  <p id="no-courses-message" style="display: none;">Il n'y a pas de cours pour cette matière.</p>
 </div>
 
 <script>
@@ -87,10 +89,7 @@
           method: 'GET',
           data: { matiereId: matiereId }, // Envoyer la matière sélectionnée
           success: function (response) {
-            // Vider le select des classes et le réinitialiser
             $('#classe-select').empty().append(response); // Réponse contient des options HTML
-
-            // Afficher la section des classes
             $('#classes-container').show();
           },
           error: function(xhr, status, error) {
@@ -107,8 +106,15 @@
             var tbody = $('#courses-table tbody');
             tbody.empty(); // Vider la table des cours
 
-            // Ajouter les cours reçus (attendons un tableau HTML ou un format similaire)
-            tbody.append(response); // La réponse doit être une ligne de tableau HTML <tr><td>...</td></tr>
+            if (response.trim() === '') {
+              $('#no-courses-message').show();
+              $('#courses-table').hide();
+            } else {
+              tbody.append(response); // La réponse doit être une ligne de tableau HTML <tr><td>...</td></tr>
+              $('#no-courses-message').hide();
+              $('#courses-table').show();
+            }
+
             $('#courses-container').show(); // Afficher la section des cours
           },
           error: function(xhr, status, error) {
@@ -117,7 +123,6 @@
         });
 
       } else {
-        // Cacher la section des classes, des élèves et des cours si aucune matière n'est sélectionnée
         $('#classes-container').hide();
         $('#eleves-container').hide();
         $('#courses-container').hide();
@@ -138,8 +143,15 @@
             var tbody = $('#eleves-table tbody');
             tbody.empty(); // Vider la table des élèves
 
-            // Ajouter les élèves reçus (attendons un tableau HTML ou un format similaire)
-            tbody.append(response); // La réponse doit être une ligne de tableau HTML <tr><td>...</td></tr>
+            if (response.trim() === '') {
+              $('#no-eleves-message').show();
+              $('#eleves-table').hide();
+            } else {
+              tbody.append(response); // La réponse doit être une ligne de tableau HTML <tr><td>...</td></tr>
+              $('#no-eleves-message').hide();
+              $('#eleves-table').show();
+            }
+
             $('#eleves-container').show(); // Afficher la section des élèves
           },
           error: function(xhr, status, error) {
@@ -147,11 +159,11 @@
           }
         });
       } else {
-        // Cacher la section des élèves si aucune classe n'est sélectionnée
         $('#eleves-container').hide();
       }
-
     });
+
+    // Écouter les clics sur les boutons d'emploi du temps
     $('#courses-table').on('click', '.emploi-du-temps-btn', function () {
       var profEmail = $(this).data('email'); // Récupérer l'email du professeur
       if (profEmail) {
@@ -159,9 +171,7 @@
       }
     });
   });
-
 </script>
-
 
 </body>
 </html>

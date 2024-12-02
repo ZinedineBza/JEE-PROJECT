@@ -24,7 +24,6 @@
         <mapping class="jeeprojet.application.Modele.Cour"/>
         <mapping class="jeeprojet.application.Modele.Inscription"/>
         <mapping class="jeeprojet.application.Modele.Matiere"/>
-        <mapping class="jeeprojet.application.Modele.Notification"/>
         <mapping class="jeeprojet.application.Modele.Resultat"/>
         <mapping class="jeeprojet.application.Modele.Classe"/>
         <mapping class="jeeprojet.application.Modele.Salle"/>

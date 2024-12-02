@@ -41,9 +41,6 @@ public class Utilisateur {
     @OneToMany(mappedBy = "etudiant", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Inscription> inscriptions = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "destinataire", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Notification> notifications = new LinkedHashSet<>();
-
     @OneToMany(mappedBy = "etudiant", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Resultat> resultats = new LinkedHashSet<>();
 
@@ -125,14 +122,6 @@ public class Utilisateur {
 
     public void setInscriptions(Set<Inscription> inscriptions) {
         this.inscriptions = inscriptions;
-    }
-
-    public Set<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(Set<Notification> notifications) {
-        this.notifications = notifications;
     }
 
     public Set<Resultat> getResultats() {

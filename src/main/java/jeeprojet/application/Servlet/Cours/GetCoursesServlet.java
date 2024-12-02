@@ -20,15 +20,18 @@ public class GetCoursesServlet extends HttpServlet {
         String matiereId = request.getParameter("matiereId");
 
         CoursDAO coursDAO = new CoursDAO();
-        List<Cour> coursList = coursDAO.findCoursByMatiere(matiereId);
+        List<Object[]> coursCountList = coursDAO.findCoursCountByMatiere(matiereId);
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        for (Cour cours : coursList) {
+        for (Object[] coursCount : coursCountList) {
+            String profName = (String) coursCount[0];
+            String profEmail = (String) coursCount[1];
+            int courseCount = ((Long) coursCount[2]).intValue();
             out.println("<tr>");
-            out.println("<td>" + cours.getNom() + "</td>");
-            out.println("<td>" + cours.getEnseignant().getNom() + "</td>");
-            out.println("<td><button class='emploi-du-temps-btn' data-email='" + cours.getEnseignant().getEmail() + "'>Voir emploi du temps</button></td>");
+            out.println("<td>" + profName + "</td>");
+            out.println("<td>" + courseCount + "</td>");
+            out.println("<td><button class='emploi-du-temps-btn' data-email='" + profEmail + "'>Voir emploi du temps</button></td>");
             out.println("</tr>");
         }
         out.close();

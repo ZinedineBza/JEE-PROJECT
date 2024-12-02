@@ -43,20 +43,6 @@ public class UtilisateurDAO {
                     .setParameter("email", email)
                     .uniqueResult()).longValue();
 
-            if (count > 0) {
-                System.out.println("Utilisateur déjà archivé. Insertion ignorée.");
-            } else {
-                // Archiver l'utilisateur
-                String archiveUtilisateurSQL =
-                        "INSERT INTO vieux_utilisateurs (pseudo, motDePasse, role, nom, prenom, dateNaissance, email, classe, dateDesactivation) " +
-                                "SELECT pseudo, motDePasse, role, nom, prenom, dateNaissance, email, classe, CURDATE() " +
-                                "FROM Utilisateur WHERE email = :email";
-                session.createSQLQuery(archiveUtilisateurSQL)
-                        .setParameter("email", email)
-                        .executeUpdate();
-                System.out.println("Archivage de l'utilisateur réussi.");
-            }
-
             // Archiver les résultats
             String archiveResultatsSQL =
                     "INSERT IGNORE INTO vieux_resultats (date, note, commentaire, etudiant, matiere) " +
@@ -77,10 +63,20 @@ public class UtilisateurDAO {
                     .setParameter("email", email)
                     .executeUpdate();
 
-            // Supprimer les notifications
-            session.createSQLQuery("DELETE FROM Notification WHERE destinataire = :email")
-                    .setParameter("email", email)
-                    .executeUpdate();
+            if (count > 0) {
+                System.out.println("Utilisateur déjà archivé. Insertion ignorée.");
+            } else {
+                // Archiver l'utilisateur
+                String archiveUtilisateurSQL =
+                        "INSERT INTO vieux_utilisateurs (pseudo, motDePasse, role, nom, prenom, dateNaissance, email, classe, dateDesactivation) " +
+                                "SELECT pseudo, motDePasse, role, nom, prenom, dateNaissance, email, classe, CURDATE() " +
+                                "FROM Utilisateur WHERE email = :email";
+                session.createSQLQuery(archiveUtilisateurSQL)
+                        .setParameter("email", email)
+                        .executeUpdate();
+                System.out.println("Archivage de l'utilisateur réussi.");
+            }
+
 
         } catch (Exception e) {
             throw new RuntimeException("Erreur lors de l'archivage et de la suppression des données associées : " + e.getMessage(), e);
