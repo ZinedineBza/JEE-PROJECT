@@ -38,6 +38,9 @@
 
 <!-- Barre de navigation en haut -->
 <header>
+    <a href="<%= request.getContextPath() %>/redirectionServlet">
+        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
+    </a>
     <nav>
         <a href="${pageContext.request.contextPath}/redirectionServlet">Accueil</a>
         <a href="${pageContext.request.contextPath}/ListInscriptionServlet">Mes Étudiants</a>
@@ -46,6 +49,7 @@
         <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
     </nav>
 </header>
+
 
 <div class="main-content">
     <h1>Bienvenue sur votre Espace Enseignant, ${user.nom} ${user.prenom}</h1>
@@ -58,7 +62,7 @@
 
 <!-- Pied de page -->
 <footer>
-    <p>&copy; 2024 Université XYZ - Tous droits réservés</p>
+    <p>&copy; 2024 Université CY Tech - Tous droits réservés</p>
 </footer>
 
 <script>

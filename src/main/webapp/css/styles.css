@@ -188,6 +188,18 @@ input[type="text"] {
     color: #333;                  /* Couleur du texte */
     transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Animation lors du focus */
 }
+#headerleft {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1em;
+}
+
+#headerleft img {
+    height: 7em;
+    flex-shrink: 0;
+}
+
 
 /* Focus Styling */
 input[type="text"]:focus {

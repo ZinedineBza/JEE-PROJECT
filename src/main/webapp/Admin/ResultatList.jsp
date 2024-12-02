@@ -41,9 +41,14 @@
     </script>
 </head>
 <body>
-<nav>
-    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-</nav>
+<header id = "headerleft">
+    <a href="<%= request.getContextPath() %>/redirectionServlet">
+        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
+    </a>
+    <div id="deconnexion">
+        <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+    </div>
+</header>
 <h1>Liste de toutes les notes</h1>
 
 <!-- Vérification que des résultats existent -->
@@ -108,7 +113,7 @@
 
 <!-- Lien pour ajouter un nouveau résultat -->
 <a href="${pageContext.request.contextPath}/addResultatEnseignant">Ajouter un Résultat</a>
-<a href="${pageContext.request.contextPath}/redirectionServlet">Retour Accueil</a>
+
 
 </body>
 </html>

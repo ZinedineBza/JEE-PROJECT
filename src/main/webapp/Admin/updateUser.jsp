@@ -35,9 +35,14 @@
     </script>
 </head>
 <body>
-<nav>
-    <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
-</nav>
+<header id = "headerleft">
+    <a href="<%= request.getContextPath() %>/redirectionServlet">
+        <img src="${pageContext.request.contextPath}/cyent.png" alt="Logo" class="animated-logo" style="height: 7em;">
+    </a>
+    <div id="deconnexion">
+        <a href="<%= request.getContextPath() %>/logout">Se déconnecter</a>
+    </div>
+</header>
 <div class="container">
     <h1>Modifier Etudiant</h1>
 
