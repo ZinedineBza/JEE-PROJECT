@@ -5128,6 +5128,7 @@
        add constraint FK9goonys6bmu8wnxcqiaipafni 
        foreign key (classe) 
        references classe (classe);
+<<<<<<< HEAD
 
     create table classe (
         classe varchar(10) not null,
@@ -23463,3 +23464,5 @@
        add constraint FK9goonys6bmu8wnxcqiaipafni 
        foreign key (classe) 
        references classe (classe);
+=======
+>>>>>>> e294d39c1b5b02275a32b3b6a0b8bb8333174fa8
