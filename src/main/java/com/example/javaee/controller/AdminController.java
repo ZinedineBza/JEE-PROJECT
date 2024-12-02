@@ -182,7 +182,7 @@ public class AdminController {
         // Création de l'ID de résultat
         ResultatId resultatId = new ResultatId();
         resultatId.setEtudiant(etudiant.getPseudo());
-        resultatId.setCours(matiere.getNom());
+        resultatId.setMatiere(matiere.getNom());
         resultatId.setDate(LocalDate.now().toString());
 
         // Création et sauvegarde du résultat

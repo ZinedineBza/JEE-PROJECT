@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class EtudiantController {
 
+
+
     // Page d'accueil pour les étudiants
     @GetMapping("/etudiant")
     public String etudiantHomePage() {
